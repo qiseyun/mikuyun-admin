@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mikuyun.admin.mapper.SysMenuMapper">
+
+    <select id="sysRoleMenuPermissions" resultType="java.lang.String">
+        SELECT sm.permission
+        FROM qise_sys_menu AS sm
+        LEFT JOIN qise_sys_role_menu AS srm ON sm.menu_id = srm.menu_id
+        WHERE sm.is_delete = 0
+        AND srm.role_id IN
+        <foreach collection="roleIds" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        GROUP BY sm.menu_id
+    </select>
+
+    <select id="queryMenuList" resultType="com.mikuyun.admin.vo.sysmenu.QueryMenuListVo">
+        SELECT `menu_id`,
+               `name`,
+               `permission`,
+               `parent_id`,
+               `create_by`
+        FROM `qise_sys_menu`
+        WHERE `is_delete` = 0
+          AND `parent_id` = #{parentId}
+          AND `keep_alive` = 0
+    </select>
+
+    <select id="getMenuTree" resultType="com.mikuyun.admin.vo.sysmenu.GetMenuTreeVo">
+        SELECT sm.`menu_id`,
+               sm.`name`,
+               sm.`parent_id`
+        FROM `qise_sys_menu` AS sm
+                 LEFT JOIN `qise_sys_role_menu` AS srm ON sm.`menu_id` = srm.`menu_id`
+                 LEFT JOIN `qise_sys_user_role` AS sr ON srm.`role_id` = sr.`role_id`
+        WHERE sm.`is_delete` = 0
+          And sm.`keep_alive` = 0
+          AND sm.`type` = 0
+          AND sr.`user_id` = #{sysUserId}
+        GROUP BY sm.`menu_id`
+        ORDER BY sm.`menu_id`
+    </select>
+
+</mapper>

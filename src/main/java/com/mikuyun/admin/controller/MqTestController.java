@@ -1,0 +1,28 @@
+package com.mikuyun.admin.controller;
+
+
+import com.mikuyun.admin.RocketMqBiz.SendTestMq;
+import com.mikuyun.admin.evt.IdNameStrEvt;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @author jiangQL
+ * @version 1.0
+ * @date 2025/1/25 11:05
+ */
+@AllArgsConstructor
+@RestController
+public class MqTestController {
+
+    private final SendTestMq sendTestMq;
+
+    @PostMapping("/send")
+    public String sendMessage(@RequestBody IdNameStrEvt evt) {
+        sendTestMq.sendTestMq(evt);
+        return "Message sent successfully!";
+    }
+
+}

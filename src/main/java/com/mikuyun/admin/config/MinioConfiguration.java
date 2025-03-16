@@ -1,0 +1,29 @@
+package com.mikuyun.admin.config;
+
+import com.mikuyun.admin.properties.MinioProperties;
+import io.minio.MinioClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
+
+@Configuration
+public class MinioConfiguration {
+
+    @Resource
+    private MinioProperties minioProperties;
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getEndpoint())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+    }
+
+    @Bean
+    public String currentMinioBucketName() {
+        return minioProperties.getBucketName();
+    }
+
+}

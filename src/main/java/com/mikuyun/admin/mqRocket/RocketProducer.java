@@ -1,0 +1,78 @@
+package com.mikuyun.admin.mqRocket;
+
+import com.mikuyun.admin.properties.RocketMqProperties;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+/**
+ * @author jiangQL
+ * @version 1.0
+ * @date 2025/1/25 14:11
+ */
+@Slf4j
+@Component
+public class RocketProducer implements InitializingBean {
+
+    private DefaultMQProducer defaultMqProducer;
+
+    @Resource
+    private RocketMqProperties rocketMqProperties;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        DefaultMQProducer defaultMQProducer = new DefaultMQProducer();
+        defaultMQProducer.setProducerGroup(rocketMqProperties.getGroupName());
+        defaultMQProducer.setNamesrvAddr(rocketMqProperties.getNameServer());
+        defaultMQProducer.start();
+        defaultMqProducer = defaultMQProducer;
+        log.info("rocketMQ producer start");
+    }
+
+    /**
+     * 消息发送
+     *
+     * @param message 消息
+     * @return boolean
+     */
+    public boolean send(Message message) {
+        String content = new String(message.getBody(), StandardCharsets.UTF_8);
+        try {
+            // topic环境隔离
+            if (rocketMqProperties.getEnvironmentalIsolation()) {
+                message.setTopic(message.getTopic() + "_" + rocketMqProperties.getTopicPrefix());
+            }
+            SendResult result = defaultMqProducer.send(message);
+            log.info("sendMqMessage topic={} tag={} content={} result={}", message.getTopic(), message.getTags(), content, result);
+            return result != null;
+        } catch (Exception e) {
+            log.error("sendMqMessage error topic={} tag={} content={}", message.getTopic(), message.getTags(), content, e);
+            return false;
+        }
+    }
+
+    /**
+     * 批量发送消息
+     *
+     * @param messageList 消息列表
+     * @return boolean
+     */
+    public boolean sendBatch(List<Message> messageList) {
+        try {
+            SendResult result = defaultMqProducer.send(messageList);
+            log.info("sendMqBatchMessage result={}", result);
+            return result != null;
+        } catch (Exception e) {
+            log.error("sendMqBatchMessage error", e);
+            return false;
+        }
+    }
+
+}
