@@ -1,7 +1,8 @@
 package com.mikuyun.admin.listener;
 
 import cn.dev33.satoken.listener.SaTokenListener;
-import cn.dev33.satoken.stp.SaLoginModel;
+import cn.dev33.satoken.stp.parameter.SaLoginParameter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,15 +13,13 @@ import org.springframework.stereotype.Component;
  * 自定义侦听器实现
  * Sa-Token 提供一种侦听器机制，通过注册侦听器，你可以订阅框架的一些关键性事件，例如：用户登录、退出、被踢下线等。
  */
+@Slf4j
 @Component
 public class MySaTokenListener implements SaTokenListener {
 
-    /**
-     * 每次登录时触发
-     */
     @Override
-    public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
-        System.out.println("---------- 自定义侦听器实现 doLogin");
+    public void doLogin(String s, Object o, String s1, SaLoginParameter saLoginParameter) {
+        log.info("---------- 自定义侦听器实现 doLogin");
     }
 
     /**
@@ -28,7 +27,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-        System.out.println("---------- 自定义侦听器实现 doLogout");
     }
 
     /**
@@ -36,7 +34,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
-        System.out.println("---------- 自定义侦听器实现 doKickout");
     }
 
     /**
@@ -44,7 +41,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doReplaced(String loginType, Object loginId, String tokenValue) {
-        System.out.println("---------- 自定义侦听器实现 doReplaced");
     }
 
     /**
@@ -52,7 +48,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doDisable(String loginType, Object loginId, String service, int level, long disableTime) {
-        System.out.println("---------- 自定义侦听器实现 doDisable");
     }
 
     /**
@@ -60,7 +55,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doUntieDisable(String loginType, Object loginId, String service) {
-        System.out.println("---------- 自定义侦听器实现 doUntieDisable");
     }
 
     /**
@@ -68,7 +62,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doOpenSafe(String loginType, String tokenValue, String service, long safeTime) {
-        System.out.println("---------- 自定义侦听器实现 doOpenSafe");
     }
 
     /**
@@ -76,7 +69,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doCloseSafe(String loginType, String tokenValue, String service) {
-        System.out.println("---------- 自定义侦听器实现 doCloseSafe");
     }
 
     /**
@@ -84,7 +76,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doCreateSession(String id) {
-        System.out.println("---------- 自定义侦听器实现 doCreateSession");
     }
 
     /**
@@ -92,7 +83,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doLogoutSession(String id) {
-        System.out.println("---------- 自定义侦听器实现 doLogoutSession");
     }
 
     /**
@@ -100,7 +90,6 @@ public class MySaTokenListener implements SaTokenListener {
      */
     @Override
     public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
-        System.out.println("---------- 自定义侦听器实现 doRenewTimeout");
     }
 
 }

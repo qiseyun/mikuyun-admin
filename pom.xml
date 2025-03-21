@@ -40,8 +40,8 @@
         <hutool.version>5.8.25</hutool.version>
         <fastjson2.version>2.0.25</fastjson2.version>
         <mybatisplus.sb3.version>3.5.10.1</mybatisplus.sb3.version>
-        <satoken.version>1.40.0</satoken.version>
-        <satoken.redis.jackson.version>1.40.0</satoken.redis.jackson.version>
+        <satoken.version>1.41.0</satoken.version>
+        <satoken.redis.version>1.41.0</satoken.redis.version>
         <springfox.version>3.0.0</springfox.version>
         <generator.version>3.5.1</generator.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
@@ -176,8 +176,8 @@
         <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-jackson</artifactId>
-            <version>${satoken.redis.jackson.version}</version>
+            <artifactId>sa-token-redis-template</artifactId>
+            <version>${satoken.redis.version}</version>
         </dependency>
 
         <!-- 丝袜哥3 -->
