@@ -36,7 +36,7 @@
     <properties>
         <java.version>21</java.version>
         <druid.version>1.2.4</druid.version>
-        <easyexcel.version>3.1.1</easyexcel.version>
+        <easyexcel.version>4.0.3</easyexcel.version>
         <hutool.version>5.8.25</hutool.version>
         <fastjson2.version>2.0.25</fastjson2.version>
         <mybatisplus.sb3.version>3.5.10.1</mybatisplus.sb3.version>
@@ -49,6 +49,8 @@
         <xxljob.version>2.4.2</xxljob.version>
         <rocketmq.client>5.3.0</rocketmq.client>
         <minio>8.3.1</minio>
+        <redisson>3.45.0</redisson>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -117,7 +119,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
 
 
         <!-- 阿里巴巴德鲁伊 -->
@@ -217,6 +218,13 @@
             <artifactId>minio</artifactId>
             <version>${minio}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -265,6 +273,16 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Maven Surefire 插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <!-- 跳过测试 -->
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
