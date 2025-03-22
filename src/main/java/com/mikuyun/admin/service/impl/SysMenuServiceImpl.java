@@ -18,7 +18,6 @@ import com.mikuyun.admin.util.SatokenUserUtils;
 import com.mikuyun.admin.util.TreeUtils;
 import com.mikuyun.admin.vo.UserInfo;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
-import com.mikuyun.admin.vo.sysmenu.QueryMenuListVo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 

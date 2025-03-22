@@ -4,7 +4,6 @@ package com.mikuyun.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
-import com.mikuyun.admin.vo.sysmenu.QueryMenuListVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
