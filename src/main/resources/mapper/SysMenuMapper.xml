@@ -4,8 +4,8 @@
 
     <select id="sysRoleMenuPermissions" resultType="java.lang.String">
         SELECT sm.permission
-        FROM qise_sys_menu AS sm
-        LEFT JOIN qise_sys_role_menu AS srm ON sm.menu_id = srm.menu_id
+        FROM mk_sys_menu AS sm
+        LEFT JOIN mk_sys_role_menu AS srm ON sm.menu_id = srm.menu_id
         WHERE sm.is_delete = 0
         AND srm.role_id IN
         <foreach collection="roleIds" item="item" index="index" open="(" close=")" separator=",">
@@ -20,7 +20,7 @@
                `permission`,
                `parent_id`,
                `create_by`
-        FROM `qise_sys_menu`
+        FROM `mk_sys_menu`
         WHERE `is_delete` = 0
           AND `parent_id` = #{parentId}
           AND `keep_alive` = 0
@@ -30,9 +30,9 @@
         SELECT sm.`menu_id`,
                sm.`name`,
                sm.`parent_id`
-        FROM `qise_sys_menu` AS sm
-                 LEFT JOIN `qise_sys_role_menu` AS srm ON sm.`menu_id` = srm.`menu_id`
-                 LEFT JOIN `qise_sys_user_role` AS sr ON srm.`role_id` = sr.`role_id`
+        FROM `mk_sys_menu` AS sm
+                 LEFT JOIN `mk_sys_role_menu` AS srm ON sm.`menu_id` = srm.`menu_id`
+                 LEFT JOIN `mk_sys_user_role` AS sr ON srm.`role_id` = sr.`role_id`
         WHERE sm.`is_delete` = 0
           And sm.`keep_alive` = 0
           AND sm.`type` = 0

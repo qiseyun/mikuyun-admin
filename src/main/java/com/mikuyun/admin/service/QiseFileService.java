@@ -2,7 +2,7 @@ package com.mikuyun.admin.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mikuyun.admin.entity.QiseFile;
+import com.mikuyun.admin.entity.SysFile;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.mikuyun.admin.entity.QiseFile;
  * @author qiseyun
  * @since 2023-04-22
  */
-public interface QiseFileService extends IService<QiseFile> {
+public interface QiseFileService extends IService<SysFile> {
 
 }

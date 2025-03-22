@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_sys_user")
+@TableName("mk_sys_user")
 @Schema(description = "用户表")
 @AllArgsConstructor
 @NoArgsConstructor

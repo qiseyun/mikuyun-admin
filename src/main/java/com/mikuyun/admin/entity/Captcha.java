@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_captcha")
+@TableName("mk_captcha")
 @Schema(description = "验证码表")
 public class Captcha {
 

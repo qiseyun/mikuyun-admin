@@ -2,6 +2,7 @@ package com.mikuyun.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,12 +19,13 @@ import lombok.experimental.Accessors;
  * @since 2023-04-22
  */
 @Data
+@TableName(value = "mk_sys_file")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "文件表")
 @AllArgsConstructor
 @NoArgsConstructor
-public class QiseFile extends BaseEntity {
+public class SysFile extends BaseEntity {
 
     @Schema(name = "id")
     @TableId(value = "id", type = IdType.AUTO)

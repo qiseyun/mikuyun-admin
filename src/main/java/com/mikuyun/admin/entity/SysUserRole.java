@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_sys_user_role")
+@TableName("mk_sys_user_role")
 @Schema(description = "用户角色表")
 public class SysUserRole {
 

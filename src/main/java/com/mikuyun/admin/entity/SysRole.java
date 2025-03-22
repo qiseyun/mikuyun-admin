@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_sys_role")
+@TableName("mk_sys_role")
 @Schema(description = "系统角色表")
 public class SysRole extends BaseEntity {
 

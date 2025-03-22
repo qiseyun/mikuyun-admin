@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_sys_role_menu")
+@TableName("mk_sys_role_menu")
 @Schema(description = "角色菜单表")
 public class SysRoleMenu {
 

@@ -4,9 +4,9 @@
 
     <select id="querySysRole" resultType="java.lang.String">
         SELECT qsr.role_code
-        FROM qise_sys_role AS qsr
-                 LEFT JOIN qise_sys_user_role AS qsur ON qsr.role_id = qsur.role_id
-                 LEFT JOIN qise_sys_user AS qsu on qsur.user_id = qsu.id
+        FROM mk_sys_role AS qsr
+                 LEFT JOIN mk_sys_user_role AS qsur ON qsr.role_id = qsur.role_id
+                 LEFT JOIN mk_sys_user AS qsu on qsur.user_id = qsu.id
         WHERE qsu.is_delete = 0
           AND qsu.lock_flag = 0
           AND qsu.id = #{sysUserId}
@@ -14,9 +14,9 @@
 
     <select id="querySysRoleInfo" resultType="com.mikuyun.admin.entity.SysRole">
         SELECT qsr.*
-        FROM qise_sys_role AS qsr
-                 LEFT JOIN qise_sys_user_role AS qsur ON qsr.role_id = qsur.role_id
-                 LEFT JOIN qise_sys_user AS qsu on qsur.user_id = qsu.id
+        FROM mk_sys_role AS qsr
+                 LEFT JOIN mk_sys_user_role AS qsur ON qsr.role_id = qsur.role_id
+                 LEFT JOIN mk_sys_user AS qsu on qsur.user_id = qsu.id
         WHERE qsu.is_delete = 0
           AND qsu.lock_flag = 0
           AND qsu.id = #{sysUserId}
@@ -28,7 +28,7 @@
                `role_code`,
                `role_desc`,
                `is_delete`
-        FROM `qise_sys_role`
+        FROM `mk_sys_role`
         WHERE `is_delete` = 0
     </select>
 

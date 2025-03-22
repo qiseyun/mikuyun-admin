@@ -68,7 +68,7 @@ public class CodeGenerator {
                             .enableRestStyle()
                             .enableHyphenStyle().build();
                     //生成的类去除qise前缀
-                    builder.addTablePrefix("qise");
+                    builder.addTablePrefix("mk");
                     //实体类配置
                     builder.entityBuilder()
                             .enableLombok()

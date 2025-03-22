@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_user")
+@TableName("mk_user")
 @Schema(description = "用户表")
 public class User {
 

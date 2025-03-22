@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_mq_msg_record")
+@TableName("mk_mq_msg_record")
 @Schema(description = "")
 @NoArgsConstructor
 @AllArgsConstructor

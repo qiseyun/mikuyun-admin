@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "版本")
-public class MikuVersion extends BaseEntity {
+public class Version extends BaseEntity {
 
     @Schema(name = "主键,自增")
     @TableId(value = "id", type = IdType.AUTO)

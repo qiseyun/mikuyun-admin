@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("qise_sys_menu")
+@TableName("mk_sys_menu")
 @Schema(description = "菜单权限表")
 public class SysMenu extends BaseEntity {
 

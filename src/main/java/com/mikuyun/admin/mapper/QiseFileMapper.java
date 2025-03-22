@@ -2,7 +2,7 @@ package com.mikuyun.admin.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mikuyun.admin.entity.QiseFile;
+import com.mikuyun.admin.entity.SysFile;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.mikuyun.admin.entity.QiseFile;
  * @author qiseyun
  * @since 2023-04-22
  */
-public interface QiseFileMapper extends BaseMapper<QiseFile> {
+public interface QiseFileMapper extends BaseMapper<SysFile> {
 
 }

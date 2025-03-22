@@ -3,7 +3,7 @@ package com.mikuyun.admin.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.mikuyun.admin.common.CommonConstants;
-import com.mikuyun.admin.entity.QiseFile;
+import com.mikuyun.admin.entity.SysFile;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.service.FileUploadService;
 import com.mikuyun.admin.service.QiseFileService;
@@ -40,9 +40,9 @@ public class FileUploadServiceImpl implements FileUploadService {
     public String uploadFile(MultipartFile file, String type) {
         // 重复文件校验
         try {
-            QiseFile qiseFile = checkFileRepeat(getMD5(file.getBytes()));
-            if (ObjectUtil.isNotEmpty(qiseFile)) {
-                return qiseFile.getUrl();
+            SysFile sysFile = checkFileRepeat(getMD5(file.getBytes()));
+            if (ObjectUtil.isNotEmpty(sysFile)) {
+                return sysFile.getUrl();
             }
         } catch (IOException e) {
             log.error("getMD5 error message: {}", e.getMessage());
@@ -69,11 +69,11 @@ public class FileUploadServiceImpl implements FileUploadService {
      * @param fileHash 文件md5
      * @return QiseyunFile
      */
-    public QiseFile checkFileRepeat(String fileHash) {
+    public SysFile checkFileRepeat(String fileHash) {
         return qiseFileService
                 .lambdaQuery()
-                .eq(QiseFile::getMd5, fileHash)
-                .eq(QiseFile::getIsDelete, CommonConstants.STATUS_NORMAL_INT)
+                .eq(SysFile::getMd5, fileHash)
+                .eq(SysFile::getIsDelete, CommonConstants.STATUS_NORMAL_INT)
                 .one();
     }
 
@@ -100,12 +100,12 @@ public class FileUploadServiceImpl implements FileUploadService {
      * @param fileInfo 文件信息
      */
     private void fileLog(MultipartFile file, Map<String, String> fileInfo) {
-        QiseFile qiseFile = new QiseFile();
-        qiseFile.setOriginalName(fileInfo.get("fileName"));
-        qiseFile.setType(fileInfo.get("type"));
-        qiseFile.setFileSizeByte(String.valueOf(file.getSize()));
-        qiseFile.setUrl(fileInfo.get("url"));
-        qiseFileService.save(qiseFile);
+        SysFile sysFile = new SysFile();
+        sysFile.setOriginalName(fileInfo.get("fileName"));
+        sysFile.setType(fileInfo.get("type"));
+        sysFile.setFileSizeByte(String.valueOf(file.getSize()));
+        sysFile.setUrl(fileInfo.get("url"));
+        qiseFileService.save(sysFile);
     }
 
 }
