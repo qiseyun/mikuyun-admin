@@ -11,7 +11,7 @@ import lombok.Data;
 public class QuerySysRoleListVo {
 
 
-    private Integer roleId;
+    private Integer id;
 
     /**
      * 角色名称

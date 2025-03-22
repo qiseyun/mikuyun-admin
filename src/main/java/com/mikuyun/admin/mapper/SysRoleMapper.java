@@ -24,7 +24,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param sysUserId 系统用户id
      * @return 角色列表
      */
-    List<SysRole> querySysRoleInfo(@Param("sysUserId") Integer sysUserId);
+    List<SysRole> querySysRoleInfo(@Param("sysUserId") Object sysUserId);
 
     /**
      * 查询登录的系统用户角色列表
@@ -32,7 +32,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param sysUserId 系统用户id
      * @return 角色列表
      */
-    List<String> querySysRole(@Param("sysUserId") Integer sysUserId);
+    List<String> querySysRole(@Param("sysUserId") Object sysUserId);
 
     /**
      * 查询角色列表

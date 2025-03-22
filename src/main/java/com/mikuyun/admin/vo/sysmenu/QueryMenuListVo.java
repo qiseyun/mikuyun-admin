@@ -11,11 +11,10 @@ import lombok.Data;
 @Data
 public class QueryMenuListVo {
 
-
     /**
      * 菜单id
      */
-    private Integer menuId;
+    private Integer id;
 
     /**
      * 菜单名称
@@ -33,6 +32,6 @@ public class QueryMenuListVo {
      * 父菜单ID
      */
     @Schema(name = "父菜单ID")
-    private Integer parentId;
+    private Integer pid;
 
 }

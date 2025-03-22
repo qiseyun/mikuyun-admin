@@ -32,7 +32,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object o, String s) {
         // 权限分菜单权限和按钮权限
-        return sysMenuService.sysRoleMenuPermissions((Integer) o);
+        return sysMenuService.sysRoleMenuPermissions(o);
     }
 
     /**
@@ -43,6 +43,6 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object o, String s) {
         // 管理员角色查询
-        return sysRoleService.querySysRole((Integer) o);
+        return sysRoleService.querySysRole(o);
     }
 }

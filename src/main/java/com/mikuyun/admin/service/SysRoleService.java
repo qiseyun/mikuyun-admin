@@ -24,7 +24,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param sysUserId 管理员id
      * @return 角色信息
      */
-    List<SysRole> querySysRoleInfo(Integer sysUserId);
+    List<SysRole> querySysRoleInfo(Object sysUserId);
 
     /**
      * 查询账号角色集合
@@ -32,7 +32,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param sysUserId 管理员id
      * @return 账号角色集合
      */
-    List<String> querySysRole(Integer sysUserId);
+    List<String> querySysRole(Object sysUserId);
 
     /**
      * 系统角色列表查询

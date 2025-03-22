@@ -13,19 +13,19 @@ import lombok.Getter;
 public enum UserTypeEnum {
 
     /**
-     * 超级管理员
+     * 普通用户
      */
-    SUPER_ADMIN(0, "超级管理员"),
+    REGULAR_USERS(0, "平台用户"),
 
     /**
      * 平台管理员
      */
-    PLATFORM_ADMIN(1, "管理员"),
+    PLATFORM_ADMIN(1, "平台管理员"),
 
     /**
-     * 普通用户
+     * 超级管理员
      */
-    REGULAR_USERS(3, "普通用户");
+    SUPER_ADMIN(2, "超级管理员");
 
     /**
      * 类型

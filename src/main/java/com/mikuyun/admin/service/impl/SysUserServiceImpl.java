@@ -10,6 +10,7 @@ import com.mikuyun.admin.common.CommonConstants;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.config.WebConfigProperties;
 import com.mikuyun.admin.entity.SysUser;
+import com.mikuyun.admin.enums.UserTypeEnum;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
@@ -70,12 +71,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 构建用户session
         SatokenUserUtils.userSessionBuild(adminUserInfo);
         // 发送邮件
-        asyncService.loginMail(
-                StpUtil.getLoginDevice(),
-                LocalDateTime.now(),
-                adminUserInfo.getEmail(),
-                sysUser.getUsername()
-        );
+//        asyncService.loginMail(
+//                StpUtil.getLoginDeviceType(),
+//                LocalDateTime.now(),
+//                adminUserInfo.getEmail(),
+//                sysUser.getUsername()
+//        );
         return adminUserInfo;
     }
 
@@ -88,6 +89,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userInfo.setEmail(sysUser.getEmail());
         userInfo.setRoleList(roleList);
         userInfo.setPermissionList(permissionList);
+        userInfo.setUserType(sysUser.getUserType());
         return userInfo;
     }
 
@@ -103,7 +105,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setPhone(evt.getTelephone());
         sysUser.setCreateBy(SatokenUserUtils.getUserInfo().getId());
         sysUser.setEmail(evt.getEmail());
-        sysUser.setIsSuperAdmin(0);
+        sysUser.setUserType(UserTypeEnum.REGULAR_USERS.getType());
         this.save(sysUser);
         log.info("新增管理员; id: {}", sysUser.getId());
     }

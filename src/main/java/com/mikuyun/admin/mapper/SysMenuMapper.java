@@ -3,9 +3,10 @@ package com.mikuyun.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mikuyun.admin.entity.SysMenu;
-import com.mikuyun.admin.vo.sysmenu.GetMenuTreeVo;
+import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 import com.mikuyun.admin.vo.sysmenu.QueryMenuListVo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,7 @@ import java.util.Set;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     /**
-     * 根据角色列表查询角色所属的菜单或按钮权限列表
+     * 根据角色列表查询角色所属的权限列表
      *
      * @param roleIds 角色id列表
      * @return 菜单按钮权限列表
@@ -34,7 +35,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param parentId 是否是父节点(1是; 0不是)
      * @return 菜单信息列表
      */
-    List<QueryMenuListVo> queryMenuList(@Param("parentId") Integer parentId);
+    List<SysMenuListVo> queryMenuList(@Param("parentId") Integer parentId);
 
     /**
      * 管理员菜单树
@@ -42,6 +43,14 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param sysUserId 管理员id
      * @return 菜单树
      */
-    List<GetMenuTreeVo> getMenuTree(@Param("sysUserId") Integer sysUserId);
+    List<SysMenuListVo> getMenuList(@Param("sysUserId") Integer sysUserId);
+
+    /**
+     * 超级管理员菜单树
+     *
+     * @return 菜单树
+     */
+    @Select("SELECT `id`, `name`, `parent_id` AS pid FROM `mk_sys_menu` WHERE `is_delete` = 0 And `keep_alive` = 0 AND `type` IN (-1, 0, 1)")
+    List<SysMenuListVo> getAllMenuList();
 
 }

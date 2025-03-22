@@ -58,7 +58,7 @@ public class SysUser extends BaseEntity {
     @Schema(name = "邮箱")
     private String email;
 
-    @Schema(name = "是否超级管理员(0否 1是)")
-    private Integer isSuperAdmin;
+    @Schema(name = "用户类型(0平台用户 1平台管理员 2超级管理员)")
+    private Integer userType;
 
 }

@@ -14,28 +14,30 @@
         GROUP BY sm.id
     </select>
 
-    <select id="queryMenuList" resultType="com.mikuyun.admin.vo.sysmenu.QueryMenuListVo">
+    <select id="queryMenuList" resultType="com.mikuyun.admin.vo.sysmenu.SysMenuListVo">
         SELECT `id`,
                `name`,
                `permission`,
-               `parent_id`,
-               `create_by`
+               `parent_id` AS pid
         FROM `mk_sys_menu`
         WHERE `is_delete` = 0
-          AND `parent_id` = #{parentId}
+          <if test="parentId != null">
+              AND `parent_id` = #{parentId}
+          </if>
           AND `keep_alive` = 0
+          AND `type` IN (-1, 0, 1)
     </select>
 
-    <select id="getMenuTree" resultType="com.mikuyun.admin.vo.sysmenu.GetMenuTreeVo">
+    <select id="getMenuList" resultType="com.mikuyun.admin.vo.sysmenu.SysMenuListVo">
         SELECT sm.`id`,
                sm.`name`,
-               sm.`parent_id`
+               sm.`parent_id` AS pid
         FROM `mk_sys_menu` AS sm
                  LEFT JOIN `mk_sys_role_menu` AS srm ON sm.`id` = srm.`menu_id`
                  LEFT JOIN `mk_sys_user_role` AS sr ON srm.`role_id` = sr.`role_id`
         WHERE sm.`is_delete` = 0
           And sm.`keep_alive` = 0
-          AND sm.`type` = 0
+          AND sm.`type` IN (-1, 0, 1)
           AND sr.`user_id` = #{sysUserId}
         GROUP BY sm.`id`
         ORDER BY sm.`id`

@@ -62,21 +62,6 @@ public interface CommonConstants {
     String STATUS_LOCK = "9";
 
     /**
-     * 菜单树根节点
-     */
-    Integer MENU_TREE_ROOT_ID = 0;
-
-    /**
-     * 菜单树根节点
-     */
-    String MENU_TREE_ROOT_NAME = "root";
-
-    /**
-     * 菜单
-     */
-    String MENU = "0";
-
-    /**
      * 编码
      */
     String UTF8 = "UTF-8";

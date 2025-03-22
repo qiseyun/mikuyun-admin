@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysmenu.AddMenuOrButtonEvt;
-import com.mikuyun.admin.vo.sysmenu.GetMenuTreeVo;
+import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 import com.mikuyun.admin.vo.sysmenu.QueryMenuListVo;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param sysUserId 用户id
      * @return 对应角色权限列表
      */
-    List<String> sysRoleMenuPermissions(Integer sysUserId);
+    List<String> sysRoleMenuPermissions(Object sysUserId);
 
     /**
      * 查询菜单列表
@@ -34,7 +34,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param evt 查询参数
      * @return 菜单列表
      */
-    List<QueryMenuListVo> queryMenuList(IdEvt evt);
+    List<SysMenuListVo> queryMenuList(IdEvt evt);
 
     /**
      * 新增菜单或按钮
@@ -48,6 +48,6 @@ public interface SysMenuService extends IService<SysMenu> {
      *
      * @return 菜单树
      */
-    List<GetMenuTreeVo> getMenuTree();
+    List<SysMenuListVo> getMenuTree();
 
 }
