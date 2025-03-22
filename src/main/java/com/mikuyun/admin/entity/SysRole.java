@@ -23,8 +23,8 @@ import lombok.experimental.Accessors;
 @Schema(description = "系统角色表")
 public class SysRole extends BaseEntity {
 
-    @TableId(value = "role_id", type = IdType.AUTO)
-    private Integer roleId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     private String roleName;
 

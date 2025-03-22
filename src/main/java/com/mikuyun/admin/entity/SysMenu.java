@@ -24,8 +24,8 @@ import lombok.experimental.Accessors;
 public class SysMenu extends BaseEntity {
 
     @Schema(name = "菜单ID")
-    @TableId(value = "menu_id", type = IdType.AUTO)
-    private Integer menuId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     @Schema(name = "菜单名称")
     private String name;

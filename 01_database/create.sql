@@ -183,25 +183,3 @@ create index index_nickname
 create index index_gmt_created
     on mk_user (gmt_created);
 
-
--- 管理后台权限表
-create table mk_authority
-(
-    id           int auto_increment comment '主键id'
-        primary key,
-    auth_name    varchar(64) default ''                not null comment '权限名称',
-    auth_code    varchar(64) default ''                not null comment '权限编码',
-    auth_type    tinyint(1)  default 0                 not null comment '权限类型 0:页面 1:组件 2:接口',
-    auth_group   varchar(32) default ''                not null comment '权限分组',
-    req_method   varchar(32) default ''                not null comment '接口请求方式 GET/POST',
-    parent_id    int         default 0                 not null comment '父权限id',
-    auth_level   tinyint(1)  default 0                 not null comment '权限等级 0:一般权限，1：特殊权限，需要在mk_extra_auth表中配置',
-    status       tinyint(1)  default 0                 not null comment '用户状态0正常1禁用',
-    gmt_created  timestamp   default CURRENT_TIMESTAMP not null comment '创建时间',
-    gmt_modified timestamp   default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
-    create_by    int         default 0                 not null comment '创建人id',
-    update_by    int         default 0                 not null comment '更新人id',
-    is_delete    tinyint     default 0                 not null comment '0：正常 1：删除'
-)
-    comment '管理后台权限表' charset = utf8mb4;
-
