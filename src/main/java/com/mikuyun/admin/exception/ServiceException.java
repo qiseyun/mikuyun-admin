@@ -23,7 +23,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(final String message) {
         super(message);
-        this.code = ResultCode.FAILURE.getCode();
+        this.code = ResultCode.SYSTEM_ERROR.getCode();
     }
 
     public ServiceException(final ResultCode resultCode) {
@@ -44,7 +44,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(final String msg, final Throwable cause) {
         super(msg, cause);
-        this.code = ResultCode.FAILURE.getCode();
+        this.code = ResultCode.SYSTEM_ERROR.getCode();
     }
 
     /**

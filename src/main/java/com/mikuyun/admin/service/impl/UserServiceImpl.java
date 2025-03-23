@@ -5,7 +5,7 @@ import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.ResultCode;
-import com.mikuyun.admin.config.WebConfigProperties;
+import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.entity.User;
 import com.mikuyun.admin.evt.user.AddUserEvt;
 import com.mikuyun.admin.exception.ServiceException;

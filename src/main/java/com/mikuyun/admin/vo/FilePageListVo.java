@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @date 2024年1月14日/0014 10点28分
  */
 @Data
-public class QiseFilePageListVo {
+public class FilePageListVo {
 
 
     @Schema(name = "id")

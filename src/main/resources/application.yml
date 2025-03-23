@@ -129,6 +129,7 @@ rocketmq:
   groupName: satoken-demo
   environmentalIsolation: true
   topicPrefix: dev
+  consumeThread: 16
 
 ######## minio配置
 minio:

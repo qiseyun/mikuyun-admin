@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +30,6 @@ public class ConsumerRegister implements InitializingBean {
     @Resource
     private ApplicationContext applicationContext;
 
-    @Value("${rocketmq.consumeThread:16}")
-    private Integer consumeThread;
-
     @Getter
     private final List<DefaultMQPushConsumer> consumerList = new ArrayList<>();
 
@@ -54,10 +50,10 @@ public class ConsumerRegister implements InitializingBean {
             topicList.add(topic.getKey());
         }
         pushConsumer.registerMessageListener(new TopicMessageListenerWrapper(topicMap));
-        pushConsumer.setConsumeThreadMin(consumeThread);
-        pushConsumer.setConsumeThreadMax(consumeThread);
+        pushConsumer.setConsumeThreadMin(rocketMqProperties.getConsumeThread());
+        pushConsumer.setConsumeThreadMax(rocketMqProperties.getConsumeThread());
         pushConsumer.start();
-        log.info("subscribed topics={} consumeThreadNum={} start", topicList, consumeThread);
+        log.info("subscribed topics={} consumeThreadNum={} start", topicList, rocketMqProperties.getConsumeThread());
         consumerList.add(pushConsumer);
     }
 

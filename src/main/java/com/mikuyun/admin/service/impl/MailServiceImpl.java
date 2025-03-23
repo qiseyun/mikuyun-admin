@@ -2,7 +2,7 @@ package com.mikuyun.admin.service.impl;
 
 
 import com.mikuyun.admin.common.ResultCode;
-import com.mikuyun.admin.config.WebConfigProperties;
+import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.service.MailService;
 import jakarta.mail.MessagingException;

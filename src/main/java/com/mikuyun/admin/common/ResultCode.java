@@ -1,6 +1,5 @@
 package com.mikuyun.admin.common;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,22 +19,10 @@ public enum ResultCode {
     SYSTEM_ERROR(500, "系统忙请稍候再试~"),
 
     /**
-     * 系统异常
+     * 登录异常
      */
-    SUCCESS(HttpServletResponse.SC_OK, "OK"),
-    FAILURE(HttpServletResponse.SC_BAD_REQUEST, "Biz Exception"),
-    UN_AUTHORIZED(HttpServletResponse.SC_UNAUTHORIZED, "Request Unauthorized"),
-    NOT_FOUND(HttpServletResponse.SC_NOT_FOUND, "404 Not Found"),
-    MSG_NOT_READABLE(HttpServletResponse.SC_BAD_REQUEST, "Message Can't be Read"),
-    METHOD_NOT_SUPPORTED(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Method Not Supported"),
-    MEDIA_TYPE_NOT_SUPPORTED(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Media Type Not Supported"),
-    REQ_REJECT(HttpServletResponse.SC_FORBIDDEN, "Request Rejected"),
-    INTERNAL_SERVER_ERROR(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error"),
-    PARAM_MISS(HttpServletResponse.SC_BAD_REQUEST, "Missing Required Parameter"),
-    PARAM_TYPE_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Type Mismatch"),
-    PARAM_BIND_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Binding Error"),
-    PARAM_VALID_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Validation Error"),
-    PERMISSION_DENIED(HttpServletResponse.SC_FORBIDDEN, "当前用户权限不足，无权进行该操作"),
+    LOGIN_ERROR(30100, "登陆失败,请检查用户名或密码是否有误!"),
+    USER_WRITE_OFF(30101, "该用户已注销!"),
 
     /**
      * 短信和验证相关业务异常.(40100-40199).
@@ -73,13 +60,7 @@ public enum ResultCode {
     NET_WORK_ERROR(61000, "网络波动,请稍后再试"),
     PARAM_ERROR(61100, "参数错误"),
     DOWNLOAD_FILE_FAILED(61200, "文件下载失败"),
-    MAIL_SENDING_FAILED(611300, "邮件发送失败"),
-
-    /**
-     * 登录异常
-     */
-    LOGIN_ERROR(501, "登陆失败,请检查用户名或密码是否有误!"),
-    USER_WRITE_OFF(502, "该用户已注销, 无法登陆!!!");
+    MAIL_SENDING_FAILED(611300, "邮件发送失败");
 
     private final int code;
 

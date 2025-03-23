@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.CacheConstants;
 import com.mikuyun.admin.common.CommonConstants;
 import com.mikuyun.admin.common.ResultCode;
-import com.mikuyun.admin.config.WebConfigProperties;
+import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.entity.SysUser;
 import com.mikuyun.admin.enums.UserTypeEnum;
 import com.mikuyun.admin.evt.LoginEvt;

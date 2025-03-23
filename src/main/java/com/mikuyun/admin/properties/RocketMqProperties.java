@@ -34,4 +34,6 @@ public class RocketMqProperties {
      */
     private String topicPrefix;
 
+    private Integer consumeThread;
+
 }

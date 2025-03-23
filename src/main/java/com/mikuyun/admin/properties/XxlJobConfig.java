@@ -1,6 +1,7 @@
-package com.mikuyun.admin.config;
+package com.mikuyun.admin.properties;
 
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author xuxueli 2017-04-28
  */
+@Data
 @Configuration
 @Slf4j
 @ConditionalOnProperty(prefix = "xxl.job", name = "enable", havingValue = "true")
