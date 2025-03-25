@@ -25,31 +25,31 @@ public class R<T> {
     private T data;
 
     public static <T> R<T> ok() {
-        return restResult(null, CommonConstants.SUCCESS, "success");
+        return restResult(null, Constant.SUCCESS, "success");
     }
 
     public static <T> R<T> ok(T data) {
-        return restResult(data, CommonConstants.SUCCESS, CommonConstants.SUCCESS_STR);
+        return restResult(data, Constant.SUCCESS, Constant.SUCCESS_STR);
     }
 
     public static <T> R<T> ok(T data, String msg) {
-        return restResult(data, CommonConstants.SUCCESS, msg);
+        return restResult(data, Constant.SUCCESS, msg);
     }
 
     public static <T> R<T> failed() {
-        return restResult(null, CommonConstants.FAIL, CommonConstants.FAIL_STR);
+        return restResult(null, Constant.FAIL, Constant.FAIL_STR);
     }
 
     public static <T> R<T> failed(String msg) {
-        return restResult(null, CommonConstants.FAIL, msg);
+        return restResult(null, Constant.FAIL, msg);
     }
 
     public static <T> R<T> failed(T data) {
-        return restResult(data, CommonConstants.FAIL, CommonConstants.FAIL_STR);
+        return restResult(data, Constant.FAIL, Constant.FAIL_STR);
     }
 
     public static <T> R<T> failed(T data, String msg) {
-        return restResult(data, CommonConstants.FAIL, msg);
+        return restResult(data, Constant.FAIL, msg);
     }
 
     private static <T> R<T> restResult(T data, int code, String msg) {

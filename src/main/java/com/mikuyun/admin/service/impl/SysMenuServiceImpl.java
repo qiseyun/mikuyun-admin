@@ -5,7 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mikuyun.admin.common.CacheConstants;
+import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.entity.SysRole;
 import com.mikuyun.admin.enums.UserTypeEnum;
@@ -80,7 +80,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Integer sysUserId = sysUser.getId();
         Integer userType = sysUser.getUserType();
         // 先从redis取
-        String key = CacheConstants.MENU_TREE + sysUserId;
+        String key = Constant.CacheConstants.MENU_TREE + sysUserId;
         if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(key))) {
             return JSON.parseArray(stringRedisTemplate.opsForValue().get(key), SysMenuListVo.class);
         }

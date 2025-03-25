@@ -2,7 +2,7 @@ package com.mikuyun.admin.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.mikuyun.admin.common.CommonConstants;
+import com.mikuyun.admin.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.util.ClassUtils;
@@ -30,7 +30,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         fillValIfNullByName("gmtCreated", now, metaObject, true);
         fillValIfNullByName("gmtModified", now, metaObject, true);
         // 删除标记自动填充
-        fillValIfNullByName("isDelete", CommonConstants.STATUS_NORMAL_INT, metaObject, true);
+        fillValIfNullByName("isDelete", Constant.STATUS_NORMAL_INT, metaObject, true);
     }
 
     /**

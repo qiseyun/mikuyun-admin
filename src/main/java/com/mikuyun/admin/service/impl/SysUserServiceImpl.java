@@ -5,16 +5,15 @@ import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mikuyun.admin.common.CacheConstants;
-import com.mikuyun.admin.common.CommonConstants;
+import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.common.ResultCode;
-import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.entity.SysUser;
 import com.mikuyun.admin.enums.UserTypeEnum;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
+import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.AsyncService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.SatokenUserUtils;
@@ -24,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -49,12 +49,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserInfo sysAdminLogin(LoginEvt evt) {
         SysUser sysUser = this.lambdaQuery()
                 .eq(SysUser::getUsername, evt.getUsername())
-                .eq(SysUser::getIsDelete, CommonConstants.STATUS_NORMAL_INT)
+                .eq(SysUser::getIsDelete, Constant.STATUS_NORMAL_INT)
                 .one();
         if (ObjectUtil.isEmpty(sysUser)) {
             throw new ServiceException(ResultCode.LOGIN_ERROR);
         }
-        if (sysUser.getIsDelete().equals(CommonConstants.STATUS_DEL_INT)) {
+        if (sysUser.getIsDelete().equals(Constant.STATUS_DEL_INT)) {
             throw new ServiceException(ResultCode.USER_WRITE_OFF);
         }
         // 解密后对比
@@ -70,12 +70,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 构建用户session
         SatokenUserUtils.userSessionBuild(adminUserInfo);
         // 发送邮件
-//        asyncService.loginMail(
-//                StpUtil.getLoginDeviceType(),
-//                LocalDateTime.now(),
-//                adminUserInfo.getEmail(),
-//                sysUser.getUsername()
-//        );
+        asyncService.loginMail(
+                StpUtil.getLoginDeviceType(),
+                LocalDateTime.now(),
+                adminUserInfo.getEmail(),
+                sysUser.getUsername()
+        );
         return adminUserInfo;
     }
 
@@ -127,7 +127,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Integer sysUserId = SatokenUserUtils.getUserInfo().getId();
         // 删除相关缓存 ->
         // 菜单缓存
-        String menuKey = CacheConstants.MENU_TREE + sysUserId;
+        String menuKey = Constant.CacheConstants.MENU_TREE + sysUserId;
         stringRedisTemplate.delete(menuKey);
     }
 

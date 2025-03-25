@@ -1,5 +1,6 @@
 package com.mikuyun.admin.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.exception.BizException;
 import lombok.AllArgsConstructor;
@@ -52,18 +53,18 @@ public class FileCheckUtils {
     }
 
     /**
-     * 判断文件是否为符合条件
+     * 判断文件后缀是否为符合条件
+     *
+     * @param fileName 后缀
+     * @param typeEnum 文件类型枚举
+     * @return boolean
      */
-    public static boolean isType(String fileName, FileTypeEnum typeEnum) {
-        boolean flag = false;
-        if (org.apache.commons.lang3.StringUtils.isBlank(fileName)) {
+    public static Boolean isType(String fileName, FileTypeEnum typeEnum) {
+        if (StrUtil.isBlank(fileName)) {
             return false;
         }
         String[] arr = typeEnum.getSuffix();
-        if (Arrays.asList(arr).contains(fileName)) {
-            flag = true;
-        }
-        return flag;
+        return Arrays.asList(arr).contains(fileName);
     }
 
 }

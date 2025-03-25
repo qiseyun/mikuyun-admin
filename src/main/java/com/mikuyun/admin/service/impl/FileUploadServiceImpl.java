@@ -2,7 +2,7 @@ package com.mikuyun.admin.service.impl;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.mikuyun.admin.common.CommonConstants;
+import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.SysFile;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.service.FileUploadService;
@@ -73,7 +73,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         return qiseFileService
                 .lambdaQuery()
                 .eq(SysFile::getMd5, fileHash)
-                .eq(SysFile::getIsDelete, CommonConstants.STATUS_NORMAL_INT)
+                .eq(SysFile::getIsDelete, Constant.STATUS_NORMAL_INT)
                 .one();
     }
 

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.common.R;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -113,7 +114,7 @@ public class OkHttpUtils {
     public static <T> R<T> postJson(String url, JSONObject params, Map<String, String> headers, Long timeout, Class<T> cls, boolean outLog) {
         Request.Builder builder = new Request.Builder().url(url);
         builder.addHeader("Content-Type", "application/json");
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.toJSONString());
+        RequestBody requestBody = RequestBody.create(params.toJSONString(), MediaType.parse(Constant.CONTENT_TYPE));
         builder.method("POST", requestBody);
         Request request = builder.build();
         R<T> result = execute(request, timeout, headers, cls);
