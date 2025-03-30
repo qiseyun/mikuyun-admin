@@ -1,16 +1,20 @@
 package com.mikuyun.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.stp.StpUtil;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.LoginEvt;
+import com.mikuyun.admin.service.SysMenuService;
 import com.mikuyun.admin.service.SysUserService;
-import com.mikuyun.admin.util.SatokenUserUtils;
 import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.vo.UserTokenVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -27,19 +31,27 @@ public class SysUserLoginController {
 
     private final SysUserService sysUserService;
 
+    private final SysMenuService sysMenuService;
+
     @PostMapping(value = "/login")
     @Operation(summary = "管理员登录")
-    public R<UserInfo> sysLogin(@RequestBody LoginEvt evt) {
+    public R<UserTokenVo> sysLogin(@RequestBody LoginEvt evt) {
         return R.ok(sysUserService.sysAdminLogin(evt));
     }
 
+    @GetMapping(value = "/permissions")
+    @Operation(summary = "查询权限列表")
+    public R<List<String>> sysLogin() {
+        return R.ok(sysMenuService.sysRoleMenuPermissions(StpUtil.getLoginId()));
+    }
+
     /**
-     * 查询登录信息
+     * 查询登录用户信息
      */
     @GetMapping(value = "/getInfo")
-    @Operation(summary = "查询登录信息")
+    @Operation(summary = "查询登录用户信息")
     public R<UserInfo> getInfo() {
-        return R.ok(SatokenUserUtils.getUserInfo());
+        return R.ok(sysUserService.getSysUserInfo(StpUtil.getLoginId()));
     }
 
     /**

@@ -1,13 +1,13 @@
 package com.mikuyun.admin.service.impl;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.SysRole;
 import com.mikuyun.admin.evt.sysrole.AddSysRoleListEvt;
 import com.mikuyun.admin.mapper.SysRoleMapper;
 import com.mikuyun.admin.service.SysRoleService;
-import com.mikuyun.admin.util.SatokenUserUtils;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +43,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public void addSysRole(AddSysRoleListEvt evt) {
         SysRole sysRole = new SysRole();
         BeanUtil.copyProperties(evt, sysRole);
-        sysRole.setCreateBy(SatokenUserUtils.getUserInfo().getId());
+        sysRole.setCreateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
         this.save(sysRole);
     }
 }

@@ -16,15 +16,14 @@ import com.mikuyun.admin.mapper.SysUserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.AsyncService;
 import com.mikuyun.admin.service.SysUserService;
-import com.mikuyun.admin.util.SatokenUserUtils;
 import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.vo.UserTokenVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -46,7 +45,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public UserInfo sysAdminLogin(LoginEvt evt) {
+    public UserTokenVo sysAdminLogin(LoginEvt evt) {
         SysUser sysUser = this.lambdaQuery()
                 .eq(SysUser::getUsername, evt.getUsername())
                 .eq(SysUser::getIsDelete, Constant.STATUS_NORMAL_INT)
@@ -62,32 +61,52 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (ObjectUtil.notEqual(evt.getPassword(), pwd)) {
             throw new ServiceException(ResultCode.LOGIN_ERROR);
         }
-        // 获取当前的角色列表和角色的权限列表
-        List<String> roleList = StpUtil.getRoleList(sysUser.getId());
-        List<String> permissionList = StpUtil.getPermissionList(sysUser.getId());
-        // 构建用户信息
-        UserInfo adminUserInfo = getAdminUserInfo(sysUser, roleList, permissionList);
-        // 构建用户session
-        SatokenUserUtils.userSessionBuild(adminUserInfo);
-        // 发送邮件
-        asyncService.loginMail(
-                StpUtil.getLoginDeviceType(),
-                LocalDateTime.now(),
-                adminUserInfo.getEmail(),
-                sysUser.getUsername()
-        );
-        return adminUserInfo;
+        // 登陆返回token信息
+        return login(sysUser.getId());
     }
 
-    private UserInfo getAdminUserInfo(SysUser sysUser, List<String> roleList, List<String> permissionList) {
+    @Override
+    public UserInfo getSysUserInfo(Object sysUserId) {
+        SysUser sysUser = this.getById((Serializable) sysUserId);
+        if (ObjectUtil.isEmpty(sysUser)) {
+            throw new ServiceException(ResultCode.DATA_NOT_EXIST);
+        }
+        // 获取当前的角色列表和角色的权限列表
+//        List<String> roleList = StpUtil.getRoleList(sysUser.getId());
+//        List<String> permissionList = StpUtil.getPermissionList(sysUser.getId());
+        return getAdminUserInfo(sysUser);
+    }
+
+    /**
+     * 登陆
+     *
+     * @param sysUserId 用户id
+     * @return UserTokenVo
+     */
+    private UserTokenVo login(Integer sysUserId) {
+        UserTokenVo userToken = new UserTokenVo();
+        StpUtil.login(sysUserId);
+        String tokenValue = StpUtil.getTokenValue();
+        long timestamp = System.currentTimeMillis() / 1000;
+        userToken.setAccessToken(tokenValue);
+        userToken.setExpiresTime(timestamp + StpUtil.getTokenTimeout());
+        return userToken;
+    }
+
+    /**
+     * set用户信息
+     *
+     * @param sysUser sysUser
+     * @return UserInfo
+     */
+    private UserInfo getAdminUserInfo(SysUser sysUser) {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(sysUser.getId());
         userInfo.setTelephone(sysUser.getPhone());
+        userInfo.setUsername(sysUser.getUsername());
         userInfo.setRealName(sysUser.getRealName());
         userInfo.setHeadPortrait(sysUser.getAvatar());
         userInfo.setEmail(sysUser.getEmail());
-        userInfo.setRoleList(roleList);
-        userInfo.setPermissionList(permissionList);
         userInfo.setUserType(sysUser.getUserType());
         return userInfo;
     }
@@ -102,7 +121,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setRealName(evt.getRealName());
         sysUser.setSalt(webConfigProperties.getSalt());
         sysUser.setPhone(evt.getTelephone());
-        sysUser.setCreateBy(SatokenUserUtils.getUserInfo().getId());
+        sysUser.setCreateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
         sysUser.setEmail(evt.getEmail());
         sysUser.setUserType(UserTypeEnum.REGULAR_USERS.getType());
         this.save(sysUser);
@@ -123,11 +142,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         StpUtil.logout(adminId);
     }
 
+    /**
+     * 删除缓存
+     */
     private void clearCache() {
-        Integer sysUserId = SatokenUserUtils.getUserInfo().getId();
-        // 删除相关缓存 ->
-        // 菜单缓存
-        String menuKey = Constant.CacheConstants.MENU_TREE + sysUserId;
+        // 删除菜单缓存
+        String menuKey = Constant.CacheConstants.MENU_TREE + StpUtil.getLoginId();
         stringRedisTemplate.delete(menuKey);
     }
 

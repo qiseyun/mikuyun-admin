@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2022/11/1 14:55
  */
 @Configuration
-public class SaTokenConfigure implements WebMvcConfigurer {
+public class MvcConfigure implements WebMvcConfigurer {
 
     /**
      * 注册拦截器

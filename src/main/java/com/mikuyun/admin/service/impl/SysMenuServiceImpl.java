@@ -1,6 +1,7 @@
 package com.mikuyun.admin.service.impl;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
@@ -14,14 +15,14 @@ import com.mikuyun.admin.evt.sysmenu.AddMenuOrButtonEvt;
 import com.mikuyun.admin.mapper.SysMenuMapper;
 import com.mikuyun.admin.service.SysMenuService;
 import com.mikuyun.admin.service.SysRoleService;
-import com.mikuyun.admin.util.SatokenUserUtils;
+import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.TreeUtils;
 import com.mikuyun.admin.vo.UserInfo;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
+import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,13 +36,14 @@ import java.util.stream.Collectors;
  * @since 2022-11-05
  */
 @Service
+@AllArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
-    @Resource
-    private SysRoleService sysRoleService;
+    private final SysRoleService sysRoleService;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
+
+    private final SysUserService sysUserService;
 
     @Override
     public List<String> sysRoleMenuPermissions(Object sysUserId) {
@@ -70,15 +72,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public void addMenuOrButton(AddMenuOrButtonEvt evt) {
         SysMenu sysMenu = new SysMenu();
         BeanUtil.copyProperties(evt, sysMenu);
-        sysMenu.setCreateBy(SatokenUserUtils.getUserInfo().getId());
+        sysMenu.setCreateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
         this.save(sysMenu);
     }
 
     @Override
     public List<SysMenuListVo> getMenuTree() {
-        UserInfo sysUser = SatokenUserUtils.getUserInfo();
-        Integer sysUserId = sysUser.getId();
-        Integer userType = sysUser.getUserType();
+        Integer sysUserId = Integer.parseInt(StpUtil.getLoginId().toString());
+        UserInfo sysUserInfo = sysUserService.getSysUserInfo(sysUserId);
+        Integer userType = sysUserInfo.getUserType();
         // 先从redis取
         String key = Constant.CacheConstants.MENU_TREE + sysUserId;
         if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(key))) {

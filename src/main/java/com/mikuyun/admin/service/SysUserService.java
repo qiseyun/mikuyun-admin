@@ -6,6 +6,7 @@ import com.mikuyun.admin.entity.SysUser;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.vo.UserTokenVo;
 
 /**
  * <p>
@@ -23,7 +24,15 @@ public interface SysUserService extends IService<SysUser> {
      * @param evt 登陆参数
      * @return 管理员信息
      */
-    UserInfo sysAdminLogin(LoginEvt evt);
+    UserTokenVo sysAdminLogin(LoginEvt evt);
+
+    /**
+     * 管理员信息
+     *
+     * @param sysUserId 用户id
+     * @return 管理员信息
+     */
+    UserInfo getSysUserInfo(Object sysUserId);
 
     /**
      * 新增管理员

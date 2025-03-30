@@ -7,8 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 /**
  * @author qiseyun
  * @version 1.0
@@ -24,6 +22,9 @@ public class UserInfo {
     @Schema(name = "id")
     private Integer id;
 
+    @Schema(name = "账号")
+    private String username;
+
     @Schema(name = "用户手机号(账号)")
     private String telephone;
 
@@ -38,14 +39,5 @@ public class UserInfo {
 
     @Schema(name = "管理员类型 (0:超级管理员 1:管理员 3:用户)")
     private Integer userType;
-
-    @Schema(name = "角色列表")
-    private List<String> roleList;
-
-    @Schema(name = "对应角色的权限列表")
-    private List<String> permissionList;
-
-    @Schema(name = "token")
-    private String authorization;
 
 }
