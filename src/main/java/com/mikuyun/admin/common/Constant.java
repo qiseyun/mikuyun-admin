@@ -70,6 +70,16 @@ public class Constant {
          */
         public static final String MENU_TREE = "admin:menu_tree:";
 
+        /**
+         * 菜单树
+         */
+        public static final String NORMAL_EXCEL_TASK = "excel:task:normal";
+
+        /**
+         * 菜单树
+         */
+        public static final String SLOW_EXCEL_TASK = "excel:task:slow";
+
     }
 
     /**

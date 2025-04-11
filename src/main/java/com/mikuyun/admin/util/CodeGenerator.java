@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("qiseyun", "region_details");
+        codeAutoGenerator("jiangQL", "mk_excel_task");
     }
 
     /**
@@ -36,7 +36,7 @@ public class CodeGenerator {
         String mapperPath = StrUtil.join("", System.getProperty("user.dir"), "/src/main/resources/mapper");
 
         //数据库配置
-        String dbUrl = "jdbc:mysql://127.0.0.1:3306/qiseyun_satoken?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai";
+        String dbUrl = "jdbc:mysql://127.0.0.1:3306/mikuyun?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai";
         String userName = "root";
         String password = "mikuyun";
 
@@ -55,8 +55,8 @@ public class CodeGenerator {
                 )
                 //包配置
                 .packageConfig(builder ->
-                        builder.parent("com.stdemo.study")
-                                .entity("bean.entity")
+                        builder.parent("com.mikuyun.admin")
+                                .entity("entity")
                                 .moduleName("")
                                 .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperPath))
                 )

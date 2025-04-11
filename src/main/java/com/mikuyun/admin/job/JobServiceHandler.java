@@ -1,4 +1,4 @@
-package com.mikuyun.admin.service.jobhandler;
+package com.mikuyun.admin.job;
 
 import com.mikuyun.admin.util.DateTimeInitializeUtils;
 import com.xxl.job.core.context.XxlJobHelper;
