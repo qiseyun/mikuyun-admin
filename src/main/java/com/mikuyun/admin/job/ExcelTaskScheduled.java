@@ -51,7 +51,6 @@ public class ExcelTaskScheduled implements InitializingBean {
      * 限制并行任务数量
      */
     private Semaphore normalRateLimiter;
-
     private Semaphore slowRateLimiter;
 
     private final ThreadPoolExecutor excelTaskThreadPool = new ThreadPoolExecutor(
@@ -60,7 +59,7 @@ public class ExcelTaskScheduled implements InitializingBean {
             120L,
             TimeUnit.SECONDS,
             new SynchronousQueue<>(),
-            new NamedThreadFactory("excelTaskThread_", false),
+            new NamedThreadFactory("excelExportTaskThread_", false),
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
 
@@ -76,7 +75,7 @@ public class ExcelTaskScheduled implements InitializingBean {
      */
     @Scheduled(cron = "0/20 * * * * ?")
     public void normalExecute() {
-        log.info("normalExecute 扫描");
+        log.info("execute normal excel export scan");
         pullMessageAndConsumer(Constant.CacheConstants.NORMAL_EXCEL_TASK, normalRateLimiter);
     }
 
@@ -85,6 +84,7 @@ public class ExcelTaskScheduled implements InitializingBean {
      */
     @Scheduled(cron = "0/30 * * * * ?")
     public void slowExecute() {
+        log.info("execute slow excel export scan");
         pullMessageAndConsumer(Constant.CacheConstants.SLOW_EXCEL_TASK, slowRateLimiter);
     }
 

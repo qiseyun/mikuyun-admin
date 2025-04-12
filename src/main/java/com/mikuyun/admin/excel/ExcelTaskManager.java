@@ -35,14 +35,29 @@ public class ExcelTaskManager {
 
     private IBaseExcelTaskService baseExcelTaskService;
 
+    /**
+     * excel文件
+     */
     private File outputFile;
 
+    /**
+     * 文件名
+     */
     private String fileName;
 
+    /**
+     * 存储路径和文件名(excel/yyyy-MM-dd/xxxx.xlsx)
+     */
     private String objectName;
 
+    /**
+     * 导出的查询参数
+     */
     private JSONObject params;
 
+    /**
+     * excel任务对象
+     */
     private ExcelTask excelTask;
 
     private final List<Object> dataList = new ArrayList<>();
