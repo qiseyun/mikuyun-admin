@@ -280,3 +280,67 @@ create index pid
 create index zip
     on region_details (zip);
 
+
+
+
+-- auto-generated definition
+create table mk_captcha
+(
+    id              int auto_increment comment 'id'
+        primary key,
+    account         varchar(64)                         not null comment '接收账号',
+    captcha_str     varchar(16)                         not null comment '验证码',
+    captcha_type    tinyint   default 0                 not null comment '验证码类型(1手机号验证码,2邮箱验证码)',
+    gmt_created     timestamp default CURRENT_TIMESTAMP not null comment '创建时间',
+    expiration_time timestamp default CURRENT_TIMESTAMP not null comment '到期时间'
+)
+    comment '验证码表' engine = InnoDB;
+
+create index index_account
+    on mk_captcha (account);
+
+create index index_type_account
+    on mk_captcha (captcha_type, account);
+
+
+
+-- auto-generated definition
+create table mk_dict_type
+(
+    id           int auto_increment comment '字典类型ID'
+        primary key,
+    type_name    varchar(64)  default ''                not null comment '字典类型名(中文)',
+    type_code    varchar(64)                            not null comment '字典类型码(英文)',
+    is_lock      tinyint(1)   default 0                 not null comment '是否锁定，锁定的属性无法在页面进行修改',
+    remark       varchar(255) default ''                not null comment '描述',
+    type         tinyint(1)   default 1                 not null comment '字典类型: 1 系统, 2 业务',
+    gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by    int          default 0                 not null comment '创建人id',
+    update_by    int          default 0                 not null comment '更新人id',
+    is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
+)
+    comment '字典类型' row_format = DYNAMIC;
+
+
+
+
+-- auto-generated definition
+create table mk_dict
+(
+    id               int                                    not null comment '字典ID'
+        primary key,
+    sys_dict_type_id int                                    not null comment '关联sys_dict_type ID',
+    code_name        varchar(64)                            not null comment '字典名称',
+    alias            varchar(64)  default ''                not null comment '字典（Key）别名，某些情况下如果不想使用id作为key',
+    sort             int                                    not null comment '排序(正序)',
+    remark           varchar(255) default ''                not null comment '备注',
+    is_lock          tinyint(1)   default 0                 not null comment '是否锁定，锁定的属性无法在页面进行修改',
+    gmt_created      timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified     timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by        int          default 0                 not null comment '创建人id',
+    update_by        int          default 0                 not null comment '更新人id',
+    is_delete        tinyint      default 0                 not null comment '0：正常 1：删除'
+)
+    comment '字典表' row_format = DYNAMIC;
+
