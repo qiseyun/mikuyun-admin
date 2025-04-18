@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("mk_mq_msg_record")
-@Schema(description = "")
+@Schema(description = "mq消息表")
 @NoArgsConstructor
 @AllArgsConstructor
 public class MqMsgRecord {

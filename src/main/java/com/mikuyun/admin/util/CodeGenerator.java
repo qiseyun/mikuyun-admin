@@ -16,13 +16,13 @@ import java.util.regex.Pattern;
 /**
  * 代码自动生成,因为是连的开发数据库生成的实体类,可能存在线上数据库表没有对应字段,一定要慎用。
  *
- * @author: jql
+ * @author: qiseyun
  * @date: 4/12/24 8:06
  */
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("jiangQL", "mk_excel_task");
+        codeAutoGenerator("qiseyun", "mk_dict", "mk_dict_type");
     }
 
     /**
@@ -48,17 +48,16 @@ public class CodeGenerator {
                 //全局配置
                 .globalConfig(builder ->
                         builder.author(auth)
-                                //开启文件覆盖,非必要不要开启.fileOverride()
-                                .enableSwagger()
+                                .enableSpringdoc()
                                 .disableOpenDir()
-                                .outputDir(projectPath).commentDate("yyyy/MM/dd HH:mm")
+                                .outputDir(projectPath).commentDate("yyyy-MM-dd HH:mm")
                 )
                 //包配置
                 .packageConfig(builder ->
                         builder.parent("com.mikuyun.admin")
                                 .entity("entity")
                                 .moduleName("")
-                                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperPath))
+                                .pathInfo(Collections.singletonMap(OutputFile.xml, mapperPath))
                 )
                 //策略配置
                 .strategyConfig(builder -> {

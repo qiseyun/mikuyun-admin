@@ -43,7 +43,7 @@
         <satoken.version>1.41.0</satoken.version>
         <satoken.redis.version>1.41.0</satoken.redis.version>
         <springfox.version>3.0.0</springfox.version>
-        <generator.version>3.5.1</generator.version>
+        <generator.version>3.5.11</generator.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <thumbnailator.version>0.4.14</thumbnailator.version>
         <xxljob.version>2.4.2</xxljob.version>
