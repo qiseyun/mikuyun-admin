@@ -309,7 +309,7 @@ create table mk_dict_type
     id           int auto_increment comment '字典类型ID'
         primary key,
     type_name    varchar(64)  default ''                not null comment '字典类型名(中文)',
-    type_code    varchar(64)                            not null comment '字典类型码,格式:表名(大驼峰)_字段名(小驼峰)',
+    type_code    varchar(255)                            not null comment '字典类型码,格式:表名(大驼峰)_字段名(小驼峰)',
     remark       varchar(255) default ''                not null comment '描述',
     is_lock      tinyint(1)   default 0                 not null comment '是否锁定，锁定的属性无法在页面进行修改',
     gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',

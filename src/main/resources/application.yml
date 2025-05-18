@@ -140,8 +140,8 @@ minio:
 
 ######## 系统默认加密盐
 qiseyun:
-  salt: qiseyun
-  userSalt: qiseyun_user
+  salt: mikuyun
+  userSalt: mikuyun_user
 
 ######## excel任务并行数
 excelTask:

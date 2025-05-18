@@ -14,6 +14,11 @@ import lombok.Getter;
 public enum ResultCode {
 
     /**
+     * 无资源
+     */
+    NOT_FOUND(404, "无资源~"),
+
+    /**
      * 系统错误
      */
     SYSTEM_ERROR(500, "系统忙请稍候再试~"),
