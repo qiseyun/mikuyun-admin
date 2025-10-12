@@ -25,7 +25,7 @@ public class ShutdownHookConfig implements ApplicationListener<ContextClosedEven
 
     @Override
     public void onApplicationEvent(@NotNull ContextClosedEvent contextClosedEvent) {
-        log.info("satokenApplication pre shutdown");
+        log.info("MikuyunAdminApplication shutdown");
         List<DefaultMQPushConsumer> consumerList = consumerRegister.getConsumerList();
         for (DefaultMQPushConsumer pushConsumer : consumerList) {
             pushConsumer.shutdown();
