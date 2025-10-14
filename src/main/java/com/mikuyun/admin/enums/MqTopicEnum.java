@@ -12,7 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MqTopicEnum {
 
-    TEST("mikuyun-qing", "test", "测试消息");
+    TEST("mikuyun", "test", "测试消息");
 
     private final String rocketMqTopic;
 

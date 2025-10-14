@@ -2,4 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mikuyun.admin.mapper.DictTypeMapper">
 
+    <select id="queryPageList" resultType="com.mikuyun.admin.entity.DictType">
+        SELECT *
+        FROM mk_dict_type
+        WHERE is_delete = 0
+        <if test="evt.id != null">
+            AND id = #{evt.id}
+        </if>
+        <if test="evt.typeName != null and evt.typeName != ''">
+            AND type_name LIKE CONCAT('%', #{evt.typeName}, '%')
+        </if>
+        <if test="evt.typeCode != null and evt.typeCode !=''">
+            AND type_code = #{evt.typeCode}
+        </if>
+        <if test="evt.remark != null and evt.remark != ''">
+            AND remark LIKE CONCAT('%', #{evt.remark}, '%')
+        </if>
+        ORDER BY id DESC
+    </select>
+
 </mapper>

@@ -2,6 +2,7 @@ package com.mikuyun.admin.controller;
 
 
 import com.mikuyun.admin.RocketMqBiz.SendTestMq;
+import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdNameStrEvt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +21,9 @@ public class MqTestController {
     private final SendTestMq sendTestMq;
 
     @PostMapping("/send")
-    public String sendMessage(@RequestBody IdNameStrEvt evt) {
+    public R<String> sendMessage(@RequestBody IdNameStrEvt evt) {
         sendTestMq.sendTestMq(evt);
-        return "Message sent successfully!";
+        return R.ok( "Message sent successfully!");
     }
 
 }

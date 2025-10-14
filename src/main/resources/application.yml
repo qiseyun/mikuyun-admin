@@ -112,7 +112,7 @@ xxl:
       # xxl-job executor server-info
       ip:
       # 执行器 AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
-      appname: satoken-demo-executor
+      appname: mikuyun-admin-executor
       port: 8092
       # xxl-job executor log-path
       logpath: /data/applogs/xxl-job/job
@@ -126,7 +126,7 @@ xxl:
 ######## rocketMQ配置
 rocketmq:
   nameServer: 127.0.0.1:9876
-  groupName: satoken-demo
+  groupName: mikuyun-admin
   environmentalIsolation: true
   topicPrefix: dev
   consumeThread: 16
@@ -136,12 +136,12 @@ minio:
   endpoint: http://minio-mikuyun:9000
   access-key: NhQlOFYcyXiQm40DpW56
   secret-key: O1q6YRp79cTeNrtHT8yHXgcFWcOTDJNpKpRsYMzp
-  bucket-name: mikuyun-admin
+  bucket-name: mikuyun
 
 ######## 系统默认加密盐
 qiseyun:
-  salt: qiseyun
-  userSalt: qiseyun_user
+  salt: mikuyun
+  userSalt: mikuyun_user
 
 ######## excel任务并行数
 excelTask:

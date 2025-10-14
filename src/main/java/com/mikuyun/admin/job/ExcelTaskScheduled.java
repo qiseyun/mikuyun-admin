@@ -75,7 +75,7 @@ public class ExcelTaskScheduled implements InitializingBean {
      */
     @Scheduled(cron = "0/20 * * * * ?")
     public void normalExecute() {
-        log.info("execute normal excel export scan");
+        // execute normal excel export scan
         pullMessageAndConsumer(Constant.CacheConstants.NORMAL_EXCEL_TASK, normalRateLimiter);
     }
 
@@ -84,7 +84,7 @@ public class ExcelTaskScheduled implements InitializingBean {
      */
     @Scheduled(cron = "0/30 * * * * ?")
     public void slowExecute() {
-        log.info("execute slow excel export scan");
+        // execute slow excel export scan
         pullMessageAndConsumer(Constant.CacheConstants.SLOW_EXCEL_TASK, slowRateLimiter);
     }
 

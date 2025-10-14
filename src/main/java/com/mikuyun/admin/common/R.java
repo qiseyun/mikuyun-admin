@@ -52,6 +52,10 @@ public class R<T> {
         return restResult(data, Constant.FAIL, msg);
     }
 
+    public static <T> R<T> error(int code, String msg) {
+        return restResult(null, code, msg);
+    }
+
     private static <T> R<T> restResult(T data, int code, String msg) {
         R<T> result = new R<>();
         result.setCode(code);
