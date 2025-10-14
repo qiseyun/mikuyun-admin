@@ -6,7 +6,7 @@ import com.mikuyun.admin.service.IRegionDetailsService;
 import com.mikuyun.admin.vo.RegionTreeVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2025/03/02 22:03
  */
 @Tag(name = "地区相关接口")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/region")
 public class RegionDetailsController {

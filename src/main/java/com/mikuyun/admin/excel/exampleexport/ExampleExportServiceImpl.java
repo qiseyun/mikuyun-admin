@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2025/4/11 21:29
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExampleExportServiceImpl implements IBaseExcelTaskService {
 
 

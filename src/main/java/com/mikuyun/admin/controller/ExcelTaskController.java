@@ -5,11 +5,10 @@ import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.service.IExcelTaskService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author jiangQL
  * @since 2025/04/11 23:27
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/excelTask")
 public class ExcelTaskController {

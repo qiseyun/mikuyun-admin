@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JobServiceHandler {
 
     @XxlJob("jobTestHandler")

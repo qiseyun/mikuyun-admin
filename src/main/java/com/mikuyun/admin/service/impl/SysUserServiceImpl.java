@@ -18,7 +18,7 @@ import com.mikuyun.admin.service.AsyncService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.UserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ import java.io.Serializable;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final WebConfigProperties webConfigProperties;

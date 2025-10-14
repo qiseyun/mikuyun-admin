@@ -5,7 +5,7 @@ import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.service.FileUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "七牛云文件上传")
 @RestController
 @RequestMapping("/uploadFile")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FileUploadController {
 
     private final FileUploadService fileUploadService;

@@ -8,7 +8,7 @@ import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import com.mikuyun.admin.mapper.ExcelTaskMapper;
 import com.mikuyun.admin.service.IExcelTaskService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask> implements IExcelTaskService {
 
     private final StringRedisTemplate stringRedisTemplate;

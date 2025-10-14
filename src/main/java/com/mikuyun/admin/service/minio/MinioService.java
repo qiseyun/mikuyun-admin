@@ -3,13 +3,14 @@ package com.mikuyun.admin.service.minio;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Item;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -17,12 +18,12 @@ import java.net.URI;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MinioService {
 
-    @Resource
-    private MinioClient minioClient;
+    private final MinioClient minioClient;
 
-    @Resource
+    @Value("${minio.bucket-name}")
     private String bucketName;
 
     /**

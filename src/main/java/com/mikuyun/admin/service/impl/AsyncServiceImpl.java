@@ -4,7 +4,7 @@ package com.mikuyun.admin.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.service.AsyncService;
 import com.mikuyun.admin.service.MailService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AsyncServiceImpl implements AsyncService {
 
     private final MailService mailService;

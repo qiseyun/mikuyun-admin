@@ -10,7 +10,7 @@ import com.mikuyun.admin.vo.UserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2022/11/1 13:33
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @Tag(name = "系统用户login")
 @RequestMapping(value = "/auth")

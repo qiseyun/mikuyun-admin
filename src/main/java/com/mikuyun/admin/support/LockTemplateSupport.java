@@ -2,7 +2,7 @@ package com.mikuyun.admin.support;
 
 
 import com.mikuyun.admin.exception.BizException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LockTemplateSupport {
 
     private final RedissonClient redissonClient;
@@ -30,7 +30,7 @@ public class LockTemplateSupport {
      * @param timeUnit 时间单位
      * @param runnable 回调
      */
-    public void rLock(String key, Integer expire, TimeUnit timeUnit, Runnable runnable) {
+    public void rLock(String key, Long expire, TimeUnit timeUnit, Runnable runnable) {
         // 是否已锁定
         boolean isLocked = redissonClient.getLock(key).isLocked();
         if (isLocked) {
@@ -43,6 +43,7 @@ public class LockTemplateSupport {
             // 执行
             runnable.run();
         } catch (Exception e) {
+            log.error("rLock -> run exception: {}", e.getMessage(), e);
             rLock.unlock();
         } finally {
             rLock.unlock();

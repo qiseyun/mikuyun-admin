@@ -9,7 +9,7 @@ import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ import java.util.List;
 @Tag(name = "系统角色管理")
 @RestController
 @RequestMapping("/sysRole")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;

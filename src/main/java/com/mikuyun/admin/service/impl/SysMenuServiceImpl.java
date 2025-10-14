@@ -19,7 +19,7 @@ import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.TreeUtils;
 import com.mikuyun.admin.vo.UserInfo;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @since 2022-11-05
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private final SysRoleService sysRoleService;

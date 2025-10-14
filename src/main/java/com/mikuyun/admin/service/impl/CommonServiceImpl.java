@@ -11,7 +11,7 @@ import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.service.CaptchaService;
 import com.mikuyun.admin.service.CommonService;
 import com.mikuyun.admin.service.MailService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
  * @date 2023年4月16日/0016 0点15分
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommonServiceImpl implements CommonService {
 
     private final MailService mailService;

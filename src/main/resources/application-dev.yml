@@ -138,7 +138,7 @@ minio:
   endpoint: https://minio.mikuyun.com
   access-key: NhQlOFYcyXiQm40DpW56
   secret-key: O1q6YRp79cTeNrtHT8yHXgcFWcOTDJNpKpRsYMzp
-  bucket-name: satoken-demo
+  bucket-name: mikuyun-admin
 
 ######## 系统默认加密盐
 qiseyun:

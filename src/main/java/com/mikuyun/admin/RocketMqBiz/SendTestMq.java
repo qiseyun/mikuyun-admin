@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @date 2025/1/25 14:26
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class SendTestMq {
 

@@ -16,13 +16,13 @@ import java.util.regex.Pattern;
 /**
  * 代码自动生成,因为是连的开发数据库生成的实体类,可能存在线上数据库表没有对应字段,一定要慎用。
  *
- * @author: qiseyun
+ * @author: jiangQL
  * @date: 4/12/24 8:06
  */
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("qiseyun", "mk_dict", "mk_dict_type");
+        codeAutoGenerator("jiangQL", "mk_dict", "mk_dict_type");
     }
 
     /**
@@ -66,7 +66,7 @@ public class CodeGenerator {
                             .controllerBuilder()
                             .enableRestStyle()
                             .enableHyphenStyle().build();
-                    //生成的类去除qise前缀
+                    //生成的类去除前缀
                     builder.addTablePrefix("mk");
                     //实体类配置
                     builder.entityBuilder()

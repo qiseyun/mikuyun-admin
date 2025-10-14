@@ -2,12 +2,12 @@ package com.mikuyun.admin.service.impl;
 
 
 import com.mikuyun.admin.common.ResultCode;
-import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.exception.ServiceException;
+import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,7 +23,7 @@ import java.io.File;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
     private final WebConfigProperties webConfigProperties;

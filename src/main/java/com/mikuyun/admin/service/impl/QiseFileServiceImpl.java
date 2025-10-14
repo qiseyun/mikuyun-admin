@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.SysFile;
 import com.mikuyun.admin.mapper.QiseFileMapper;
 import com.mikuyun.admin.service.QiseFileService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @since 2023-04-22
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QiseFileServiceImpl extends ServiceImpl<QiseFileMapper, SysFile> implements QiseFileService {
 
 }

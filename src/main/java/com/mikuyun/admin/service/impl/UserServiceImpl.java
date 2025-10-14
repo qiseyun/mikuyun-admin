@@ -5,13 +5,13 @@ import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.ResultCode;
-import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.entity.User;
 import com.mikuyun.admin.evt.user.AddUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.UserMapper;
+import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ import java.time.ZoneOffset;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final WebConfigProperties webConfigProperties;

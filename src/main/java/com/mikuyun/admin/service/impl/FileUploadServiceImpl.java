@@ -10,7 +10,7 @@ import com.mikuyun.admin.service.QiseFileService;
 import com.mikuyun.admin.service.minio.MinioService;
 import com.mikuyun.admin.util.FileCheckUtils;
 import io.minio.ObjectWriteResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
 
     private final QiseFileService qiseFileService;

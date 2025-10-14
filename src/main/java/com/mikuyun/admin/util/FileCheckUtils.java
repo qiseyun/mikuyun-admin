@@ -3,7 +3,6 @@ package com.mikuyun.admin.util;
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.exception.BizException;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,7 +19,6 @@ import java.util.UUID;
  */
 @Component
 @Slf4j
-@AllArgsConstructor
 public class FileCheckUtils {
 
     /**
