@@ -1,6 +1,7 @@
 package com.mikuyun.admin.mqRocket;
 
 import com.mikuyun.admin.properties.RocketMqProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -8,7 +9,6 @@ import org.apache.rocketmq.common.message.Message;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class RocketProducer implements InitializingBean {
 
     private DefaultMQProducer defaultMqProducer;
 
-    @Resource
-    private RocketMqProperties rocketMqProperties;
+    private final RocketMqProperties rocketMqProperties;
 
     @Override
     public void afterPropertiesSet() throws Exception {

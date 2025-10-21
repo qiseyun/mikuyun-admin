@@ -5,7 +5,7 @@ import com.mikuyun.admin.enums.MqTopicEnum;
 import com.mikuyun.admin.evt.IdNameStrEvt;
 import com.mikuyun.admin.mqRocket.RocketProducer;
 import com.mikuyun.admin.util.MqSerializationUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.common.message.Message;
 import org.springframework.stereotype.Component;
 

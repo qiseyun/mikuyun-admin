@@ -1,11 +1,12 @@
 package com.mikuyun.admin.support.factory;
 
 import com.mikuyun.admin.excel.IBaseExcelTaskService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,10 +16,11 @@ import java.util.Map;
  * @date 2025/4/11 20:33
  */
 @Component
+@RequiredArgsConstructor
 public class ExcelEngineFactory implements InitializingBean {
 
     @Resource
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     private final Map<Integer, IBaseExcelTaskService> map = new HashMap<>();
 

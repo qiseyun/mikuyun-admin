@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author jiangQL
@@ -142,12 +143,10 @@ public class ExcelTaskManager {
      */
     private ExcelExportEngineService getExcelEngine() {
         ExcelEngineEnum excelEngineType = baseExcelTaskService.getExcelEngine();
-        switch (excelEngineType) {
-            case EASY_EXCEL -> {
-                return new EasyExcelEngineServiceImpl(this.outputFile, baseExcelTaskService);
-            }
-            default -> throw new BizException("Unexpected value: " + excelEngineType);
+        if (Objects.requireNonNull(excelEngineType) == ExcelEngineEnum.EASY_EXCEL) {
+            return new EasyExcelEngineServiceImpl(this.outputFile, baseExcelTaskService);
         }
+        throw new BizException("Unexpected value: " + excelEngineType);
     }
 
 }

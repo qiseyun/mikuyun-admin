@@ -9,6 +9,7 @@ import com.mikuyun.admin.excel.ExcelTaskManager;
 import com.mikuyun.admin.excel.IBaseExcelTaskService;
 import com.mikuyun.admin.service.IExcelTaskService;
 import com.mikuyun.admin.support.factory.ExcelEngineFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.SynchronousQueue;
@@ -30,16 +30,14 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class ExcelTaskScheduled implements InitializingBean {
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
-    @Resource
-    private ExcelEngineFactory excelEngineFactory;
+    private final ExcelEngineFactory excelEngineFactory;
 
-    @Resource
-    private IExcelTaskService excelTaskService;
+    private final IExcelTaskService excelTaskService;
 
     @Value("${excelTask.normalRate:5}")
     private Integer normalRate;

@@ -10,10 +10,9 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 
 /**
@@ -24,13 +23,13 @@ import javax.annotation.Resource;
 @Getter
 @Slf4j
 @Component
+@RequiredArgsConstructor
 @ServerEndpoint("/WebSocket/{satoken}")
 public class WebSocketServer {
 
     private Session session;
 
-    @Resource
-    private SysUserService sysUserService;
+    private final SysUserService sysUserService;
 
     @OnOpen
     public void onOpen(Session session, @PathParam(value = "satoken") String satoken) {

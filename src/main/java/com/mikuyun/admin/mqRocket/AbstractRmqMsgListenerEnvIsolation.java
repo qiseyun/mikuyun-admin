@@ -2,19 +2,18 @@ package com.mikuyun.admin.mqRocket;
 
 import com.mikuyun.admin.enums.MqTopicEnum;
 import com.mikuyun.admin.properties.RocketMqProperties;
+import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.common.message.MessageExt;
-
-import javax.annotation.Resource;
 
 /**
  * @author jiangQL
  * @version 1.0
  * @date 2025/1/28 11:55
  */
+@RequiredArgsConstructor
 public abstract class AbstractRmqMsgListenerEnvIsolation implements IBaseMessageListener {
 
-    @Resource
-    private RocketMqProperties rocketMqProperties;
+    private final RocketMqProperties rocketMqProperties;
 
     protected abstract String getTopic();
 

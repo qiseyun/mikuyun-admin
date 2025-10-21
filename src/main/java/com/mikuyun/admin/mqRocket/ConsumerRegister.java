@@ -3,13 +3,13 @@ package com.mikuyun.admin.mqRocket;
 import cn.hutool.core.collection.CollectionUtil;
 import com.mikuyun.admin.properties.RocketMqProperties;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +22,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class ConsumerRegister implements InitializingBean {
 
-    @Resource
-    private RocketMqProperties rocketMqProperties;
+    private final RocketMqProperties rocketMqProperties;
 
-    @Resource
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Getter
     private final List<DefaultMQPushConsumer> consumerList = new ArrayList<>();

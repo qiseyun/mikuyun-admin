@@ -28,6 +28,7 @@ sa-token:
 
 ######## spring配置
 spring:
+  env: local
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   servlet:
