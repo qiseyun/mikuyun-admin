@@ -108,28 +108,30 @@ xxl:
   job:
     enable: true
     executor:
-      # xxl-job executor registry-address: default use address to registry , otherwise use ip:port if address is null
+      # 执行器 AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
       address:
-      # xxl-job executor server-info
+      # 执行器IP [选填]：默认为空表示自动获取IP，多网卡时可手动设置指定IP，该IP不会绑定Host仅作为通讯实用；地址信息用于 "执行器注册" 和 "调度中心请求并触发任务"；
       ip:
       # 执行器 AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
       appname: mikuyun-admin-executor
-      port: 8092
+      # 执行器端口号
+      port: 18091
       # xxl-job executor log-path
       logpath: /data/applogs/xxl-job/job
-      # xxl-job executor log-retention-days
+      # 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；
       logretentiondays: 30
     admin:
+      # 调度中心地址
       addresses: http://xxl-job-admin:8089/xxl-job-admin
       accessToken: hatsune_miku
       timeout: 3
 
 ######## rocketMQ配置
 rocketmq:
-  nameServer: 127.0.0.1:9876
+  nameServer: rocketmq-mikuyun-rmqnamesrv:9876
   groupName: mikuyun-admin
   environmentalIsolation: true
-  topicPrefix: dev
+  topicPrefix: prod
   consumeThread: 16
 
 ######## minio配置
