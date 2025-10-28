@@ -131,7 +131,7 @@ rocketmq:
   nameServer: rocketmq-mikuyun-rmqnamesrv:9876
   groupName: mikuyun-admin
   environmentalIsolation: true
-  topicPrefix: prod
+  topicPrefix: ${spring.env}
   consumeThread: 16
 
 ######## minio配置
