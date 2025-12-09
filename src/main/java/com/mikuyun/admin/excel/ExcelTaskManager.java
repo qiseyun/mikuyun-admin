@@ -34,7 +34,7 @@ import java.util.Objects;
 @Component
 public class ExcelTaskManager {
 
-    private IBaseExcelTaskService baseExcelTaskService;
+    private ExcelDataSupplier excelDataSupplier;
 
     /**
      * excel文件
@@ -63,15 +63,15 @@ public class ExcelTaskManager {
 
     private final List<Object> dataList = new ArrayList<>();
 
-    public ExcelTaskManager start(IBaseExcelTaskService taskService, ExcelTask excelTask) {
-        this.baseExcelTaskService = taskService;
+    public ExcelTaskManager start(ExcelDataSupplier excelDataSupplier, ExcelTask excelTask) {
+        this.excelDataSupplier = excelDataSupplier;
         this.excelTask = excelTask;
         String params = this.excelTask.getParam();
         this.params = JSONObject.parseObject(params);
         if (this.params != null) {
             this.params.put("downloadUserId", this.excelTask.getCreateBy());
         }
-        this.fileName = taskService.getFileName(this.excelTask, this.params);
+        this.fileName = excelDataSupplier.getFileName(this.excelTask, this.params);
         if (StrUtil.isBlank(this.fileName)) {
             this.fileName = "defaultFile" + this.excelTask.getId();
         }
@@ -89,11 +89,14 @@ public class ExcelTaskManager {
         return this;
     }
 
-    public void executionExport(Integer excelTaskId) {
+    /**
+     * 执行导出
+     */
+    public void executionExport() {
         Integer pageNo = 0;
         try {
-            int pageSize = 888;
-            List<?> excelData = baseExcelTaskService.getPageData(this.excelTask, this.params, pageNo, pageSize);
+            int pageSize = 500;
+            List<?> excelData = excelDataSupplier.getPageData(this.excelTask, this.params, pageNo, pageSize);
             ExcelExportEngineService excelEngine = getExcelEngine();
             while (true) {
                 if (CollectionUtil.isEmpty(excelData)) {
@@ -108,14 +111,14 @@ public class ExcelTaskManager {
                     break;
                 }
                 pageNo++;
-                excelData = baseExcelTaskService.getPageData(this.excelTask, this.params, pageNo, pageSize);
+                excelData = excelDataSupplier.getPageData(this.excelTask, this.params, pageNo, pageSize);
             }
             if (CollectionUtil.isNotEmpty(dataList)) {
                 excelEngine.export(dataList);
                 dataList.clear();
             }
             excelEngine.exportFinish();
-            //上传文件
+            // 上传文件并获取文件路径（这里上传到minio）
             MinioService minioService = SpringContextUtils.getBean(MinioService.class);
             ObjectWriteResponse response;
             try (InputStream inputStream = new FileInputStream(this.outputFile)) {
@@ -133,18 +136,17 @@ public class ExcelTaskManager {
         } catch (Exception e) {
             log.error("downloadTask error excelTaskId={} errorMsg={} 错误堆栈:", excelTask.getId(), e.getMessage(), e);
         }
-
     }
 
     /**
-     * 获取excel引擎
+     * 初始化excel导出引擎
      *
      * @return ExcelExportEngineService
      */
     private ExcelExportEngineService getExcelEngine() {
-        ExcelEngineEnum excelEngineType = baseExcelTaskService.getExcelEngine();
+        ExcelEngineEnum excelEngineType = excelDataSupplier.getExcelEngine();
         if (Objects.requireNonNull(excelEngineType) == ExcelEngineEnum.EASY_EXCEL) {
-            return new EasyExcelEngineServiceImpl(this.outputFile, baseExcelTaskService);
+            return new EasyExcelEngineServiceImpl(this.outputFile, excelDataSupplier);
         }
         throw new BizException("Unexpected value: " + excelEngineType);
     }

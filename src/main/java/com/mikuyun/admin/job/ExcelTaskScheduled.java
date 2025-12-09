@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.ExcelTask;
+import com.mikuyun.admin.excel.ExcelDataSupplier;
 import com.mikuyun.admin.excel.ExcelTaskManager;
-import com.mikuyun.admin.excel.IBaseExcelTaskService;
 import com.mikuyun.admin.service.IExcelTaskService;
 import com.mikuyun.admin.support.factory.ExcelEngineFactory;
 import lombok.RequiredArgsConstructor;
@@ -114,7 +114,7 @@ public class ExcelTaskScheduled implements InitializingBean {
             excelTaskThreadPool.execute(() -> {
                 try {
                     ExcelTask excelTask = JSONObject.parseObject(excelTaskJsonStr, ExcelTask.class);
-                    IBaseExcelTaskService service = excelEngineFactory.getService(excelTask.getExcelType());
+                    ExcelDataSupplier service = excelEngineFactory.createService(excelTask.getExcelType());
                     // 开始
                     ExcelTaskManager start = new ExcelTaskManager().start(service, excelTask);
                     excelTask.setTaskStartTime(LocalDateTime.now());
@@ -122,7 +122,7 @@ public class ExcelTaskScheduled implements InitializingBean {
                     excelTaskService.updateById(excelTask);
                     log.info("excelTaskScheduled handle excelTaskId={} excelType={}", excelTask.getId(), excelTask.getExcelType());
                     // 执行导出
-                    start.executionExport(excelTask.getId());
+                    start.executionExport();
                     log.info("excelTaskScheduled handle end excelTaskId={} excelType={}", excelTask.getId(), excelTask.getExcelType());
                 } catch (Exception e) {
                     log.error("excelTaskScheduled handle error task={} errorMsg={} 错误堆栈", excelTaskJsonStr, e.getMessage(), e);

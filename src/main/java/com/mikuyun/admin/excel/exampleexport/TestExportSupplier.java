@@ -2,7 +2,7 @@ package com.mikuyun.admin.excel.exampleexport;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.entity.ExcelTask;
-import com.mikuyun.admin.excel.IBaseExcelTaskService;
+import com.mikuyun.admin.excel.ExcelDataSupplier;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,11 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class ExampleExportServiceImpl implements IBaseExcelTaskService {
+public class TestExportSupplier implements ExcelDataSupplier {
 
     @Override
-    public Class<?> getExcelBeanClass() {
-        return ExampleExcelEntity.class;
+    public Class<?> getExcelDataClass() {
+        return null;
     }
 
     @Override

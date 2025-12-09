@@ -12,6 +12,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ExcelEngineEnum {
 
-    EASY_EXCEL
+    EASY_EXCEL,
+
+    HUTOOL_EXCEL,
 
 }

@@ -12,14 +12,14 @@ import java.util.List;
  * @version 1.0
  * @date 2025/4/11 20:35
  */
-public interface IBaseExcelTaskService {
+public interface ExcelDataSupplier {
 
     /**
      * 获取excel模板类
      *
      * @return Class<T>
      */
-    Class<?> getExcelBeanClass();
+    Class<?> getExcelDataClass();
 
     /**
      * 获取任务类型
