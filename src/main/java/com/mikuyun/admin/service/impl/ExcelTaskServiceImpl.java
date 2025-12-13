@@ -29,11 +29,6 @@ public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask
     private final StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public void joinExcelTaskQueue(String excelTaskJsonStr, String redisKey) {
-        stringRedisTemplate.opsForList().rightPush(redisKey, excelTaskJsonStr);
-    }
-
-    @Override
     public void notice(IdEvt evt) {
         ExcelTask excelTask = this.getById(evt.getId());
         if (excelTask.getStatus().equals(2)) {
@@ -46,6 +41,16 @@ public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask
             redisKey = Constant.CacheConstants.SLOW_EXCEL_TASK;
         }
         this.joinExcelTaskQueue(JSON.toJSONString(excelTask), redisKey);
+    }
+
+    /**
+     * 加入excel任务队列
+     *
+     * @param excelTaskJsonStr excelTask json字符串
+     * @param redisKey         redisKey
+     */
+    private void joinExcelTaskQueue(String excelTaskJsonStr, String redisKey) {
+        stringRedisTemplate.opsForList().rightPush(redisKey, excelTaskJsonStr);
     }
 
 }

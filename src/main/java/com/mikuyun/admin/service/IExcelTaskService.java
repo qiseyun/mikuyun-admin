@@ -15,14 +15,6 @@ import com.mikuyun.admin.evt.IdEvt;
 public interface IExcelTaskService extends IService<ExcelTask> {
 
     /**
-     * 加入excel任务队列
-     *
-     * @param excelTaskJsonStr excelTask json字符串
-     * @param redisKey         redisKey
-     */
-    void joinExcelTaskQueue(String excelTaskJsonStr, String redisKey);
-
-    /**
      * 通知导出
      *
      * @param evt id
