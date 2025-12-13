@@ -1,5 +1,6 @@
 package com.mikuyun.admin.excel;
 
+import com.alibaba.excel.write.style.column.AbstractColumnWidthStyleStrategy;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.entity.ExcelTask;
 import com.mikuyun.admin.excel.enums.ExcelEngineEnum;
@@ -56,6 +57,15 @@ public interface ExcelDataSupplier {
      */
     default ExcelEngineEnum getExcelEngine() {
         return ExcelEngineEnum.EASY_EXCEL;
+    }
+
+    /**
+     * 默认栏宽风格策略
+     *
+     * @return AbstractColumnWidthStyleStrategy
+     */
+    default AbstractColumnWidthStyleStrategy columnWidthStyleStrategy() {
+        return new DefaultColumnWidthStyleStrategy();
     }
 
 }

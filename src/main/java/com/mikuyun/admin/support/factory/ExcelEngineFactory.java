@@ -31,6 +31,7 @@ public class ExcelEngineFactory implements InitializingBean {
     public void afterPropertiesSet() {
         Map<String, ExcelDataSupplier> beansOfType = applicationContext.getBeansOfType(ExcelDataSupplier.class);
         beansOfType.forEach((k, v) -> supplierMap.put(v.getExcelTaskType().getType(), v));
+        log.info("ExcelEngineFactory initializing success");
     }
 
     /**

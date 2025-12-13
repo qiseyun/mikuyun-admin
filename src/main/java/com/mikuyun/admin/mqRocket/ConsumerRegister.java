@@ -39,7 +39,7 @@ public class ConsumerRegister implements InitializingBean {
             return;
         }
         List<String> topicList = new ArrayList<>();
-        Map<String, List<IBaseMessageListener>> topicMap = beansOfType.values().stream().collect(Collectors.groupingBy(IBaseMessageListener::getTopicEnv));
+        Map<String, List<IBaseMessageListener>> topicMap = beansOfType.values().stream().collect(Collectors.groupingBy(IBaseMessageListener::getTopic));
         DefaultMQPushConsumer pushConsumer = new DefaultMQPushConsumer(rocketMqProperties.getGroupName());
         pushConsumer.setConsumerGroup(rocketMqProperties.getGroupName());
         // 设置NameServer的地址

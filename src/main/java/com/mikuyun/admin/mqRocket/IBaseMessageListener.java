@@ -14,7 +14,7 @@ public interface IBaseMessageListener {
      *
      * @return topic
      */
-    String getTopicEnv();
+    String getTopic();
 
     /**
      * 获取tag

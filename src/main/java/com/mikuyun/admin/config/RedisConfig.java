@@ -29,7 +29,6 @@ public class RedisConfig {
         try {
             String redisUrl = "redis://%s:%s";
             Config config = new Config();
-
             SingleServerConfig singleConfig = config.useSingleServer();
             singleConfig.setAddress(String.format(redisUrl, rcp.getHost(), rcp.getPort()))
                     .setDatabase(rcp.getDatabase())

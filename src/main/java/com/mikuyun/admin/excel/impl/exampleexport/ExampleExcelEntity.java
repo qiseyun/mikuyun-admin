@@ -1,4 +1,4 @@
-package com.mikuyun.admin.excel.exampleexport;
+package com.mikuyun.admin.excel.impl.exampleexport;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;

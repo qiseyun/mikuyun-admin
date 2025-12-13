@@ -3,6 +3,7 @@ package com.mikuyun.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("mk_excel_task")
-@Schema(description = "excel任务表")
+@Schema(description = "excel 导出任务表")
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExcelTask extends BaseEntity {
@@ -35,7 +36,7 @@ public class ExcelTask extends BaseEntity {
     @Schema(name = "文件名，为空时有默认")
     private String fileName;
 
-    @Schema(name = "操作ip")
+    @Schema(name = "操作 ip")
     private String operationIp;
 
     @Schema(name = "任务开始时间")
@@ -44,13 +45,16 @@ public class ExcelTask extends BaseEntity {
     @Schema(name = "任务完成时间")
     private LocalDateTime taskFinishTime;
 
-    @Schema(name = "0:示例excel导出")
+    /**
+     * {@link ExcelTaskTypeEnum}
+     */
+    @Schema(name = "导出任务类型,见枚举:ExcelTaskTypeEnum")
     private Integer excelType;
 
-    @Schema(name = "excel下载链接")
+    @Schema(name = "下载链接")
     private String downloadUrl;
 
-    @Schema(name = "完成状态，1未完成 2已完成")
+    @Schema(name = "完成状:0未完成 1未完成 2已完成")
     private Integer status;
 
 }

@@ -17,6 +17,7 @@ import java.util.Collection;
  * @author jiangQL
  * @version 1.0
  * @date 2025/4/11 21:15
+ * 大批量分页流式导出
  */
 @Slf4j
 public class EasyExcelEngineServiceImpl implements ExcelExportEngineService {
@@ -35,6 +36,7 @@ public class EasyExcelEngineServiceImpl implements ExcelExportEngineService {
         }
         this.excelWriter = EasyExcel
                 .write(os, service.getExcelDataClass())
+                .registerWriteHandler(service.columnWidthStyleStrategy())
                 .excelType(ExcelTypeEnum.XLSX)
                 .build();
         this.sheet = EasyExcel.writerSheet("sheet").build();

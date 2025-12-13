@@ -35,7 +35,7 @@ spring:
     # 文件上传大小配置
     multipart:
       maxFileSize: 30MB
-      maxRequestSize: 100MB
+      maxRequestSize: 10MB
   thymeleaf:
     cache: false
   mvc:
@@ -130,8 +130,6 @@ xxl:
 rocketmq:
   nameServer: 154.89.148.21:9876
   groupName: mikuyun-admin
-  environmentalIsolation: true
-  topicPrefix: ${spring.env}
   consumeThread: 16
 
 ######## minio配置

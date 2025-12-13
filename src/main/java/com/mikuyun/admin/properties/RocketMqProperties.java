@@ -24,16 +24,6 @@ public class RocketMqProperties {
      */
     private String nameServer;
 
-    /**
-     * 是否环境隔离
-     */
-    private Boolean environmentalIsolation;
-
-    /**
-     * tag后缀
-     */
-    private String topicPrefix;
-
     private Integer consumeThread;
 
 }

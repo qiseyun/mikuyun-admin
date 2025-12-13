@@ -45,10 +45,7 @@ public class RocketProducer implements InitializingBean {
     public boolean send(Message message) {
         String content = new String(message.getBody(), StandardCharsets.UTF_8);
         try {
-            // topic环境隔离
-            if (rocketMqProperties.getEnvironmentalIsolation()) {
-                message.setTopic(message.getTopic() + "_" + rocketMqProperties.getTopicPrefix());
-            }
+            message.setTopic(message.getTopic());
             SendResult result = defaultMqProducer.send(message);
             log.info("sendMqMessage topic={} tag={} content={} result={}", message.getTopic(), message.getTags(), content, result);
             return result != null;

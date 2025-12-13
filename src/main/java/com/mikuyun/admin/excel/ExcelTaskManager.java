@@ -82,7 +82,7 @@ public class ExcelTaskManager {
         try {
             String simpleUUID = IdUtil.simpleUUID();
             this.outputFile = File.createTempFile(simpleUUID, excelSuffix);
-            this.objectName = "excel/" + LocalDate.now() + "/" + this.outputFile.getName();
+            this.objectName = "excel/" + LocalDate.now() + "/" + this.outputFile.getName() + "_" + IdUtil.simpleUUID();
         } catch (Exception e) {
             log.error("createTempFile error", e);
         }
