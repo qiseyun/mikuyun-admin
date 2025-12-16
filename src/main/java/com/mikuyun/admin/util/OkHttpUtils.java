@@ -1,7 +1,6 @@
 package com.mikuyun.admin.util;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.common.Constant;
@@ -12,6 +11,7 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -83,15 +83,18 @@ public class OkHttpUtils {
      * @param url     请求地址
      * @param params  请求参数
      * @param headers 请求头
-     * @param timeout 请求超时时间 单位毫秒
+     * @param timeout 请求超时时间 单位秒
      * @param cls     返回结果类型
      * @param outLog  是否打印请求日志
      * @param <T>     自定义返回实体类
      * @return R<T>
      */
-    public static <T> R<T> get(String url, String params, Map<String, String> headers, Long timeout, Class<T> cls, boolean outLog) {
-        url = StrUtil.isBlank(params) ? url : StrUtil.join("?", url, params);
-        Request request = new Request.Builder().url(url).get().build();
+    public static <T> R<T> get(String url, Map<String, String> params, Map<String, String> headers, Long timeout, Class<T> cls, boolean outLog) {
+        HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
+        if (CollectionUtil.isNotEmpty(params)) {
+            params.forEach(urlBuilder::addQueryParameter);
+        }
+        Request request = new Request.Builder().url(urlBuilder.build()).get().build();
         R<T> result = execute(request, timeout, headers, cls);
         if (outLog) {
             log.info("okHttp-get url={} params={} result={}", url, params, JSON.toJSONString(result));
@@ -105,7 +108,7 @@ public class OkHttpUtils {
      * @param url     请求地址
      * @param params  请求参数
      * @param headers 请求头
-     * @param timeout 请求超时时间 单位毫秒
+     * @param timeout 请求超时时间 单位秒
      * @param cls     返回结果类型
      * @param outLog  是否打印请求日志
      * @param <T>     自定义返回实体类
@@ -113,8 +116,8 @@ public class OkHttpUtils {
      */
     public static <T> R<T> postJson(String url, JSONObject params, Map<String, String> headers, Long timeout, Class<T> cls, boolean outLog) {
         Request.Builder builder = new Request.Builder().url(url);
-        builder.addHeader("Content-Type", "application/json");
-        RequestBody requestBody = RequestBody.create(params.toJSONString(), MediaType.parse(Constant.CONTENT_TYPE));
+        builder.addHeader("Content-Type", Constant.CONTENT_TYPE_JSON);
+        RequestBody requestBody = RequestBody.create(params.toJSONString(), MediaType.parse(Constant.CONTENT_TYPE_JSON_UTF8));
         builder.method("POST", requestBody);
         Request request = builder.build();
         R<T> result = execute(request, timeout, headers, cls);
@@ -130,7 +133,7 @@ public class OkHttpUtils {
      * @param url     请求地址
      * @param params  请求参数
      * @param headers 请求头
-     * @param timeout 请求超时时间 单位毫秒
+     * @param timeout 请求超时时间 单位秒
      * @param cls     返回结果类型
      * @param outLog  是否打印请求日志
      * @param <T>     自定义返回实体类
@@ -138,7 +141,7 @@ public class OkHttpUtils {
      */
     public static <T> R<T> postForm(String url, Map<String, String> params, Map<String, String> headers, Long timeout, Class<T> cls, boolean outLog) {
         Request.Builder builder = new Request.Builder().url(url);
-        builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        builder.addHeader("Content-Type", Constant.CONTENT_TYPE_FORM);
         FormBody.Builder formBuilder = new FormBody.Builder();
         if (CollectionUtil.isNotEmpty(params)) {
             params.forEach(formBuilder::add);
@@ -218,7 +221,8 @@ public class OkHttpUtils {
         Map<String, String> headers = new HashMap<>(8);
         headers.put("accept", "*/*");
         headers.put("connection", "Keep-Alive");
-        headers.put("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+//        headers.put("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+        headers.put("user-agent", "Mozilla/5.0 (OkHttp Client)");
         return headers;
     }
 

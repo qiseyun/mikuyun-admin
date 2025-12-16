@@ -1,8 +1,7 @@
 package com.mikuyun.admin.util;
 
 
-import com.mikuyun.admin.exception.BizException;
-
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -12,64 +11,61 @@ import java.util.Base64;
  */
 public class IdEncodeUtils {
 
-    private static final String KEY = "00mi0ku0yun0";
+    private static final String KEY = "qwertyuiopasdfghjklz";
+
+    private static final byte[] KEY_BYTES = KEY.getBytes(StandardCharsets.UTF_8);
+
+    private static final Integer KEY_LENGTH = KEY.length();
 
     /**
-     * 编码
+     * id编码
      *
-     * @param id 需要编码的id
-     * @return 编码后的16位字符串
+     * @param id id
+     * @return 编码后字符串
      */
-    public static String encode(Integer id) {
-        // 1. 数字ID左边填充0至12位长度
-        String idStr = String.format("%012d", id);
-        StringBuilder xorResult = xor(idStr);
-        // 3. 对异或结果进行Base64编码
-        byte[] xorBytes = xorResult.toString().getBytes();
-        String base64Encoded = Base64.getEncoder().encodeToString(xorBytes);
-        // 4. 移除字符串后面的=
-        return base64Encoded.replaceAll("=", "");
+    public static String encode(Long id) {
+        if (id == null || id < 0) {
+            throw new IllegalArgumentException("ID must be non-negative");
+        }
+        // 1. 转为20位字符串
+        String padded = String.format("%0" + KEY_LENGTH + "d", id);
+        byte[] idBytes = padded.getBytes(StandardCharsets.UTF_8);
+        byte[] xored = new byte[KEY_LENGTH];
+        for (int i = 0; i < KEY_LENGTH; i++) {
+            xored[i] = (byte) (idBytes[i] ^ KEY_BYTES[i]);
+        }
+        // 3. 使用 URL 和 Filename 安全 类型 base64 编码方案进行编码。
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(xored);
     }
 
     /**
      * 解码
      *
-     * @param encodeId 编码id
-     * @return 解码后的id
+     * @param encoded id编码后字符串
+     * @return id
      */
-    public static Integer decode(String encodeId) {
+    public static Long decode(String encoded) {
         try {
-            // 1. 添加=填充字符
-            int mod = encodeId.length() % 4;
-            if (mod != 0) {
-                int paddingLength = 4 - mod;
-                encodeId = encodeId + "=".repeat(paddingLength);
+            // 1. Base64 decode
+            byte[] xored = Base64.getUrlDecoder().decode(encoded);
+            // 2. 再次解密
+            byte[] idBytes = new byte[KEY_LENGTH];
+            for (int i = 0; i < KEY_LENGTH; i++) {
+                idBytes[i] = (byte) (xored[i] ^ KEY_BYTES[i]);
             }
-            // 2. Base64解码
-            byte[] decodedBytes = Base64.getDecoder().decode(encodeId);
-            String base64Result = new String(decodedBytes);
-            // 3. 异或解密
-            StringBuilder xorResult = xor(base64Result);
-            // 4. 去除填充的0
-            String originalIdStr = xorResult.toString().replaceAll("^0+", "");
-            return Integer.parseInt(originalIdStr);
+            // 3. 转换回字符串并解析
+            String padded = new String(idBytes, StandardCharsets.UTF_8);
+            // 4. 去掉前置零，但保留 "0"
+            String replaced = padded.replaceFirst("^0+(?!$)", "");
+            return Long.parseLong(replaced);
         } catch (Exception e) {
-            throw new BizException("id解码失败");
+            throw new IllegalArgumentException("Invalid encoded ID: " + encoded, e);
         }
     }
 
-    /**
-     * 异或
-     */
-    private static StringBuilder xor(String xorResult) {
-        StringBuilder decryptedIdStr = new StringBuilder();
-        for (int i = 0; i < xorResult.length(); i++) {
-            char xorChar = xorResult.charAt(i);
-            char keyChar = KEY.charAt(i);
-            int decryptedChar = xorChar ^ keyChar;
-            decryptedIdStr.append((char) decryptedChar);
-        }
-        return decryptedIdStr;
+    public static void main(String[] args) {
+        System.out.println("id编码: " + encode(54315L));
+        System.out.println("id解码: " + decode("QUdVQkRJRVlfQFFDVFZXXV5YXU8"));
     }
 
 }

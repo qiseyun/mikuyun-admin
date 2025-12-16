@@ -1,17 +1,17 @@
 package com.mikuyun.admin.common;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
  * 响应信息主体
  *
- * @author qiseyun
+ * @author mikuyun
  * @version 1.0
  * @date 2023年3月25日/0025 0点17分
  */
+@Setter
+@Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -64,27 +64,4 @@ public class R<T> {
         return result;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }

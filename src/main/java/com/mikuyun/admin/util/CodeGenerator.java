@@ -9,20 +9,21 @@ import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collections;
 import java.util.regex.Pattern;
 
 /**
- * 代码自动生成,因为是连的开发数据库生成的实体类,可能存在线上数据库表没有对应字段,一定要慎用。
+ * 代码自动生成,如果连的开发数据库生成的实体类,可能存在线上数据库表没有对应字段,一定要慎用。
  *
- * @author: jiangQL
+ * @author: mikuyun
  * @date: 4/12/24 8:06
  */
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("jiangQL", "mk_dict", "mk_dict_type");
+        codeAutoGenerator("mikuyun", "");
     }
 
     /**
@@ -83,13 +84,14 @@ public class CodeGenerator {
     static class CustomMySqlTypeConvert extends MySqlTypeConvert {
 
         @Override
-        public IColumnType processTypeConvert(GlobalConfig config, String fieldType) {
+        public IColumnType processTypeConvert(@NonNull GlobalConfig config, @NonNull String fieldType) {
             IColumnType columnType = super.processTypeConvert(config, fieldType);
             if (Pattern.matches("^(tinyint|bit).*", fieldType) && DbColumnType.BOOLEAN.getType().equals(columnType.getType())) {
                 return DbColumnType.INTEGER;
             }
             return columnType;
         }
+
     }
 
 }

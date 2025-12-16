@@ -38,9 +38,11 @@ public class Constant {
     public static final String SUCCESS_STR = "success";
 
     /**
-     * JSON 资源
+     * http/https Content-Type
      */
-    public static final String CONTENT_TYPE = "application/json; charset=utf-8";
+    public static final String CONTENT_TYPE_JSON_UTF8 = "application/json; charset=utf-8";
+    public static final String CONTENT_TYPE_JSON = "application/json";
+    public static final String CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
 
     /**
      * MIKUYUN
