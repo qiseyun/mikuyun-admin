@@ -29,8 +29,6 @@ sa-token:
 ######## spring配置
 spring:
   env: prod
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
   servlet:
     multipart:
       maxFileSize: 30MB
