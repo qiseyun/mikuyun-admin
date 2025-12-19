@@ -35,9 +35,6 @@ spring:
       maxRequestSize: 100MB
   thymeleaf:
     cache: false
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -47,7 +44,7 @@ spring:
   data:
     redis:
       # Redis数据库索引（默认为0）
-      database: 6
+      database: 2
       # Redis服务器地址
       host: 1Panel-redis-CJrQ
       # Redis服务器连接端口
@@ -104,7 +101,7 @@ logging:
 ######## xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
 xxl:
   job:
-    enable: true
+    enabled: true
     executor:
       # 执行器 AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
       address:
@@ -128,8 +125,6 @@ xxl:
 rocketmq:
   nameServer: rocketmq-mikuyun-rmqnamesrv:9876
   groupName: mikuyun-admin
-  environmentalIsolation: true
-  topicPrefix: ${spring.env}
   consumeThread: 16
 
 ######## minio配置

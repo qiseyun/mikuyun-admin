@@ -33,7 +33,7 @@ public class RocketProducer implements InitializingBean {
         defaultMQProducer.setNamesrvAddr(rocketMqProperties.getNameServer());
         defaultMQProducer.start();
         defaultMqProducer = defaultMQProducer;
-        log.info("rocketMQ producer start");
+        log.info("rocketmq producer start");
     }
 
     /**
@@ -47,10 +47,10 @@ public class RocketProducer implements InitializingBean {
         try {
             message.setTopic(message.getTopic());
             SendResult result = defaultMqProducer.send(message);
-            log.info("sendMqMessage topic={} tag={} content={} result={}", message.getTopic(), message.getTags(), content, result);
+            log.info("rocketmq message topic={} tag={} content={} result={}", message.getTopic(), message.getTags(), content, result);
             return result != null;
         } catch (Exception e) {
-            log.error("sendMqMessage error topic={} tag={} content={}", message.getTopic(), message.getTags(), content, e);
+            log.error("rocketmq message error topic={} tag={} content={}", message.getTopic(), message.getTags(), content, e);
             return false;
         }
     }
@@ -64,10 +64,10 @@ public class RocketProducer implements InitializingBean {
     public boolean sendBatch(List<Message> messageList) {
         try {
             SendResult result = defaultMqProducer.send(messageList);
-            log.info("sendMqBatchMessage result={}", result);
+            log.info("batch rocketmq message! result={}", result);
             return result != null;
         } catch (Exception e) {
-            log.error("sendMqBatchMessage error", e);
+            log.error("batch rocketmq message! error", e);
             return false;
         }
     }

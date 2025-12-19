@@ -36,9 +36,6 @@ spring:
       maxRequestSize: 10MB
   thymeleaf:
     cache: false
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -48,7 +45,7 @@ spring:
   data:
     redis:
       # Redis数据库索引（默认为0）
-      database: 6
+      database: 2
       # Redis服务器地址
       host: 127.0.0.1
       # Redis服务器连接端口
@@ -105,7 +102,7 @@ mybatis-plus:
 ######## xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
 xxl:
   job:
-    enable: false
+    enabled: false
     executor:
       # xxl-job executor registry-address: default use address to registry , otherwise use ip:port if address is null
       address:

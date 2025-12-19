@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @Slf4j
-@ConditionalOnProperty(prefix = "xxl.job", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "xxl.job", name = "enabled", havingValue = "true")
 public class XxlJobConfig {
 
     private final Logger logger = LoggerFactory.getLogger(XxlJobConfig.class);

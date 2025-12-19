@@ -177,6 +177,11 @@
             <artifactId>sa-token-redis-template</artifactId>
             <version>${satoken.redis.version}</version>
         </dependency>
+        <!-- 提供 Redis 连接池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
 
         <!-- 丝袜哥3 -->
         <dependency>
