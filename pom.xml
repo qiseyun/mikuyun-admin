@@ -37,28 +37,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>21</java.version>
-        <druid.version>1.2.4</druid.version>
-        <easyexcel.version>4.0.3</easyexcel.version>
-        <hutool.version>5.8.25</hutool.version>
-        <fastjson2.version>2.0.25</fastjson2.version>
-        <mybatisplus.sb3.version>3.5.14</mybatisplus.sb3.version>
-        <satoken.version>1.41.0</satoken.version>
-        <satoken.redis.version>1.41.0</satoken.redis.version>
-        <springfox.version>3.0.0</springfox.version>
-        <generator.version>3.5.14</generator.version>
-        <jakarta.validation.version>3.0.2</jakarta.validation.version>
-        <thumbnailator.version>0.4.14</thumbnailator.version>
-        <xxljob.version>2.4.2</xxljob.version>
-        <rocketmq.client>5.3.0</rocketmq.client>
-        <minio>8.3.1</minio>
-        <redisson>3.45.0</redisson>
-        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>${redisson}</version>
+            <version>3.45.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -123,59 +107,59 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
+            <version>1.2.4</version>
         </dependency>
 
         <!-- 阿里的easyexcel -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
-            <version>${easyexcel.version}</version>
+            <version>4.0.3</version>
         </dependency>
 
         <!-- 糊涂工具箱 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
+            <version>5.8.25</version>
         </dependency>
 
         <!-- fastjson2 -->
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
-            <version>${fastjson2.version}</version>
+            <version>2.0.25</version>
         </dependency>
 
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-            <version>${mybatisplus.sb3.version}</version>
+            <version>3.5.14</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-jsqlparser</artifactId>
-            <version>${mybatisplus.sb3.version}</version>
+            <version>3.5.14</version>
         </dependency>
         <!-- 代码生成 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>${generator.version}</version>
+            <version>3.5.14</version>
         </dependency>
 
         <!-- satoken -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot3-starter</artifactId>
-            <version>${satoken.version}</version>
+            <version>1.41.0</version>
         </dependency>
         <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-redis-template</artifactId>
-            <version>${satoken.redis.version}</version>
+            <version>1.41.0</version>
         </dependency>
         <!-- 提供 Redis 连接池 -->
         <dependency>
@@ -193,33 +177,33 @@
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>${jakarta.validation.version}</version>
+            <version>3.0.2</version>
         </dependency>
 
         <!--图片压缩-->
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
-            <version>${thumbnailator.version}</version>
+            <version>0.4.14</version>
         </dependency>
 
         <!--xxl-job-core-->
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
-            <version>${xxljob.version}</version>
+            <version>2.4.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
-            <version>${rocketmq.client}</version>
+            <version>5.3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>${minio}</version>
+            <version>8.3.1</version>
         </dependency>
 
     </dependencies>
@@ -247,7 +231,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.5</version>
+                <version>3.5.5</version>
                 <executions>
                     <execution>
                         <goals>
@@ -257,7 +241,6 @@
                 </executions>
                 <configuration>
                     <mainClass>com.mikuyun.admin.MikuyunAdminApplication</mainClass>
-                    <fork>true</fork>
                 </configuration>
             </plugin>
         </plugins>
