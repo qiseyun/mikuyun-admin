@@ -1,7 +1,7 @@
 package com.mikuyun.admin.RocketMqBiz;
 
 
-import com.mikuyun.admin.enums.MqTopicEnum;
+import com.mikuyun.admin.mqRocket.MqTopicEnum;
 import com.mikuyun.admin.evt.IdNameStrEvt;
 import com.mikuyun.admin.mqRocket.RocketProducer;
 import com.mikuyun.admin.util.MqSerializationUtils;

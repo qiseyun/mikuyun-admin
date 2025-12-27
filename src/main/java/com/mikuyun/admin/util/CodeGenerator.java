@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("mikuyun", "");
+        codeAutoGenerator("mikuyun", "mk_posts");
     }
 
     /**

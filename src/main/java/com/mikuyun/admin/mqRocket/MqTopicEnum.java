@@ -1,4 +1,4 @@
-package com.mikuyun.admin.enums;
+package com.mikuyun.admin.mqRocket;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MqTopicEnum {
 
-    TEST("mikuyun", "test", "测试消息");
+    TEST("mikuyun", "test", "测试消息"),
+
+    CANAL_SERVER("canal_server", "canal_gxy", "文章同步"),
+
+    ;
 
     private final String rocketMqTopic;
 

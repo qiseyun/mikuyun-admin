@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mikuyun.admin.mapper.PostsMapper">
+
+    <select id="getMaxId" resultType="java.lang.Integer">
+        SELECT MAX(id)
+        FROM mk_posts;
+    </select>
+
+    <select id="fullSyncList" resultType="com.mikuyun.admin.entity.document.PostDoc">
+        SELECT id,
+               user_id,
+               title,
+               cover,
+               status,
+               excerpt,
+               view_count,
+               published_at
+        FROM mk_posts
+        WHERE id > #{startId}
+          AND id &lt;= #{endId}
+    </select>
+
+    <select id="getPostById" resultType="com.mikuyun.admin.entity.document.PostDoc">
+        SELECT id,
+               user_id,
+               title,
+               cover,
+               status,
+               excerpt,
+               view_count,
+               published_at
+        FROM mk_posts
+        WHERE id = #{id}
+    </select>
+
+</mapper>
