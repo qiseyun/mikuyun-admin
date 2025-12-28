@@ -55,6 +55,7 @@ public class EsUtils {
     }
 
     /**
+     * 获取当夜最后一条排序value, 构建es返回结果集
      *
      * @param size 每页数量
      * @param hits es结果
@@ -66,14 +67,12 @@ public class EsUtils {
         List<T> content = hits.getSearchHits().stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
-        Object[] nextSearchAfter = null;
         boolean hasNext = false;
         if (!content.isEmpty() && content.size() == size) {
             // 取最后一条的 sort values 作为下一页游标
             SearchHit<T> lastHit = hits.getSearchHits().getLast();
-            nextSearchAfter = lastHit.getSortValues().toArray();
             hasNext = true;
-            result.setNextSearchAfter(encodeSearchAfterToBase64(nextSearchAfter));
+            result.setNextSearchAfter(encodeSearchAfterToBase64(lastHit.getSortValues().toArray()));
         }
         result.setEsContent(content);
         result.setHasNext(hasNext);
