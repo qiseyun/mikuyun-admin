@@ -21,11 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.HighlightQuery;
+import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightFieldParameters;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,10 +51,10 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
 
     @Override
     public void fullSyncToEs() {
-        int pageSize = 10;
+        int pageSize = 1000;
         log.info("开始分页全量同步文章到 Elasticsearch...");
         int totalSynced = 0;
-        // 最大id
+        // 最大 id
         Integer maxId = this.baseMapper.getMaxId();
         int maxPage = maxId / pageSize + 1;
         for (int i = 1; i <= maxPage; i++) {
@@ -61,7 +65,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
             if (postsList.isEmpty()) {
                 break;
             }
-            // 存入es
+            // 存入 es
             postsEsRepository.saveAll(postsList);
             // 记录同步条数
             totalSynced += postsList.size();
@@ -88,25 +92,69 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
                     .should(s -> s.match(m -> m.field("excerpt").query(keyword)))
                     .build()._toQuery();
         }
-        // 构建排序：必须和 searchAfter 的字段顺序一致！
-        List<SortOptions> sortOptions = Collections.singletonList(
-                // 主排序：id 降序
+        // 构建排序：1. 按相关性得分降序（让 boost 生效）; 2. 按 id 降序（用于打平和 search_after 稳定性）
+        List<SortOptions> sortOptions = Arrays.asList(
+                new SortOptions.Builder()
+                        .score(s -> s.order(SortOrder.Desc))
+                        .build(),
                 new SortOptions.Builder()
                         .field(f -> f.field("id").order(SortOrder.Desc))
                         .build()
         );
+        // 构建高亮设置 定义要高亮的字段及其选项 高亮 title excerpt 字段，设置前后缀、片段大小等
+        List<HighlightField> highlightFields = Arrays.asList(
+                new HighlightField("title", HighlightFieldParameters.builder()
+                        .withPreTags("<mark>")
+                        .withPostTags("</mark>")
+                        .withFragmentSize(150)
+                        .withNumberOfFragments(3)
+                        .build()),
+                // 高亮 excerpt 字段
+                new HighlightField("excerpt", HighlightFieldParameters.builder()
+                        .withPreTags("<mark>")
+                        .withPostTags("</mark>")
+                        .withFragmentSize(150)
+                        .withNumberOfFragments(3)
+                        .build()));
+        // 创建 Highlight 对象
+        Highlight highlight = new Highlight(highlightFields);
         // 构建查询
         NativeQueryBuilder nativeQueryBuilder = NativeQuery.builder()
                 .withQuery(queryBuilder)
                 .withSort(sortOptions)
+                .withHighlightQuery(new HighlightQuery(highlight, null))
                 .withMaxResults(size);
         if (ObjectUtil.isNotEmpty(searchAfter)) {
             nativeQueryBuilder.withSearchAfter(Arrays.asList(EsUtils.decodeSearchAfterFromBase64(searchAfter)));
         }
         NativeQuery query = nativeQueryBuilder.build();
         SearchHits<PostDoc> hits = elasticsearchTemplate.search(query, PostDoc.class);
-        // 准备下一页游标
-        return EsUtils.getDocSearchAfterResult(size, hits);
+        // EsUtils.getDocSearchAfterResult(size, hits) // 原始文本返回;
+        // 手动注入高亮内容
+        List<PostDoc> highlightedContent = hits.getSearchHits().stream().map(hit -> {
+            PostDoc doc = hit.getContent();
+            // 高亮 title
+            List<String> titleHighlights = hit.getHighlightField("title");
+            if (!titleHighlights.isEmpty()) {
+                doc.setTitle(titleHighlights.getFirst());
+            }
+            // 高亮 excerpt
+            List<String> excerptHighlights = hit.getHighlightField("excerpt");
+            if (!excerptHighlights.isEmpty()) {
+                doc.setExcerpt(excerptHighlights.getFirst());
+            }
+            return doc;
+        }).toList();
+        // 构建结果（复用 EsUtils 的游标逻辑，但传入已高亮的内容）
+        SearchAfterResult<PostDoc> result = new SearchAfterResult<>();
+        boolean hasNext = !highlightedContent.isEmpty() && highlightedContent.size() == size;
+        if (hasNext) {
+            SearchHit<PostDoc> lastHit = hits.getSearchHits().getLast();
+            result.setNextSearchAfter(EsUtils.encodeSearchAfterToBase64(lastHit.getSortValues().toArray()));
+        }
+        result.setEsContent(highlightedContent);
+        result.setHasNext(hasNext);
+        return result;
     }
 
 }

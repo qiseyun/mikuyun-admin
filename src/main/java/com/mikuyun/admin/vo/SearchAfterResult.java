@@ -14,6 +14,8 @@ public class SearchAfterResult<T> {
 
     private List<T> esContent;
 
+    private List<T> hitContent;
+
     /**
      * 下一页游标
      */

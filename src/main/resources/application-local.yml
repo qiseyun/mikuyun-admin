@@ -88,7 +88,7 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
   elasticsearch:
-    uris: http://154.89.148.21:9200
+    uris: http://localhost:9200
     username: elastic
     password: elastic_mikuyun
 

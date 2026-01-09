@@ -32,7 +32,7 @@ public class PostsController {
 
     @GetMapping(value = "/test")
     public R<SearchAfterResult<PostDoc>> getList() {
-        return R.ok(postsService.findByTitleOrExcerpt("", "Wzdd", 5));
+        return R.ok(postsService.findByTitleOrExcerpt("okhttp3封装 虚拟线程", "", 5));
     }
 
 }
