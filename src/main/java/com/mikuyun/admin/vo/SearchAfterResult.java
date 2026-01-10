@@ -12,14 +12,18 @@ import java.util.List;
 @Data
 public class SearchAfterResult<T> {
 
+    /**
+     * 列表数据
+     */
     private List<T> esContent;
-
-    private List<T> hitContent;
 
     /**
      * 下一页游标
      */
     private String nextSearchAfter;
 
+    /**
+     * 是否有下一页
+     */
     private boolean hasNext;
 }

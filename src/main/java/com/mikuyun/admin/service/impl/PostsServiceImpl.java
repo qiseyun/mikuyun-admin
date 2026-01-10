@@ -11,7 +11,6 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.Posts;
 import com.mikuyun.admin.entity.document.PostDoc;
-import com.mikuyun.admin.es.PostsEsRepository;
 import com.mikuyun.admin.mapper.PostsMapper;
 import com.mikuyun.admin.service.IPostsService;
 import com.mikuyun.admin.util.EsUtils;
@@ -23,6 +22,7 @@ import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
@@ -47,8 +47,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
 
     private final ElasticsearchTemplate elasticsearchTemplate;
 
-    private final PostsEsRepository postsEsRepository;
-
     @Override
     public void fullSyncToEs() {
         int pageSize = 1000;
@@ -57,6 +55,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
         // 最大 id
         Integer maxId = this.baseMapper.getMaxId();
         int maxPage = maxId / pageSize + 1;
+        IndexCoordinates indexCoordinates = IndexCoordinates.of("posts");
         for (int i = 1; i <= maxPage; i++) {
             int startId = (i - 1) * pageSize;
             int endId = i * pageSize;
@@ -66,7 +65,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
                 break;
             }
             // 存入 es
-            postsEsRepository.saveAll(postsList);
+            elasticsearchTemplate.save(postsList, indexCoordinates);
             // 记录同步条数
             totalSynced += postsList.size();
             log.info("已同步 {} 条文章", totalSynced);
@@ -116,13 +115,11 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
                         .withFragmentSize(150)
                         .withNumberOfFragments(3)
                         .build()));
-        // 创建 Highlight 对象
-        Highlight highlight = new Highlight(highlightFields);
         // 构建查询
         NativeQueryBuilder nativeQueryBuilder = NativeQuery.builder()
                 .withQuery(queryBuilder)
                 .withSort(sortOptions)
-                .withHighlightQuery(new HighlightQuery(highlight, null))
+                .withHighlightQuery(new HighlightQuery(new Highlight(highlightFields), null))
                 .withMaxResults(size);
         if (ObjectUtil.isNotEmpty(searchAfter)) {
             nativeQueryBuilder.withSearchAfter(Arrays.asList(EsUtils.decodeSearchAfterFromBase64(searchAfter)));

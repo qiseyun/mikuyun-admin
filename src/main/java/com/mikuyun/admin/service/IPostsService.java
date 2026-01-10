@@ -21,7 +21,7 @@ public interface IPostsService extends IService<Posts> {
     void fullSyncToEs();
 
     /**
-     * 从es搜索
+     * 从 es 搜索
      *
      * @param keyword     关键字
      * @param searchAfter 当夜最后一条数据
