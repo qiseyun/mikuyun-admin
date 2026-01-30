@@ -21,4 +21,11 @@ public interface IExcelTaskService extends IService<ExcelTask> {
      */
     void notice(IdEvt evt);
 
+    /**
+     * 获取下载链接
+     *
+     * @param evt id
+     */
+    String getDownloadUrl(IdEvt evt);
+
 }

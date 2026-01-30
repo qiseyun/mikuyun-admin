@@ -1,6 +1,5 @@
 package com.mikuyun.admin.service.qiniu;
 
-import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson2.JSON;
 import com.mikuyun.admin.exception.BizException;
 import com.mikuyun.admin.service.IQiniuService;
@@ -68,6 +67,13 @@ public class QiniuServiceImpl implements IQiniuService {
             log.error("file upload error", ex);
         }
         return filePath;
+    }
+
+    @Override
+    public String getDownloadUrl(String url, Long seconds) {
+        Auth auth = Auth.create(accessKey, secretKey);
+        //1小时，可以自定义链接过期时间
+        return auth.privateDownloadUrl(url, seconds != null ? seconds : 300);
     }
 
 }

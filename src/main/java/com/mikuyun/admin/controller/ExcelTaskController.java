@@ -35,4 +35,11 @@ public class ExcelTaskController {
         return R.ok();
     }
 
+    @SaIgnore
+    @Operation(summary = "获取下载链接")
+    @PostMapping(value = "/getDownloadUrl")
+    public R<String> getDownloadUrl(@RequestBody IdEvt evt) {
+        return R.ok(excelTaskService.getDownloadUrl(evt));
+    }
+
 }

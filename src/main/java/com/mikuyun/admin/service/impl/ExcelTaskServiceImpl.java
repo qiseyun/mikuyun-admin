@@ -8,6 +8,7 @@ import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import com.mikuyun.admin.mapper.ExcelTaskMapper;
 import com.mikuyun.admin.service.IExcelTaskService;
+import com.mikuyun.admin.service.IQiniuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,6 +29,8 @@ public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    private final IQiniuService qiniuService;
+
     @Override
     public void notice(IdEvt evt) {
         ExcelTask excelTask = this.getById(evt.getId());
@@ -41,6 +44,12 @@ public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask
             redisKey = Constant.CacheConstants.SLOW_EXCEL_TASK;
         }
         this.joinExcelTaskQueue(JSON.toJSONString(excelTask), redisKey);
+    }
+
+    @Override
+    public String getDownloadUrl(IdEvt evt) {
+        ExcelTask excelTask = this.getById(evt.getId());
+        return qiniuService.getDownloadUrl(excelTask.getDownloadUrl(), null);
     }
 
     /**

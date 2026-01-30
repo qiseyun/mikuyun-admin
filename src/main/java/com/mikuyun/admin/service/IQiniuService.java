@@ -18,4 +18,13 @@ public interface IQiniuService {
      */
     String inputStreamUpload(InputStream inputStream, String fileName);
 
+    /**
+     * 获取期限下载链接
+     *
+     * @param url     原始链接
+     * @param seconds 过期时间
+     * @return 有期限的下载链接
+     */
+    String getDownloadUrl(String url, Long seconds);
+
 }
