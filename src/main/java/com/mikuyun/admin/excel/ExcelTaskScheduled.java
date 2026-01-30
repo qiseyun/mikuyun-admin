@@ -1,12 +1,10 @@
-package com.mikuyun.admin.job;
+package com.mikuyun.admin.excel;
 
-import cn.hutool.core.thread.NamedThreadFactory;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.ExcelTask;
-import com.mikuyun.admin.excel.ExcelDataSupplier;
-import com.mikuyun.admin.excel.ExcelTaskManager;
+import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import com.mikuyun.admin.service.IExcelTaskService;
 import com.mikuyun.admin.support.factory.ExcelEngineFactory;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author jiangQL
@@ -51,17 +46,6 @@ public class ExcelTaskScheduled implements InitializingBean {
     private Semaphore normalRateLimiter;
     private Semaphore slowRateLimiter;
 
-    private final ThreadPoolExecutor excelTaskThreadPool = new ThreadPoolExecutor(
-            4,
-            10,
-            120L,
-            TimeUnit.SECONDS,
-            new SynchronousQueue<>(),
-            new NamedThreadFactory("excelExportTaskThread_", false),
-            new ThreadPoolExecutor.CallerRunsPolicy()
-    );
-
-
     @Override
     public void afterPropertiesSet() {
         normalRateLimiter = new Semaphore(normalRate);
@@ -69,9 +53,9 @@ public class ExcelTaskScheduled implements InitializingBean {
     }
 
     /**
-     * 每20秒执行一次
+     * 每10秒执行一次
      */
-    @Scheduled(cron = "0/20 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void normalExecute() {
         // execute normal excel export scan
         pullMessageAndConsumer(Constant.CacheConstants.NORMAL_EXCEL_TASK, normalRateLimiter);
@@ -94,42 +78,52 @@ public class ExcelTaskScheduled implements InitializingBean {
      */
     private void pullMessageAndConsumer(String excelTaskKey, Semaphore rateLimiter) {
         while (true) {
+            // 未获取到限流器
             if (!rateLimiter.tryAcquire()) {
                 log.info("excelTaskActuator is busy");
                 return;
             }
-            String data;
             try {
-                data = stringRedisTemplate.opsForList().rightPop(excelTaskKey);
+                // 从队列拉取导出任务
+                String data = stringRedisTemplate.opsForList().rightPop(excelTaskKey);
                 if (StrUtil.isBlank(data)) {
                     rateLimiter.release();
                     return;
                 }
+                // 使用虚拟线程执行
+                log.info("virtual thread submit excelTask={}", data);
+                Thread.startVirtualThread(() -> startExport(data, rateLimiter));
             } catch (Exception e) {
-                log.error("excelTaskScheduled failed to pop data from Redis queue errorMsg={} 错误堆栈", e.getMessage(), e);
+                // 如果在 pop 或提交前出错，必须释放许可
+                log.error("Failed to process task queue: {}", e.getMessage(), e);
                 rateLimiter.release();
                 return;
             }
-            String excelTaskJsonStr = data;
-            excelTaskThreadPool.execute(() -> {
-                try {
-                    ExcelTask excelTask = JSONObject.parseObject(excelTaskJsonStr, ExcelTask.class);
-                    ExcelDataSupplier service = excelEngineFactory.createService(excelTask.getExcelType());
-                    // 开始
-                    ExcelTaskManager start = new ExcelTaskManager().start(service, excelTask);
-                    excelTask.setTaskStartTime(LocalDateTime.now());
-                    // 修改excelTask信息
-                    excelTaskService.updateById(excelTask);
-                    log.info("excelTaskScheduled handle excelTaskId={} excelType={}", excelTask.getId(), excelTask.getExcelType());
-                    // 执行导出
-                    start.executionExport();
-                    log.info("excelTaskScheduled handle end excelTaskId={} excelType={}", excelTask.getId(), excelTask.getExcelType());
-                } catch (Exception e) {
-                    log.error("excelTaskScheduled handle error task={} errorMsg={} 错误堆栈", excelTaskJsonStr, e.getMessage(), e);
-                } finally {
-                    rateLimiter.release();
-                }
-            });
+        }
+    }
+
+    /**
+     * 执行导出
+     *
+     * @param data        excel任务
+     * @param rateLimiter 限流器
+     */
+    private void startExport(String data, Semaphore rateLimiter) {
+        try {
+            ExcelTask excelTask = JSONObject.parseObject(data, ExcelTask.class);
+            ExcelDataSupplier service = excelEngineFactory.createService(excelTask.getExcelType());
+            ExcelTaskManager start = new ExcelTaskManager().start(service, excelTask);
+            excelTask.setTaskStartTime(LocalDateTime.now());
+            excelTaskService.updateById(excelTask);
+            ExcelTaskTypeEnum excelTaskTypeEnum = ExcelTaskTypeEnum.getEnumByType(excelTask.getExcelType());
+            log.info("Handling excelTaskId={} excelType={} desc={}", excelTask.getId(), excelTaskTypeEnum.getType(), excelTaskTypeEnum.getDesc());
+            start.executionExport();
+            log.info("Completed excelTaskId={} excelType={} desc={}", excelTask.getId(), excelTaskTypeEnum.getType(), excelTaskTypeEnum.getDesc());
+        } catch (Exception e) {
+            log.error("Error handling task: {}", data, e);
+        } finally {
+            // 释放许可
+            rateLimiter.release();
         }
     }
 

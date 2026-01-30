@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2023年3月25日/0025 0点17分
  */
-@Tag(name = "七牛云文件上传")
+@Tag(name = "文件上传")
 @RestController
 @RequestMapping("/uploadFile")
 @RequiredArgsConstructor

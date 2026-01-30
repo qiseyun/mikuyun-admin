@@ -2,13 +2,13 @@ package com.mikuyun.admin.mqRocket;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.mikuyun.admin.properties.RocketMqProperties;
+import jakarta.annotation.PreDestroy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * @date 2025/1/25 14:20
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class ConsumerRegister implements InitializingBean {
 
@@ -54,6 +53,17 @@ public class ConsumerRegister implements InitializingBean {
         pushConsumer.start();
         log.info("subscribed topics={} consumeThreadNum={} start", topicList, rocketMqProperties.getConsumeThread());
         consumerList.add(pushConsumer);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        if (CollectionUtil.isNotEmpty(consumerList)) {
+            log.info("Shutting down RocketMQ consumers for group: {}", rocketMqProperties.getGroupName());
+            for (DefaultMQPushConsumer consumer : consumerList) {
+                consumer.shutdown();
+                log.info("RocketMQ consumer shutdown completed for group: {}", rocketMqProperties.getGroupName());
+            }
+        }
     }
 
 }

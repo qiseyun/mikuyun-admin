@@ -1,13 +1,13 @@
 package com.mikuyun.admin.mqRocket;
 
 import com.mikuyun.admin.properties.RocketMqProperties;
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -18,7 +18,6 @@ import java.util.List;
  * @date 2025/1/25 14:11
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class RocketProducer implements InitializingBean {
 
@@ -45,7 +44,6 @@ public class RocketProducer implements InitializingBean {
     public boolean send(Message message) {
         String content = new String(message.getBody(), StandardCharsets.UTF_8);
         try {
-            message.setTopic(message.getTopic());
             SendResult result = defaultMqProducer.send(message);
             log.info("rocketmq message topic={} tag={} content={} result={}", message.getTopic(), message.getTags(), content, result);
             return result != null;
@@ -64,11 +62,19 @@ public class RocketProducer implements InitializingBean {
     public boolean sendBatch(List<Message> messageList) {
         try {
             SendResult result = defaultMqProducer.send(messageList);
-            log.info("batch rocketmq message! result={}", result);
+            log.info("batch rocketmq message result={}", result);
             return result != null;
         } catch (Exception e) {
-            log.error("batch rocketmq message! error", e);
+            log.error("batch rocketmq message error", e);
             return false;
+        }
+    }
+
+    @PreDestroy
+    public void destroy() {
+        if (defaultMqProducer != null) {
+            defaultMqProducer.shutdown();
+            log.info("RocketMQ producer destroyed......");
         }
     }
 

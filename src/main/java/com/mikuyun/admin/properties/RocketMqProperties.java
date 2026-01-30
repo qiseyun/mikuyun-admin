@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "rocketmq")
 public class RocketMqProperties {
 
+    private Boolean enabled;
+
     /**
      * 组名称
      */

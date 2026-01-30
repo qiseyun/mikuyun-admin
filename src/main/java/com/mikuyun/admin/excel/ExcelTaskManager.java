@@ -10,15 +10,14 @@ import com.mikuyun.admin.excel.engine.ExcelExportEngineService;
 import com.mikuyun.admin.excel.enums.ExcelEngineEnum;
 import com.mikuyun.admin.exception.BizException;
 import com.mikuyun.admin.service.IExcelTaskService;
-import com.mikuyun.admin.service.minio.MinioService;
+import com.mikuyun.admin.service.IQiniuService;
 import com.mikuyun.admin.support.SpringContextUtils;
-import io.minio.ObjectWriteResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,6 +32,9 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class ExcelTaskManager {
+
+    @Value("${qiniu.excelFileUrl}")
+    private String excelFileUrl;
 
     private ExcelDataSupplier excelDataSupplier;
 
@@ -82,7 +84,7 @@ public class ExcelTaskManager {
         try {
             String simpleUUID = IdUtil.simpleUUID();
             this.outputFile = File.createTempFile(simpleUUID, excelSuffix);
-            this.objectName = "excel/" + LocalDate.now() + "/" + this.outputFile.getName() + "_" + IdUtil.simpleUUID();
+            this.objectName = LocalDate.now() + "/" + this.outputFile.getName() + "_" + IdUtil.simpleUUID();
         } catch (Exception e) {
             log.error("createTempFile error", e);
         }
@@ -119,11 +121,15 @@ public class ExcelTaskManager {
             }
             excelEngine.exportFinish();
             // 上传文件并获取文件路径（这里上传到minio）
-            MinioService minioService = SpringContextUtils.getBean(MinioService.class);
-            ObjectWriteResponse response;
-            try (InputStream inputStream = new FileInputStream(this.outputFile)) {
-                response = minioService.uploadFile(this.objectName, inputStream);
-            }
+//            MinioService minioService = SpringContextUtils.getBean(MinioService.class);
+//            ObjectWriteResponse response;
+//            try (InputStream inputStream = new FileInputStream(this.outputFile)) {
+//                response = minioService.uploadFile(this.objectName, inputStream);
+//            }
+//            String downloadUrl = minioService.getPublicObjectUrl(response.object());
+            // 七牛云上传
+            IQiniuService qiniuService = SpringContextUtils.getBean(IQiniuService.class);
+            String downloadUrl = qiniuService.inputStreamUpload(new FileInputStream(this.outputFile), this.outputFile.getName());
             // 删除文件
             this.outputFile.delete();
             // 更新任务状态
@@ -131,7 +137,7 @@ public class ExcelTaskManager {
             excelTask.setFileName(fileName);
             excelTask.setTaskFinishTime(LocalDateTime.now());
             excelTask.setStatus(2);
-            excelTask.setDownloadUrl(minioService.getPublicObjectUrl(response.object()));
+            excelTask.setDownloadUrl(this.excelFileUrl + downloadUrl);
             excelTaskService.updateById(excelTask);
         } catch (Exception e) {
             log.error("downloadTask error excelTaskId={} errorMsg={} 错误堆栈:", excelTask.getId(), e.getMessage(), e);
