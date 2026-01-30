@@ -41,36 +41,37 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public String uploadFileMinio(MultipartFile file, String type) {
-        FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
-        // 文件名
-        String fileName = FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
-        // minio 上传文件
-        ObjectWriteResponse objectWriteResponse = minioService.uploadFile(file, fileName, file.getContentType());
-        // 获取上传文件url
-        String fileUrl = minioService.getPublicObjectUrl(objectWriteResponse.object());
-        // 文件信息入库
         try {
+            FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
+            // 文件名
+            String fileName = FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
+            // minio 上传文件
+            ObjectWriteResponse objectWriteResponse = minioService.uploadFile(file, fileName, file.getContentType());
+            // 获取上传文件url
+            String fileUrl = minioService.getPublicObjectUrl(objectWriteResponse.object());
+            // 文件信息入库
             fileLog(file.getOriginalFilename(), file.getSize(), fileTypeEnum.getType(), fileUrl, "minio", DigestUtil.sha256Hex(file.getInputStream()));
-        } catch (IOException e) {
+            return fileUrl;
+        } catch (Exception e) {
+            log.error("minio file upload error");
             throw new RuntimeException(e);
         }
-        return fileUrl;
     }
 
     @Override
     public String uploadFileQiniu(MultipartFile file, String type) {
-        FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
-        String key = FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
-        DefaultPutRet defRes;
         try {
-            defRes = qiniuService.inputStreamUpload(file.getInputStream(), key, qiniuProperties.getCommonFileBucket());
+            FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
+            String key = FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
+            DefaultPutRet defRes = qiniuService.inputStreamUpload(file.getInputStream(), key, qiniuProperties.getCommonFileBucket());
+            String url = qiniuProperties.getCommonFileUrl() + defRes.key;
+            // 文件信息入库
+            fileLog(file.getOriginalFilename(), file.getSize(), fileTypeEnum.getType(), url, "qiniu", DigestUtil.sha256Hex(file.getInputStream()));
+            return url;
         } catch (IOException e) {
+            log.error("qiniu file upload error");
             throw new RuntimeException(e);
         }
-        String url = qiniuProperties.getCommonFileUrl() + defRes.key;
-        // 文件信息入库
-        fileLog(file.getOriginalFilename(), file.getSize(), fileTypeEnum.getType(), url, "qiniu", defRes.hash);
-        return url;
     }
 
     @Override
