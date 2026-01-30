@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 文件表
@@ -25,7 +27,7 @@ import lombok.experimental.Accessors;
 @Schema(description = "文件表")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysFile extends BaseEntity {
+public class SysFile {
 
     @Schema(name = "id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -51,5 +53,10 @@ public class SysFile extends BaseEntity {
 
     @Schema(name = "文件地址")
     private String url;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime gmtCreated;
 
 }

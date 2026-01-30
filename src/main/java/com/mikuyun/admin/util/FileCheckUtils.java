@@ -1,38 +1,25 @@
 package com.mikuyun.admin.util;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * @author jiangQL
  * @version 1.0
  * @date 2024/7/15 下午2:04
  */
-@Component
 @Slf4j
 public class FileCheckUtils {
-
-    /**
-     * 生成文件路径
-     *
-     * @param originalFilename 原始文件名
-     * @return {@link String}
-     */
-    public static String generateFilePath(String originalFilename) {
-        String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String extension = StringUtils.getFilenameExtension(originalFilename);
-        String fileName = UUID.randomUUID().toString();
-        return "/" + localDate + "/" + fileName + "." + extension;
-    }
 
     /**
      * 生成文件名并判断是否是对应类型的文件
@@ -41,13 +28,21 @@ public class FileCheckUtils {
      * @return {@link String}
      */
     public static String generateFilePathToType(String originalFilename, FileTypeEnum type) {
-        String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String extension = StringUtils.getFilenameExtension(originalFilename);
         if (!isType(extension, type)) {
             throw new BizException("上传文件不是相关类型的文件");
         }
-        String fileName = UUID.randomUUID().toString();
-        return "/" + localDate + "/" + fileName + "." + extension;
+        return generateCommonFilePath(originalFilename, type.getType());
+    }
+
+    /**
+     * 生成文件路径
+     *
+     * @param originalFilename 原始文件名
+     * @return {@link String}
+     */
+    public static String generateCommonFilePath(String originalFilename, String type) {
+        return LocalDate.now() + "/" + IdUtil.simpleUUID().substring(0, 8) + "_" + originalFilename;
     }
 
     /**
@@ -61,8 +56,7 @@ public class FileCheckUtils {
         if (StrUtil.isBlank(fileName)) {
             return false;
         }
-        String[] arr = typeEnum.getSuffix();
-        return Arrays.asList(arr).contains(fileName);
+        return Arrays.asList(typeEnum.getSuffix()).contains(fileName);
     }
 
 }

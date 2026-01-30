@@ -10,6 +10,7 @@ import com.mikuyun.admin.excel.engine.ExcelExportEngineService;
 import com.mikuyun.admin.excel.enums.ExcelEngineEnum;
 import com.mikuyun.admin.exception.BizException;
 import com.mikuyun.admin.properties.QiniuProperties;
+import com.mikuyun.admin.service.FileUploadService;
 import com.mikuyun.admin.service.IExcelTaskService;
 import com.mikuyun.admin.service.IQiniuService;
 import com.mikuyun.admin.support.SpringContextUtils;
@@ -128,7 +129,14 @@ public class ExcelTaskManager {
             // 七牛云上传
             IQiniuService qiniuService = SpringContextUtils.getBean(IQiniuService.class);
             QiniuProperties qiniuProperties = SpringContextUtils.getBean(QiniuProperties.class);
-            DefaultPutRet defRes = qiniuService.inputStreamUpload(new FileInputStream(this.outputFile), this.objectName, qiniuProperties.getExcelBucket());
+            String fileUrl;
+            try (FileInputStream fis = new FileInputStream(this.outputFile)) {
+                DefaultPutRet defRes = qiniuService.inputStreamUpload(fis, this.objectName, qiniuProperties.getExcelBucket());
+                fileUrl = qiniuProperties.getExcelFileUrl() + defRes.key;
+                // 文件记录
+                FileUploadService fileUploadService = SpringContextUtils.getBean(FileUploadService.class);
+                fileUploadService.fileLog(this.fileName, this.outputFile.length(), "excel", fileUrl, "qiniu", defRes.hash);
+            }
             // 删除文件
             this.outputFile.delete();
             // 更新任务状态
@@ -136,7 +144,7 @@ public class ExcelTaskManager {
             excelTask.setFileName(fileName);
             excelTask.setTaskFinishTime(LocalDateTime.now());
             excelTask.setStatus(2);
-            excelTask.setDownloadUrl(qiniuProperties.getExcelFileUrl() + defRes.key);
+            excelTask.setDownloadUrl(fileUrl);
             excelTaskService.updateById(excelTask);
         } catch (Exception e) {
             log.error("downloadTask error excelTaskId={} errorMsg={} 错误堆栈:", excelTask.getId(), e.getMessage(), e);
