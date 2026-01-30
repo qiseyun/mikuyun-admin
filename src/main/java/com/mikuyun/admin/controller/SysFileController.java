@@ -19,16 +19,22 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Tag(name = "文件上传")
 @RestController
-@RequestMapping("/uploadFile")
+@RequestMapping("/file")
 @RequiredArgsConstructor
-public class FileUploadController {
+public class SysFileController {
 
     private final FileUploadService fileUploadService;
 
     @Operation(summary = "上传文件(minio)")
-    @PostMapping("/upload")
-    public R<String> upload(@RequestParam MultipartFile file, @RequestParam(value = "type") String type) {
-        return R.ok(fileUploadService.uploadFile(file, type));
+    @PostMapping("/upload/minio")
+    public R<String> uploadMinio(@RequestParam MultipartFile file, @RequestParam(value = "type") String type) {
+        return R.ok(fileUploadService.uploadFileMinio(file, type));
+    }
+
+    @Operation(summary = "上传文件(qiniu)")
+    @PostMapping("/upload/qiniu")
+    public R<String> uploadQiniu(@RequestParam MultipartFile file, @RequestParam(value = "type") String type) {
+        return R.ok(fileUploadService.uploadFileQiniu(file, type));
     }
 
 }

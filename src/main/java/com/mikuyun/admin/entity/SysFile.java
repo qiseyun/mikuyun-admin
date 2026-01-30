@@ -31,6 +31,9 @@ public class SysFile extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @Schema(name = "存储渠道: minio, qiniu")
+    private String channel;
+
     @Schema(name = "原始名称")
     private String originalName;
 
@@ -43,7 +46,7 @@ public class SysFile extends BaseEntity {
     @Schema(name = "文件格式")
     private String fileExt;
 
-    @Schema(name = "文件大小(字节)")
+    @Schema(name = "文件大小(byte)")
     private String fileSizeByte;
 
     @Schema(name = "文件地址")

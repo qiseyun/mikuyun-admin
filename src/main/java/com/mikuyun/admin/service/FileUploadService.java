@@ -17,6 +17,14 @@ public interface FileUploadService {
      * @param file 文件
      * @return {@link R}
      */
-    String uploadFile(MultipartFile file, String type);
+    String uploadFileMinio(MultipartFile file, String type);
+
+    /**
+     * 上传文件
+     *
+     * @param file 文件
+     * @return {@link R}
+     */
+    String uploadFileQiniu(MultipartFile file, String type);
 
 }

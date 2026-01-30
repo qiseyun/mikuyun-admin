@@ -12,6 +12,6 @@ import com.mikuyun.admin.entity.SysFile;
  * @author qiseyun
  * @since 2023-04-22
  */
-public interface QiseFileService extends IService<SysFile> {
+public interface ISysFileService extends IService<SysFile> {
 
 }

@@ -145,13 +145,16 @@ minio:
   secret-key: O1q6YRp79cTeNrtHT8yHXgcFWcOTDJNpKpRsYMzp
   bucket-name: mikuyun
 qiniu:
-  excelFileUrl: http://oss-excel.mikuyun.online/
-  imageFileUrl: https://oss-image.mikuyun.online/
-  accessKey: oL9TTmraF7muEqrxhNUJ_e52xJoSMe1I9RqDt8hw
-  secretKey: we3v902o7plljzD9ybhop9Z3RwSaUm7H4N5LUBW3
-  bucket: mky-excel
   # 区域名称：z0 华东  z1 华北  z2 华南  na0 北美  as0 东南亚
   region: z2
+  excelBucket: mky-excel
+  excelFileUrl: https://oss-excel.mikuyun.online/
+  imageBucket: mky-image
+  imageFileUrl: https://oss-image.mikuyun.online/
+  commonFileBucket: mky-file
+  commonFileUrl: https://oss-file.mikuyun.online/
+  accessKey: oL9TTmraF7muEqrxhNUJ_e52xJoSMe1I9RqDt8hw
+  secretKey: we3v902o7plljzD9ybhop9Z3RwSaUm7H4N5LUBW3
 
 
 ######## 系统默认加密盐

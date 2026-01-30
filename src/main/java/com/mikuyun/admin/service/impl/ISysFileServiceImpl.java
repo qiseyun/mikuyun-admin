@@ -3,8 +3,8 @@ package com.mikuyun.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.SysFile;
-import com.mikuyun.admin.mapper.QiseFileMapper;
-import com.mikuyun.admin.service.QiseFileService;
+import com.mikuyun.admin.mapper.SysFileMapper;
+import com.mikuyun.admin.service.ISysFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class QiseFileServiceImpl extends ServiceImpl<QiseFileMapper, SysFile> implements QiseFileService {
+public class ISysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements ISysFileService {
 
 }

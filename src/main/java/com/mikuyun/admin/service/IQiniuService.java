@@ -1,5 +1,7 @@
 package com.mikuyun.admin.service;
 
+import com.qiniu.storage.model.DefaultPutRet;
+
 import java.io.InputStream;
 
 /**
@@ -13,10 +15,11 @@ public interface IQiniuService {
      * 输入流上传
      *
      * @param inputStream 文件输入流
-     * @param fileName    文件名称(/yyyy-MM-dd/xxxx.xxx)
-     * @return 文件下载链接
+     * @param key         加路径的文件名称(/yyyy-MM-dd/xxxx.xxx)
+     * @param bucket      桶
+     * @return 文件源站链接
      */
-    String inputStreamUpload(InputStream inputStream, String fileName);
+    DefaultPutRet inputStreamUpload(InputStream inputStream, String key, String bucket);
 
     /**
      * 获取期限下载链接

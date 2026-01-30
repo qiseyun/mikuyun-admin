@@ -26,7 +26,14 @@ public enum FileTypeEnum {
     /**
      * 视频类
      */
-    VIDEO("video", "视频类文件", new String[]{"mp4", "gif", "avi", "mov", "wmv", "flv"});
+    VIDEO("video", "视频类文件", new String[]{"mp4", "gif", "avi", "mov", "wmv", "flv"}),
+
+    /**
+     * 视频类
+     */
+    DOC("document", "文档类文件", new String[]{"txt", "doc", "docx", "ppt", "xls", "xlsx", "pdf"}),
+
+    ;
 
     private final String type;
 
@@ -43,7 +50,7 @@ public enum FileTypeEnum {
                 return value;
             }
         }
-        throw new BizException("文件类型错误");
+        throw new BizException("不支持的文件类型");
     }
 
 }

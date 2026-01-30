@@ -1,14 +1,16 @@
 package com.mikuyun.admin.service.impl;
 
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.IdUtil;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.SysFile;
 import com.mikuyun.admin.enums.FileTypeEnum;
+import com.mikuyun.admin.properties.QiniuProperties;
 import com.mikuyun.admin.service.FileUploadService;
-import com.mikuyun.admin.service.QiseFileService;
+import com.mikuyun.admin.service.IQiniuService;
+import com.mikuyun.admin.service.ISysFileService;
 import com.mikuyun.admin.service.minio.MinioService;
-import com.mikuyun.admin.util.FileCheckUtils;
+import com.qiniu.storage.model.DefaultPutRet;
 import io.minio.ObjectWriteResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +21,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
 
 /**
  * @author qiseyun
@@ -32,35 +33,46 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
 
-    private final QiseFileService qiseFileService;
+    private final ISysFileService ISysFileService;
+
+    private final IQiniuService qiniuService;
+
+    private final QiniuProperties qiniuProperties;
 
     private final MinioService minioService;
 
     @Override
-    public String uploadFile(MultipartFile file, String type) {
-        // 重复文件校验
-        try {
-            SysFile sysFile = checkFileRepeat(getMD5(file.getBytes()));
-            if (ObjectUtil.isNotEmpty(sysFile)) {
-                return sysFile.getUrl();
-            }
-        } catch (IOException e) {
-            log.error("getMD5 error message: {}", e.getMessage());
-        }
+    public String uploadFileMinio(MultipartFile file, String type) {
         FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
         // 文件名
-        String fileName = fileTypeEnum.getType() + FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
+        String fileName = fileTypeEnum.getType() + "/" + LocalDate.now() + "/" + file.getOriginalFilename() + "_" + IdUtil.simpleUUID().substring(0, 8);
         // minio 上传文件
         ObjectWriteResponse objectWriteResponse = minioService.uploadFile(file, fileName, file.getContentType());
         // 获取上传文件url
         String fileUrl = minioService.getPublicObjectUrl(objectWriteResponse.object());
-        Map<String, String> map = new HashMap<>();
-        map.put("fileName", fileName);
-        map.put("type", fileTypeEnum.getType());
-        map.put("url", fileUrl);
         // 文件信息入库
-        fileLog(file, map);
+        try {
+            fileLog(file, fileTypeEnum.getType(), fileUrl, "minio", getMD5(file.getBytes()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return fileUrl;
+    }
+
+    @Override
+    public String uploadFileQiniu(MultipartFile file, String type) {
+        FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
+        DefaultPutRet defRes;
+        String key = type + "/" + LocalDate.now() + "/" + file.getOriginalFilename() + "_" + IdUtil.simpleUUID().substring(0, 8);
+        try {
+            defRes = qiniuService.inputStreamUpload(file.getInputStream(), key, qiniuProperties.getCommonFileBucket());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String url = qiniuProperties.getCommonFileUrl() + defRes.key;
+        // 文件信息入库
+        fileLog(file, fileTypeEnum.getType(), url, "qiniu", defRes.hash);
+        return url;
     }
 
     /**
@@ -70,7 +82,7 @@ public class FileUploadServiceImpl implements FileUploadService {
      * @return QiseyunFile
      */
     public SysFile checkFileRepeat(String fileHash) {
-        return qiseFileService
+        return ISysFileService
                 .lambdaQuery()
                 .eq(SysFile::getMd5, fileHash)
                 .eq(SysFile::getIsDelete, Constant.STATUS_NORMAL_INT)
@@ -96,16 +108,20 @@ public class FileUploadServiceImpl implements FileUploadService {
     /**
      * 文件日志 文件管理数据记录,收集管理追踪文件
      *
-     * @param file     上传文件
-     * @param fileInfo 文件信息
+     * @param file 上传文件
+     * @param type 文件类型
+     * @param url  文件链接
      */
-    private void fileLog(MultipartFile file, Map<String, String> fileInfo) {
+    private void fileLog(MultipartFile file, String type, String url, String channel, String hash) {
         SysFile sysFile = new SysFile();
-        sysFile.setOriginalName(fileInfo.get("fileName"));
-        sysFile.setType(fileInfo.get("type"));
+        sysFile.setOriginalName(file.getOriginalFilename());
+        sysFile.setFileExt(file.getContentType());
+        sysFile.setType(type);
+        sysFile.setMd5(hash);
         sysFile.setFileSizeByte(String.valueOf(file.getSize()));
-        sysFile.setUrl(fileInfo.get("url"));
-        qiseFileService.save(sysFile);
+        sysFile.setUrl(url);
+        sysFile.setChannel(channel);
+        ISysFileService.save(sysFile);
     }
 
 }

@@ -12,6 +12,6 @@ import com.mikuyun.admin.entity.SysFile;
  * @author qiseyun
  * @since 2023-04-22
  */
-public interface QiseFileMapper extends BaseMapper<SysFile> {
+public interface SysFileMapper extends BaseMapper<SysFile> {
 
 }

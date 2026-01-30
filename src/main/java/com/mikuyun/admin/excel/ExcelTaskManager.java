@@ -9,11 +9,12 @@ import com.mikuyun.admin.excel.engine.EasyExcelEngineServiceImpl;
 import com.mikuyun.admin.excel.engine.ExcelExportEngineService;
 import com.mikuyun.admin.excel.enums.ExcelEngineEnum;
 import com.mikuyun.admin.exception.BizException;
+import com.mikuyun.admin.properties.QiniuProperties;
 import com.mikuyun.admin.service.IExcelTaskService;
 import com.mikuyun.admin.service.IQiniuService;
 import com.mikuyun.admin.support.SpringContextUtils;
+import com.qiniu.storage.model.DefaultPutRet;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -33,9 +34,6 @@ import java.util.Objects;
 @Component
 public class ExcelTaskManager {
 
-    @Value("${qiniu.excelFileUrl}")
-    private String excelFileUrl;
-
     private ExcelDataSupplier excelDataSupplier;
 
     /**
@@ -44,12 +42,12 @@ public class ExcelTaskManager {
     private File outputFile;
 
     /**
-     * 文件名
+     * 存储到数据库的文件名
      */
     private String fileName;
 
     /**
-     * 存储路径和文件名(excel/yyyy-MM-dd/xxxx.xlsx)
+     * 对象存储路径和文件名(yyyy-MM-dd/xxxx.xlsx)
      */
     private String objectName;
 
@@ -84,7 +82,7 @@ public class ExcelTaskManager {
         try {
             String simpleUUID = IdUtil.simpleUUID();
             this.outputFile = File.createTempFile(simpleUUID, excelSuffix);
-            this.objectName = LocalDate.now() + "/" + this.outputFile.getName() + "_" + IdUtil.simpleUUID();
+            this.objectName = LocalDate.now() + "/" + this.outputFile.getName();
         } catch (Exception e) {
             log.error("createTempFile error", e);
         }
@@ -129,7 +127,8 @@ public class ExcelTaskManager {
 //            String downloadUrl = minioService.getPublicObjectUrl(response.object());
             // 七牛云上传
             IQiniuService qiniuService = SpringContextUtils.getBean(IQiniuService.class);
-            String downloadUrl = qiniuService.inputStreamUpload(new FileInputStream(this.outputFile), this.outputFile.getName());
+            QiniuProperties qiniuProperties = SpringContextUtils.getBean(QiniuProperties.class);
+            DefaultPutRet defRes = qiniuService.inputStreamUpload(new FileInputStream(this.outputFile), this.objectName, qiniuProperties.getExcelBucket());
             // 删除文件
             this.outputFile.delete();
             // 更新任务状态
@@ -137,7 +136,7 @@ public class ExcelTaskManager {
             excelTask.setFileName(fileName);
             excelTask.setTaskFinishTime(LocalDateTime.now());
             excelTask.setStatus(2);
-            excelTask.setDownloadUrl(this.excelFileUrl + downloadUrl);
+            excelTask.setDownloadUrl(qiniuProperties.getExcelFileUrl() + defRes.key);
             excelTaskService.updateById(excelTask);
         } catch (Exception e) {
             log.error("downloadTask error excelTaskId={} errorMsg={} 错误堆栈:", excelTask.getId(), e.getMessage(), e);
