@@ -3,7 +3,7 @@ spring:
     name: mikuyun-admin-prod
   config:
     import:
-      - nacos:${spring.application.name}?group=DEFAULT_GROUP&namespace=3bab571d-f90f-4486-bdca-60d26a3bca22
+      - nacos:${spring.application.name}?group=DEFAULT_GROUP&namespace=e0d7ece3-9ea3-4690-bf60-a9debdcc0c5a
   nacos:
     config:
       server-addr: mikuyun-nacos-standalone:8880
