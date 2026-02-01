@@ -42,7 +42,7 @@ public class FileCheckUtils {
      * @return {@link String}
      */
     public static String generateCommonFilePath(String originalFilename, String type) {
-        return LocalDate.now() + "/" + IdUtil.simpleUUID().substring(0, 8) + "_" + originalFilename;
+        return type + "/" + LocalDate.now() + "/" + IdUtil.simpleUUID().substring(0, 8) + "_" + originalFilename;
     }
 
     /**

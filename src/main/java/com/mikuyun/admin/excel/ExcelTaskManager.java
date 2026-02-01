@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.entity.ExcelTask;
+import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.excel.engine.EasyExcelEngineServiceImpl;
 import com.mikuyun.admin.excel.engine.ExcelExportEngineService;
 import com.mikuyun.admin.excel.enums.ExcelEngineEnum;
@@ -136,7 +137,7 @@ public class ExcelTaskManager {
                 fileUrl = qiniuProperties.getExcelFileUrl() + defRes.key;
                 // 文件记录
                 FileUploadService fileUploadService = SpringContextUtils.getBean(FileUploadService.class);
-                fileUploadService.fileLog(this.fileName, this.outputFile.length(), "excel", fileUrl, "qiniu", DigestUtil.sha256Hex(fis));
+                fileUploadService.fileLog(this.fileName, this.outputFile.length(), FileTypeEnum.DOC.getType(), fileUrl, "qiniu", DigestUtil.sha256Hex(fis));
             }
             // 删除文件
             this.outputFile.delete();
