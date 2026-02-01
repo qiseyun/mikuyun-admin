@@ -1,8 +1,6 @@
-server:
-  port: 8091
 spring:
   application:
-    name: memo-local
+    name: mikuyun-admin-local
   config:
     import:
       - nacos:${spring.application.name}?group=DEFAULT_GROUP&namespace=3bab571d-f90f-4486-bdca-60d26a3bca22
