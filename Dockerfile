@@ -9,4 +9,5 @@ ADD target/mikuyun-admin-*.jar /app.jar
 
 # 定义 JVM 参数
 ENV JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
+ENV SPRING_PROFILES_ACTIVE=prod
 ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /app.jar"]
