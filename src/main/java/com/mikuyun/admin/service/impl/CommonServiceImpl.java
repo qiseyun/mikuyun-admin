@@ -42,7 +42,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public void mailCaptcha(MailCaptchaEvt evt) {
         if (!ReUtil.isMatch(MAILBOX_REGULARITY, evt.getMail())) {
-            throw new ServiceException(ResultCode.PARAM_ERROR, "请输入正确格式的邮箱!");
+            throw new ServiceException(ResultCode.PARAM_ERROR.getCode(), "请输入正确格式的邮箱!");
         }
         Captcha cap = new Captcha();
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");

@@ -56,6 +56,10 @@ public class R<T> {
         return restResult(null, code, msg);
     }
 
+    public static <T> R<T> error(ResultCode resultCode) {
+        return restResult(null, resultCode.getCode(), resultCode.getMsg());
+    }
+
     private static <T> R<T> restResult(T data, int code, String msg) {
         R<T> result = new R<>();
         result.setCode(code);

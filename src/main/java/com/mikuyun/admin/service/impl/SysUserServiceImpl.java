@@ -14,7 +14,6 @@ import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
-import com.mikuyun.admin.service.AsyncService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.UserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
@@ -39,8 +38,6 @@ import java.io.Serializable;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final WebConfigProperties webConfigProperties;
-
-    private final AsyncService asyncService;
 
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -107,7 +104,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userInfo.setRealName(sysUser.getRealName());
         userInfo.setHeadPortrait(sysUser.getAvatar());
         userInfo.setEmail(sysUser.getEmail());
-        userInfo.setUserType(sysUser.getUserType());
         return userInfo;
     }
 

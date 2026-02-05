@@ -3,6 +3,9 @@ package com.mikuyun.admin.common;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * Result Code Enum.
@@ -22,6 +25,16 @@ public enum ResultCode {
      * 系统错误
      */
     SYSTEM_ERROR(500, "系统忙请稍候再试~"),
+
+    /**
+     * token异常
+     */
+    FAILED_TO_READ_A_VALID_TOKEN(11011, "未能读取到有效Token"),
+    TOKEN_INVALID(11012, "Token无效"),
+    TOKEN_EXPIRED(11013, "Token已过期"),
+    TOKEN_REPLACE(11014, "Token已被顶下线"),
+    TOKEN_PUT_FORWARD(11015, "Token已被踢下线"),
+    TOKEN_FROZEN(11016, "Token已被冻结"),
 
     /**
      * 登录异常
@@ -70,5 +83,16 @@ public enum ResultCode {
     private final int code;
 
     private final String msg;
+
+    public static List<Integer> getTokenErrorCode() {
+        return Arrays.asList(
+                ResultCode.FAILED_TO_READ_A_VALID_TOKEN.getCode(),
+                ResultCode.TOKEN_EXPIRED.getCode(),
+                ResultCode.TOKEN_FROZEN.getCode(),
+                ResultCode.TOKEN_INVALID.getCode(),
+                ResultCode.TOKEN_REPLACE.getCode(),
+                ResultCode.TOKEN_PUT_FORWARD.getCode()
+        );
+    }
 
 }

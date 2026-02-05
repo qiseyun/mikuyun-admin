@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.entity.SysRole;
-import com.mikuyun.admin.enums.UserTypeEnum;
 import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysmenu.AddMenuOrButtonEvt;
 import com.mikuyun.admin.mapper.SysMenuMapper;
@@ -80,19 +79,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<SysMenuListVo> getMenuTree() {
         Integer sysUserId = Integer.parseInt(StpUtil.getLoginId().toString());
         UserInfo sysUserInfo = sysUserService.getSysUserInfo(sysUserId);
-        Integer userType = sysUserInfo.getUserType();
         // 先从redis取
         String key = Constant.CacheConstants.MENU_TREE + sysUserId;
-        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(key))) {
+        if (stringRedisTemplate.hasKey(key)) {
             return JSON.parseArray(stringRedisTemplate.opsForValue().get(key), SysMenuListVo.class);
         }
         // 查询权限
         List<SysMenuListVo> sysMenuListVo;
-        if (userType.equals(UserTypeEnum.SUPER_ADMIN.getType())) {
-            sysMenuListVo = this.baseMapper.getAllMenuList();
-        } else {
-            sysMenuListVo = this.baseMapper.getMenuList(sysUserId);
-        }
+        sysMenuListVo = this.baseMapper.getMenuList(sysUserId);
         if (CollectionUtil.isNotEmpty(sysMenuListVo)) {
             // 构建树
             SysMenuListVo root = TreeUtils.getRoot(SysMenuListVo.class);

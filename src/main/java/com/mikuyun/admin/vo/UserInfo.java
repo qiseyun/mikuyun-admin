@@ -37,7 +37,4 @@ public class UserInfo {
     @Schema(name = "邮箱")
     private String email;
 
-    @Schema(name = "管理员类型 (0:超级管理员 1:管理员 3:用户)")
-    private Integer userType;
-
 }

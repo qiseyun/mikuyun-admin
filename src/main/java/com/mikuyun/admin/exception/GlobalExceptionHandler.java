@@ -1,5 +1,6 @@
 package com.mikuyun.admin.exception;
 
+import cn.dev33.satoken.exception.SaTokenException;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,16 @@ public class GlobalExceptionHandler {
     // 全局异常拦截
     @ExceptionHandler
     public R<Void> handlerException(Exception e) {
-        log.error(e.getMessage(), e);
+        log.error("全局异常拦截: {}", e.getMessage(), e);
         if (e instanceof NoResourceFoundException) {
-            return R.error(ResultCode.NOT_FOUND.getCode(), ResultCode.NOT_FOUND.getMsg());
+            return R.error(ResultCode.NOT_FOUND);
         }
-        return R.error(ResultCode.SYSTEM_ERROR.getCode(), ResultCode.SYSTEM_ERROR.getMsg());
+        if (e instanceof SaTokenException) {
+            if (ResultCode.getTokenErrorCode().contains(((SaTokenException) e).getCode())) {
+                return R.error(((SaTokenException) e).getCode(), e.getMessage());
+            }
+        }
+        return R.error(ResultCode.SYSTEM_ERROR);
     }
 
 }
