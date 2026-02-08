@@ -3,6 +3,7 @@ package com.mikuyun.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mikuyun.admin.entity.SysRole;
+import com.mikuyun.admin.evt.sysrole.SysRoleEvt;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,6 +40,6 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      *
      * @return 角色信息列表
      */
-    List<QuerySysRoleListVo> queryRoleList();
+    List<QuerySysRoleListVo> queryRoleList(SysRoleEvt evt);
 
 }

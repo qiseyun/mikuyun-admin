@@ -10,6 +10,7 @@ import com.mikuyun.admin.service.ISysConfigService;
 import com.mikuyun.admin.vo.sysconfig.SysConfigListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class SysConfigController {
     @SaCheckRole("super_admin")
     @PostMapping(value = "/add")
     @Operation(summary = "新增系统参数配置")
-    public R<Void> addSysConfig(@RequestBody AddSysConfigEvt evt) {
+    public R<Void> addSysConfig(@RequestBody @Valid AddSysConfigEvt evt) {
         sysConfigService.addSysConfig(evt);
         return R.ok();
     }
@@ -48,7 +49,7 @@ public class SysConfigController {
     @SaCheckRole("super_admin")
     @PostMapping(value = "/update")
     @Operation(summary = "编辑系统参数配置")
-    public R<Void> updateSysConfig(@RequestBody UpdateSysConfigEvt evt) {
+    public R<Void> updateSysConfig(@RequestBody @Valid UpdateSysConfigEvt evt) {
         sysConfigService.updateSysConfig(evt);
         return R.ok();
     }
@@ -56,7 +57,7 @@ public class SysConfigController {
     @SaCheckRole("super_admin")
     @PostMapping(value = "/del")
     @Operation(summary = "删除系统参数配置")
-    public R<Void> delSysConfig(@RequestBody IdEvt evt) {
+    public R<Void> delSysConfig(@RequestBody @Valid IdEvt evt) {
         sysConfigService.delSysConfig(evt);
         return R.ok();
     }

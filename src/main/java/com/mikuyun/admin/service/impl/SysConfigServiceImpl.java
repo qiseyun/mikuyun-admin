@@ -1,6 +1,8 @@
 package com.mikuyun.admin.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.SysConfig;
 import com.mikuyun.admin.evt.IdEvt;
@@ -10,9 +12,11 @@ import com.mikuyun.admin.evt.sysconfig.UpdateSysConfigEvt;
 import com.mikuyun.admin.mapper.SysConfigMapper;
 import com.mikuyun.admin.service.ISysConfigService;
 import com.mikuyun.admin.vo.sysconfig.SysConfigListVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,6 +27,7 @@ import java.util.List;
  * @author mikuyun
  * @since 2026-02-08 17:07
  */
+@Slf4j
 @Service
 public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements ISysConfigService {
 
@@ -68,9 +73,14 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         if (exists) {
             throw new RuntimeException("参数键已存在");
         }
-        SysConfig sysConfig = new SysConfig();
+        SysConfig sysConfig = this.getById(evt.getId());
+        String beforeData = JSON.toJSONString(sysConfig);
         BeanUtils.copyProperties(evt, sysConfig);
+        sysConfig.setUpdateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
+        sysConfig.setGmtModified(LocalDateTime.now());
         this.updateById(sysConfig);
+        String afterData = JSON.toJSONString(sysConfig);
+        log.info("\n系统配置更新: \n beforeData: {} \n afterData:{}", beforeData, afterData);
     }
 
     @Override

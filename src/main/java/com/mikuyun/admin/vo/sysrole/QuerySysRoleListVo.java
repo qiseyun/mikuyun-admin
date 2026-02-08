@@ -1,6 +1,9 @@
 package com.mikuyun.admin.vo.sysrole;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * @author qiseyun
@@ -27,5 +30,11 @@ public class QuerySysRoleListVo {
      * 角色描述
      */
     private String roleDesc;
+
+    /**
+     * 角色描述
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime gmtCreated;
 
 }

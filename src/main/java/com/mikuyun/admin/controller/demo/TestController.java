@@ -1,4 +1,4 @@
-package com.mikuyun.admin.controller;
+package com.mikuyun.admin.controller.demo;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.mikuyun.admin.common.R;

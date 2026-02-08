@@ -107,7 +107,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String beforeData = JSON.toJSONString(sysUser);
         BeanUtil.copyProperties(evt, sysUser);
         String afterData = JSON.toJSONString(sysUser);
-        log.info("修改后台用户信息: \nbefore:{} \nafter:{}", beforeData, afterData);
+        log.info("\n修改后台用户信息: \n before:{} \n after:{}", beforeData, afterData);
         this.updateById(sysUser);
     }
 

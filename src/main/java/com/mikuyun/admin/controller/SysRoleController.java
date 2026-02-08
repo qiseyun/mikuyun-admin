@@ -3,17 +3,17 @@ package com.mikuyun.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
+import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysrole.AddSysRoleListEvt;
+import com.mikuyun.admin.evt.sysrole.SysRoleEvt;
+import com.mikuyun.admin.evt.sysrole.UpdateSysRoleEvt;
 import com.mikuyun.admin.service.SysRoleService;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,25 +33,33 @@ public class SysRoleController {
 
     private final SysRoleService sysRoleService;
 
-    /**
-     * 系统角色列表查询
-     *
-     * @return List<QuerySysRoleListVo>
-     */
-    @PostMapping(value = "/getRoleList")
+    @GetMapping(value = "/getRoleList")
     @Operation(summary = "获取系统角色列表")
-    public R<List<QuerySysRoleListVo>> getRoleList() {
-        return R.ok(sysRoleService.queryRoleList());
+    public R<List<QuerySysRoleListVo>> getRoleList(SysRoleEvt evt) {
+        return R.ok(sysRoleService.queryRoleList(evt));
     }
 
-    /**
-     * 新增菜单或按钮
-     */
-    @SaCheckRole(value = "admin")
-    @PostMapping(value = "/addSysRole")
+    @SaCheckRole(value = "super_admin")
+    @PostMapping(value = "/add")
     @Operation(summary = "新增角色")
     public R<Void> addSysRole(@RequestBody @Valid AddSysRoleListEvt evt) {
         sysRoleService.addSysRole(evt);
+        return R.ok();
+    }
+
+    @SaCheckRole(value = "super_admin")
+    @PostMapping(value = "/update")
+    @Operation(summary = "修改角色")
+    public R<Void> updateSysRole(@RequestBody @Valid UpdateSysRoleEvt evt) {
+        sysRoleService.updateSysRole(evt);
+        return R.ok();
+    }
+
+    @SaCheckRole(value = "super_admin")
+    @PostMapping(value = "/del")
+    @Operation(summary = "删除角色")
+    public R<Void> delSysRole(@RequestBody @Valid IdEvt evt) {
+        sysRoleService.delSysRole(evt);
         return R.ok();
     }
 

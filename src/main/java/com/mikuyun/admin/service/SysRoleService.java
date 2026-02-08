@@ -3,7 +3,10 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysRole;
+import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysrole.AddSysRoleListEvt;
+import com.mikuyun.admin.evt.sysrole.SysRoleEvt;
+import com.mikuyun.admin.evt.sysrole.UpdateSysRoleEvt;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 
 import java.util.List;
@@ -39,13 +42,27 @@ public interface SysRoleService extends IService<SysRole> {
      *
      * @return List<QuerySysRoleListVo>
      */
-    List<QuerySysRoleListVo> queryRoleList();
+    List<QuerySysRoleListVo> queryRoleList(SysRoleEvt evt);
 
     /**
-     * 新增菜单或按钮
+     * 新增
      *
      * @param evt 新增参数
      */
     void addSysRole(AddSysRoleListEvt evt);
+
+    /**
+     * 编辑
+     *
+     * @param evt 编辑参数
+     */
+    void updateSysRole(UpdateSysRoleEvt evt);
+
+    /**
+     * 删除
+     *
+     * @param evt id
+     */
+    void delSysRole(IdEvt evt);
 
 }

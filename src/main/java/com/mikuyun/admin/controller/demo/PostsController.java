@@ -1,4 +1,4 @@
-package com.mikuyun.admin.controller;
+package com.mikuyun.admin.controller.demo;
 
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.entity.document.PostDoc;
