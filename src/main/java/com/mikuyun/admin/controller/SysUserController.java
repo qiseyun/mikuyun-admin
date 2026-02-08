@@ -4,8 +4,10 @@ package com.mikuyun.admin.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
+import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.evt.user.AddUserEvt;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.service.UserService;
@@ -46,6 +48,22 @@ public class SysUserController {
     @Operation(summary = "新增后台用户")
     public R<Void> addUser(@RequestBody AddSysUserEvt evt) {
         sysUserService.addSysUser(evt);
+        return R.ok();
+    }
+
+    @SaCheckRole("super_admin")
+    @PostMapping(value = "/update")
+    @Operation(summary = "编辑后台用户")
+    public R<Void> updateSysUser(@RequestBody UpdateSysUserEvt evt) {
+        sysUserService.updateSysUser(evt);
+        return R.ok();
+    }
+
+    @SaCheckRole("super_admin")
+    @PostMapping(value = "/del")
+    @Operation(summary = "删除后台用户")
+    public R<Void> delSysUser(@RequestBody IdEvt evt) {
+        sysUserService.delSysUser(evt);
         return R.ok();
     }
 

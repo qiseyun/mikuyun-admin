@@ -3,14 +3,19 @@ package com.mikuyun.admin.service.impl;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.common.ResultCode;
+import com.mikuyun.admin.entity.BaseEntity;
 import com.mikuyun.admin.entity.SysUser;
+import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
@@ -24,6 +29,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -96,6 +102,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public void updateSysUser(UpdateSysUserEvt evt) {
+        SysUser sysUser = this.lambdaQuery().eq(SysUser::getId, evt.getId()).one();
+        String beforeData = JSON.toJSONString(sysUser);
+        BeanUtil.copyProperties(evt, sysUser);
+        String afterData = JSON.toJSONString(sysUser);
+        log.info("修改后台用户信息: \nbefore:{} \nafter:{}", beforeData, afterData);
+        this.updateById(sysUser);
+    }
+
+    @Override
+    public void delSysUser(IdEvt evt) {
+        this.lambdaUpdate()
+                .set(BaseEntity::getIsDelete, 1)
+                .set(BaseEntity::getUpdateBy, StpUtil.getLoginId())
+                .set(BaseEntity::getGmtModified, LocalDateTime.now())
+                .eq(SysUser::getId, evt.getId())
+                .update();
+    }
+
+    @Override
     public void logOutBusiness() {
         clearCache();
         // 登出
@@ -123,7 +149,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserInfo.setRealName(sysUser.getRealName());
         sysUserInfo.setHeadPortrait(sysUser.getAvatar());
         sysUserInfo.setEmail(sysUser.getEmail());
-        sysUserInfo.setPermissions(StpUtil.getPermissionList(sysUser.getId()));
+//        sysUserInfo.setPermissions(StpUtil.getPermissionList(sysUser.getId()));
         return sysUserInfo;
     }
 

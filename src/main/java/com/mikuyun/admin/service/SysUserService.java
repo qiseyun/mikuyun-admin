@@ -3,9 +3,11 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysUser;
+import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
 import com.mikuyun.admin.vo.sys_user.SysUserListVo;
@@ -52,6 +54,20 @@ public interface SysUserService extends IService<SysUser> {
      * @param evt 新增参数
      */
     void addSysUser(AddSysUserEvt evt);
+
+    /**
+     * 新增管理员
+     *
+     * @param evt 新增参数
+     */
+    void updateSysUser(UpdateSysUserEvt evt);
+
+    /**
+     * 新增管理员
+     *
+     * @param evt 新增参数
+     */
+    void delSysUser(IdEvt evt);
 
     /**
      * 登出业务相关
