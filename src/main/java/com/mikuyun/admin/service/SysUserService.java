@@ -10,7 +10,7 @@ import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
 import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
-import com.mikuyun.admin.vo.sys_user.SysUserListVo;
+import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 
 import java.util.List;
 

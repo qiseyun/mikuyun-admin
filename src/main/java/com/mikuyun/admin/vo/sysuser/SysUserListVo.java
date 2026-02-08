@@ -1,4 +1,4 @@
-package com.mikuyun.admin.vo.sys_user;
+package com.mikuyun.admin.vo.sysuser;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

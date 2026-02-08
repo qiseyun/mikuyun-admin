@@ -11,7 +11,7 @@ import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.evt.user.AddUserEvt;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.service.UserService;
-import com.mikuyun.admin.vo.sys_user.SysUserListVo;
+import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

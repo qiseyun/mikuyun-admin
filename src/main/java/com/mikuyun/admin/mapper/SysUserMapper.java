@@ -4,7 +4,7 @@ package com.mikuyun.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mikuyun.admin.entity.SysUser;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
-import com.mikuyun.admin.vo.sys_user.SysUserListVo;
+import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 
 import java.util.List;
 

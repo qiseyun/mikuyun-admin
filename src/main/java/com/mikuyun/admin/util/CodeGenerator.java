@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("mikuyun", "mk_posts");
+        codeAutoGenerator("mikuyun", "mk_sys_config");
     }
 
     /**
@@ -86,7 +86,7 @@ public class CodeGenerator {
         @Override
         public IColumnType processTypeConvert(@NonNull GlobalConfig config, @NonNull String fieldType) {
             IColumnType columnType = super.processTypeConvert(config, fieldType);
-            if (Pattern.matches("^(tinyint|bit).*", fieldType) && DbColumnType.BOOLEAN.getType().equals(columnType.getType())) {
+            if (Pattern.matches("^(tinyint|integer).*", fieldType) && DbColumnType.BOOLEAN.getType().equals(columnType.getType())) {
                 return DbColumnType.INTEGER;
             }
             return columnType;

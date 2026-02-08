@@ -22,7 +22,7 @@ import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
-import com.mikuyun.admin.vo.sys_user.SysUserListVo;
+import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
