@@ -16,16 +16,18 @@
 
     <select id="queryMenuList" resultType="com.mikuyun.admin.vo.sysmenu.SysMenuListVo">
         SELECT `id`,
-               `name`,
-               `permission`,
-               `parent_id` AS pid
+        `name`,
+        `permission`,
+        `keep_alive`,
+        `type`,
+        `parent_id` AS pid
         FROM `mk_sys_menu`
         WHERE `is_delete` = 0
-          <if test="parentId != null">
-              AND `parent_id` = #{parentId}
-          </if>
-          AND `keep_alive` = 0
-          AND `type` IN (-1, 0, 1)
+        <if test="parentId != null and parentId != 0">
+            AND `parent_id` = #{parentId}
+        </if>
+        AND `keep_alive` = 0
+        AND `type` IN (-1, 0, 1)
     </select>
 
     <select id="getMenuList" resultType="com.mikuyun.admin.vo.sysmenu.SysMenuListVo">

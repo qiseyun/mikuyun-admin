@@ -28,6 +28,21 @@ public class SysMenuListVo implements TreeModel<SysMenuListVo> {
      */
     private String name;
 
+    /**
+     * permission
+     */
+    private String permission;
+
+    /**
+     * 0-开启，1-关闭
+     */
+    private String keepAlive;
+
+    /**
+     * 菜单类型 （0:页面 1:组件 2:接口）
+     */
+    private Integer type;
+
     private List<SysMenuListVo> children;
 
     @Override
