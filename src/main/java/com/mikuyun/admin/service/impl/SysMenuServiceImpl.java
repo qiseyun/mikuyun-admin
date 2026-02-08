@@ -16,7 +16,7 @@ import com.mikuyun.admin.service.SysMenuService;
 import com.mikuyun.admin.service.SysRoleService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.TreeUtils;
-import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -78,7 +78,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuListVo> getMenuTree() {
         Integer sysUserId = Integer.parseInt(StpUtil.getLoginId().toString());
-        UserInfo sysUserInfo = sysUserService.getSysUserInfo(sysUserId);
+        SysUserInfo sysUserInfo = sysUserService.getSysUserInfo(sysUserId);
         // 先从redis取
         String key = Constant.CacheConstants.MENU_TREE + sysUserId;
         if (stringRedisTemplate.hasKey(key)) {

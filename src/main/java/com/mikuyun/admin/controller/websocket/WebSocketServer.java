@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.mikuyun.admin.exception.BizException;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.socket.WebSocketManager;
-import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.vo.SysUserInfo;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
@@ -35,7 +35,7 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam(value = "satoken") String satoken) {
         this.session = session;
         log.info("与satoken：{}建立连接", satoken);
-        UserInfo sysUserInfo = sysUserService.getSysUserInfo(Integer.parseInt(StpUtil.getLoginId().toString()));
+        SysUserInfo sysUserInfo = sysUserService.getSysUserInfo(Integer.parseInt(StpUtil.getLoginId().toString()));
         if (ObjectUtil.isEmpty(sysUserInfo)) {
             throw new BizException("管理员不存在");
         }
@@ -48,7 +48,7 @@ public class WebSocketServer {
     @OnClose
     public void onClose(@PathParam(value = "satoken") String satoken) {
         WebSocketManager.removeWebSocketServer(this, satoken);
-        UserInfo sysUserInfo = sysUserService.getSysUserInfo(Integer.parseInt(StpUtil.getLoginId().toString()));
+        SysUserInfo sysUserInfo = sysUserService.getSysUserInfo(Integer.parseInt(StpUtil.getLoginId().toString()));
         WebSocketManager.sentToAllUser("管理员" + sysUserInfo.getRealName() + "已下线");
         log.info("satoken:{}的WebSocket连接关闭", satoken);
         log.info("WebSocket剩余连接用户数:{}", WebSocketManager.getSatokenSet().size());

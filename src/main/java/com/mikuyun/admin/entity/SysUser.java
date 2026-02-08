@@ -52,13 +52,10 @@ public class SysUser extends BaseEntity {
     @Schema(name = "部门ID(0:未分配)")
     private Integer deptId;
 
-    @Schema(name = "0-正常，9-锁定")
+    @Schema(name = "0-正常，1-锁定")
     private Integer lockFlag;
 
     @Schema(name = "邮箱")
     private String email;
-
-    @Schema(name = "用户类型(0平台用户 1平台管理员 2超级管理员)")
-    private Integer userType;
 
 }

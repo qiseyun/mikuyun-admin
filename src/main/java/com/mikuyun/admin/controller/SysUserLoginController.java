@@ -6,7 +6,7 @@ import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.service.SysMenuService;
 import com.mikuyun.admin.service.SysUserService;
-import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,7 +50,7 @@ public class SysUserLoginController {
      */
     @GetMapping(value = "/getInfo")
     @Operation(summary = "查询登录用户信息")
-    public R<UserInfo> getInfo() {
+    public R<SysUserInfo> getInfo() {
         return R.ok(sysUserService.getSysUserInfo(StpUtil.getLoginId()));
     }
 

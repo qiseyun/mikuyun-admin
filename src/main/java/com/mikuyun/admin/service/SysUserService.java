@@ -5,8 +5,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysUser;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
-import com.mikuyun.admin.vo.UserInfo;
+import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
+import com.mikuyun.admin.vo.sys_user.SysUserListVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -32,7 +36,15 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUserId 用户id
      * @return 管理员信息
      */
-    UserInfo getSysUserInfo(Object sysUserId);
+    SysUserInfo getSysUserInfo(Object sysUserId);
+
+    /**
+     * 管理员列表
+     *
+     * @param evt 查询参数
+     * @return List<SysUserListVo>
+     */
+    List<SysUserListVo> getSysUserList(SysUserListEvt evt);
 
     /**
      * 新增管理员

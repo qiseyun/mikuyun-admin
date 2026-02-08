@@ -15,12 +15,18 @@ public class BasePageEvt {
     /**
      * 当前页
      */
-    private long current;
+    private long current = 1;
 
     /**
      * 每页大小
      */
-    private long size;
+    private long size = 10;
+
+    /**
+     * 偏移量
+     */
+    private long offset;
+
 
     /**
      * 获取一个分页对象关闭count
@@ -34,6 +40,10 @@ public class BasePageEvt {
      */
     public Page<T> generatePageCountTrue() {
         return new Page<>(current, size, true);
+    }
+
+    public void initPageParams() {
+        this.offset = (this.current - 1) * this.size;
     }
 
 }

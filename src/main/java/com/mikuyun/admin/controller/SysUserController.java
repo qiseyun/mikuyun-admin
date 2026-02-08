@@ -5,16 +5,17 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
+import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
 import com.mikuyun.admin.evt.user.AddUserEvt;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.service.UserService;
+import com.mikuyun.admin.vo.sys_user.SysUserListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -34,22 +35,22 @@ public class SysUserController {
 
     private final UserService userService;
 
-    /**
-     * 后台新增用户
-     */
+    @GetMapping(value = "/list")
+    @Operation(summary = "后台用户列表")
+    public R<List<SysUserListVo>> list(SysUserListEvt evt) {
+        return R.ok(sysUserService.getSysUserList(evt));
+    }
+
     @SaCheckRole("super_admin")
-    @PostMapping(value = "/addAdmin")
-    @Operation(summary = "新增管理员")
+    @PostMapping(value = "/add")
+    @Operation(summary = "新增后台用户")
     public R<Void> addUser(@RequestBody AddSysUserEvt evt) {
         sysUserService.addSysUser(evt);
         return R.ok();
     }
 
-    /**
-     * 后台新增用户
-     */
     @SaCheckPermission("add_user")
-    @PostMapping(value = "/addUser")
+    @PostMapping(value = "/addClientUser")
     @Operation(summary = "新增用户")
     public R<Void> addUser(@RequestBody AddUserEvt evt) {
         userService.add(evt);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mikuyun.admin.mapper.SysUserMapper">
+
+    <select id="getSysUsers" resultType="com.mikuyun.admin.vo.sys_user.SysUserListVo">
+        SELECT t1.id,
+        t1.username,
+        t1.real_name,
+        t1.phone,
+        t1.avatar,
+        t1.dept_id,
+        t1.lock_flag,
+        t1.email,
+        t1.gmt_created
+        FROM mk_sys_user AS t1
+        WHERE t1.is_delete = 0
+        <if test="phone != null and phone != ''">
+            AND t1.phone = #{phone}
+        </if>
+        ORDER BY t1.id DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
+</mapper>

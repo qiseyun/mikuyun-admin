@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * @author qiseyun
  * @version 1.0
@@ -17,7 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class SysUserInfo {
 
     @Schema(name = "id")
     private Integer id;
@@ -36,5 +38,10 @@ public class UserInfo {
 
     @Schema(name = "邮箱")
     private String email;
+
+    /**
+     * 权限列表
+     */
+    private List<String> permissions;
 
 }
