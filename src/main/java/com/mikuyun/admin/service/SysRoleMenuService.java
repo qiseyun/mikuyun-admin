@@ -3,7 +3,7 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysRoleMenu;
-import com.mikuyun.admin.evt.sysmenu.AddMenuToRoleEvt;
+import com.mikuyun.admin.evt.sysmenu.EditRPEvt;
 
 /**
  * <p>
@@ -20,6 +20,6 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      *
      * @param evt 参数
      */
-    void addMenuToRole(AddMenuToRoleEvt evt);
+    void editRolePermission(EditRPEvt evt);
 
 }

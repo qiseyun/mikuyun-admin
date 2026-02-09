@@ -3,7 +3,7 @@ package com.mikuyun.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.sysmenu.AddMenuToRoleEvt;
+import com.mikuyun.admin.evt.sysmenu.EditRPEvt;
 import com.mikuyun.admin.service.SysRoleMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,20 +24,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "角色菜单")
-@RequestMapping("/sysRoleMenu")
+@Tag(name = "角色权限关联")
+@RequestMapping("/sysRP")
 public class SysRoleMenuController {
 
     private final SysRoleMenuService sysRoleMenuService;
 
-    /**
-     * 给角色新增菜单
-     */
-    @SaCheckRole(value = {"admin", "super_admin"})
-    @PostMapping(value = "/addMenuToRole")
-    @Operation(summary = "给角色新增菜单")
-    public R<Void> addMenuToRole(@RequestBody @Valid AddMenuToRoleEvt evt) {
-        sysRoleMenuService.addMenuToRole(evt);
+    @SaCheckRole(value = {"super_admin"})
+    @PostMapping(value = "/edit")
+    @Operation(summary = "角色权限编辑")
+    public R<Void> addMenuToRole(@RequestBody @Valid EditRPEvt evt) {
+        sysRoleMenuService.editRolePermission(evt);
         return R.ok();
     }
 

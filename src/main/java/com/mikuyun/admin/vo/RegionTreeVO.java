@@ -29,7 +29,7 @@ public class RegionTreeVO implements TreeModel<RegionTreeVO> {
     private Long pid;
 
     @Schema(description = "邮编")
-    private Long zip;
+    private String zip;
 
     @Schema(description = "子")
     private List<RegionTreeVO> children;
@@ -41,7 +41,7 @@ public class RegionTreeVO implements TreeModel<RegionTreeVO> {
 
     @Override
     public Long getSort() {
-        return this.zip;
+        return this.id;
     }
 
 }
