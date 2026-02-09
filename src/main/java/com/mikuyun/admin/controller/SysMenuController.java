@@ -47,10 +47,10 @@ public class SysMenuController {
         return R.ok();
     }
 
-    @PostMapping(value = "/myTree")
-    @Operation(summary = "登录用户的权限树查询")
-    public R<List<SysMenuListVo>> getMenuTree() {
-        return R.ok(sysMenuService.getMenuTree());
+    @GetMapping(value = "/rolePermissions")
+    @Operation(summary = "获取角色权限id列表")
+    public R<List<Integer>> getRolePermissions(Integer roleId) {
+        return R.ok(sysMenuService.getRolePermissions(roleId));
     }
 
 }

@@ -4,9 +4,7 @@ package com.mikuyun.admin.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.entity.SysRole;
 import com.mikuyun.admin.evt.IdEvt;
@@ -16,7 +14,6 @@ import com.mikuyun.admin.service.SysMenuService;
 import com.mikuyun.admin.service.SysRoleService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.TreeUtils;
-import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -76,27 +73,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public List<SysMenuListVo> getMenuTree() {
-        Integer sysUserId = Integer.parseInt(StpUtil.getLoginId().toString());
-        SysUserInfo sysUserInfo = sysUserService.getSysUserInfo(sysUserId);
-        // 先从redis取
-        String key = Constant.CacheConstants.MENU_TREE + sysUserId;
-        if (stringRedisTemplate.hasKey(key)) {
-            return JSON.parseArray(stringRedisTemplate.opsForValue().get(key), SysMenuListVo.class);
-        }
-        // 查询权限
-        List<SysMenuListVo> sysMenuListVo;
-        sysMenuListVo = this.baseMapper.getMenuList(sysUserId);
-        if (CollectionUtil.isNotEmpty(sysMenuListVo)) {
-            // 构建树
-            SysMenuListVo root = TreeUtils.getRoot(SysMenuListVo.class);
-            List<SysMenuListVo> tree = TreeUtils.buildTree(sysMenuListVo, root);
-            sysMenuListVo = tree.getFirst().getChildren();
-            // 存redis
-            String jsonString = JSON.toJSONString(sysMenuListVo);
-            stringRedisTemplate.opsForValue().set(key, jsonString);
-        }
-        return sysMenuListVo;
+    public List<Integer> getRolePermissions(Integer roleId) {
+        // 查询权限列表
+        return this.baseMapper.getRoleMenuIds(roleId);
     }
 
 }

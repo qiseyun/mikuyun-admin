@@ -47,6 +47,6 @@ public interface SysMenuService extends IService<SysMenu> {
      *
      * @return 菜单树
      */
-    List<SysMenuListVo> getMenuTree();
+    List<Integer> getRolePermissions(Integer roleId);
 
 }

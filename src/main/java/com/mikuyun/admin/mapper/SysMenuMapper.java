@@ -49,7 +49,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      *
      * @return 菜单树
      */
-    @Select("SELECT `id`, `name`, `parent_id` AS pid FROM `mk_sys_menu` WHERE `is_delete` = 0 And `keep_alive` = 0 AND `type` IN (-1, 0, 1)")
-    List<SysMenuListVo> getAllMenuList();
+    @Select("SELECT `menu_id` FROM `mk_sys_role_menu` WHERE role_id = #{roleId}")
+    List<Integer> getRoleMenuIds(@Param("roleId") Integer roleId);
 
 }
