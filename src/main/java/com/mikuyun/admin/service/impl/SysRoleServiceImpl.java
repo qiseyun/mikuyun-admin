@@ -44,6 +44,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public List<QuerySysRoleListVo> queryRoleList(SysRoleEvt evt) {
+        evt.initPageParamsNoRestrictions();
         return baseMapper.queryRoleList(evt);
     }
 

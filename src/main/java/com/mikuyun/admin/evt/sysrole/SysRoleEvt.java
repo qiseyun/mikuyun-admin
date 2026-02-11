@@ -1,5 +1,6 @@
 package com.mikuyun.admin.evt.sysrole;
 
+import com.mikuyun.admin.evt.BasePageEvt;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @date 2026/2/8 20:51
  */
 @Data
-public class SysRoleEvt {
+public class SysRoleEvt extends BasePageEvt {
 
     /**
      * 角色名称

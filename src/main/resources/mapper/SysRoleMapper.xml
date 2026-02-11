@@ -37,6 +37,7 @@
             AND `role_code` = #{roleCode}
         </if>
         ORDER BY `id` DESC
+        LIMIT #{offset}, #{size}
     </select>
 
 </mapper>

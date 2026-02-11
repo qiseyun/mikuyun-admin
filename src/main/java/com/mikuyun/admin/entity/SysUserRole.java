@@ -2,8 +2,10 @@ package com.mikuyun.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -15,6 +17,8 @@ import lombok.experimental.Accessors;
  * @since 2023-05-01
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("mk_sys_user_role")

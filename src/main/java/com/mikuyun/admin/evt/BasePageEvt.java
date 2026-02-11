@@ -43,6 +43,11 @@ public class BasePageEvt {
     }
 
     public void initPageParams() {
+        if (this.size > 100) this.size = 10;
+        this.offset = (this.current - 1) * this.size;
+    }
+
+    public void initPageParamsNoRestrictions() {
         this.offset = (this.current - 1) * this.size;
     }
 
