@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Set;
@@ -49,7 +48,6 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      *
      * @return 菜单树
      */
-    @Select("SELECT `menu_id` FROM `mk_sys_role_menu` WHERE role_id = #{roleId}")
     List<Integer> getRoleMenuIds(@Param("roleId") Integer roleId);
 
 }

@@ -47,9 +47,9 @@ public class SysMenuController {
         return R.ok();
     }
 
-    @GetMapping(value = "/rolePermissions")
+    @GetMapping(value = "/rolePermissions/{roleId}")
     @Operation(summary = "获取角色权限id列表")
-    public R<List<Integer>> getRolePermissions(Integer roleId) {
+    public R<List<Integer>> getRolePermissions(@PathVariable Integer roleId) {
         return R.ok(sysMenuService.getRolePermissions(roleId));
     }
 
