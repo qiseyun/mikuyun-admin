@@ -7,6 +7,7 @@ import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.evt.sysuser.UpdateMyInfoEvt;
 import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.sysuser.SysUserListVo;
@@ -61,6 +62,13 @@ public class SysUserController {
     @Operation(summary = "删除后台用户")
     public R<Void> delSysUser(@RequestBody @Valid IdEvt evt) {
         sysUserService.delSysUser(evt);
+        return R.ok();
+    }
+
+    @PostMapping(value = "/updateMy")
+    @Operation(summary = "编辑个人信息")
+    public R<Void> updateSysUser(@RequestBody @Valid UpdateMyInfoEvt evt) {
+        sysUserService.updateMyInfo(evt);
         return R.ok();
     }
 

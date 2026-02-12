@@ -5,6 +5,7 @@ import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.Constant;
@@ -15,6 +16,7 @@ import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.evt.sysuser.UpdateMyInfoEvt;
 import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
@@ -133,6 +135,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         clearCache();
         // 登出
         StpUtil.logout(adminId);
+    }
+
+    @Override
+    public void updateMyInfo(UpdateMyInfoEvt evt) {
+        Integer loginId = Integer.valueOf((String) StpUtil.getLoginId());
+        if (!evt.getId().equals(loginId)) {
+            throw new ServiceException(ResultCode.UPDATE_FAILED);
+        }
+        SysUser sysUser = this.getById(loginId);
+        String beforeData = JSON.toJSONString(sysUser);
+        // 对称加密
+        BeanUtil.copyProperties(evt, sysUser, "id", "password");
+        if (StrUtil.isNotBlank(evt.getPassword())) {
+            String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), evt.getPassword());
+            sysUser.setPassword(pwd);
+        }
+        sysUser.setAvatar(evt.getHeadPortrait());
+        String afterData = JSON.toJSONString(sysUser);
+        log.info("个人信息修改: userId: {} \n beforeData:{} \n afterData:{}", loginId, beforeData, afterData);
+        this.updateById(sysUser);
+        this.logOutBusiness();
     }
 
     /**

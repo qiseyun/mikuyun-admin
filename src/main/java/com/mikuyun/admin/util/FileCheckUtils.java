@@ -2,14 +2,13 @@ package com.mikuyun.admin.util;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import com.mikuyun.admin.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -42,7 +41,8 @@ public class FileCheckUtils {
      * @return {@link String}
      */
     public static String generateCommonFilePath(String originalFilename, String type) {
-        return type + "/" + LocalDate.now() + "/" + IdUtil.simpleUUID().substring(0, 8) + "_" + originalFilename;
+        String originalFilenameUrlEncode = URLUtil.encode(originalFilename, StandardCharsets.UTF_8);
+        return type + "/" + LocalDate.now() + "/" + IdUtil.simpleUUID().substring(0, 8) + "_" + originalFilenameUrlEncode;
     }
 
     /**

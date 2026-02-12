@@ -7,6 +7,7 @@ import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.LoginEvt;
 import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
 import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.evt.sysuser.UpdateMyInfoEvt;
 import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
@@ -80,5 +81,12 @@ public interface SysUserService extends IService<SysUser> {
      * @param adminId 用户id
      */
     void logOutBusiness(Integer adminId);
+
+    /**
+     * 修改我的信息
+     *
+     * @param evt 我的信息
+     */
+    void updateMyInfo(UpdateMyInfoEvt evt);
 
 }
