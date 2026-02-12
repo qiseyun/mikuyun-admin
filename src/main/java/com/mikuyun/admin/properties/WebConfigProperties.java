@@ -2,7 +2,6 @@ package com.mikuyun.admin.properties;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,10 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebConfigProperties {
 
-    @Value("${qiseyun.salt}")
+    @Value("${mikuyun.salt.admin}")
     private String salt;
 
-    @Value("${qiseyun.userSalt}")
+    @Value("${mikuyun.salt..user}")
     private String userSalt;
 
     /**

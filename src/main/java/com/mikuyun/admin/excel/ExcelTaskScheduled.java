@@ -34,10 +34,10 @@ public class ExcelTaskScheduled implements InitializingBean {
 
     private final IExcelTaskService excelTaskService;
 
-    @Value("${excelTask.normalRate:5}")
+    @Value("${mikuyun.excelTask.normalRate:5}")
     private Integer normalRate;
 
-    @Value("${excelTask.slowRate:1}")
+    @Value("${mikuyun.excelTask.slowRate:1}")
     private Integer slowRate;
 
     /**
