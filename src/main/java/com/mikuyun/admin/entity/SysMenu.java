@@ -1,6 +1,7 @@
 package com.mikuyun.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,9 +34,6 @@ public class SysMenu extends BaseEntity {
     @Schema(name = "菜单权限标识")
     private String permission;
 
-    @Schema(name = "前端URL")
-    private String path;
-
     @Schema(name = "父菜单ID")
     private Integer parentId;
 
@@ -46,6 +44,7 @@ public class SysMenu extends BaseEntity {
     private Integer type;
 
     @Schema(name = "描述")
+    @TableField(value = "`describe`")
     private String describe;
 
 }

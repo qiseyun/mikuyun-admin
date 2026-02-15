@@ -33,7 +33,6 @@ public class AddOrEditMenuOrButtonEvt {
      * 父菜单ID
      */
     @Schema(name = "父菜单ID(是父菜单就填0)")
-    @NotNull
     private Integer parentId;
 
     @Schema(name = "0-开启，1- 关闭")
@@ -41,7 +40,6 @@ public class AddOrEditMenuOrButtonEvt {
     private Integer keepAlive;
 
     @Schema(name = "菜单类型 （-1根节点 0菜单 1按钮）")
-    @NotNull
     private Integer type;
 
     @Schema(name = "描述")

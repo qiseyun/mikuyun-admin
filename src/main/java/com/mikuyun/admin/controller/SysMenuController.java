@@ -49,7 +49,7 @@ public class SysMenuController {
 
     @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
     @PostMapping(value = "/update")
-    @Operation(summary = "新增权限")
+    @Operation(summary = "编辑权限")
     public R<Void> update(@RequestBody @Valid AddOrEditMenuOrButtonEvt evt) {
         sysMenuService.updateMenu(evt);
         return R.ok();
