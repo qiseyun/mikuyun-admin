@@ -5,7 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysmenu.AddMenuOrButtonEvt;
+import com.mikuyun.admin.evt.sysmenu.AddOrEditMenuOrButtonEvt;
 import com.mikuyun.admin.service.SysMenuService;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,16 +34,32 @@ public class SysMenuController {
 
     @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
     @GetMapping(value = "/tree")
-    @Operation(summary = "获取系统权限树", description = "0除接口外的所有权限; 获取下级就传id")
+    @Operation(summary = "获取系统权限树", description = "-1,除接口外的所有权限; 获取下级就传id,0就是根节点")
     public R<List<SysMenuListVo>> getSysMenuTree(IdEvt evt) {
         return R.ok(sysMenuService.queryMenuList(evt));
     }
 
     @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
-    @PostMapping(value = "/addMenuOrButton")
-    @Operation(summary = "新增菜单或按钮")
-    public R<Void> addMenuOrButton(@RequestBody @Valid AddMenuOrButtonEvt evt) {
-        sysMenuService.addMenuOrButton(evt);
+    @PostMapping(value = "/add")
+    @Operation(summary = "新增权限")
+    public R<Void> add(@RequestBody @Valid AddOrEditMenuOrButtonEvt evt) {
+        sysMenuService.addMenu(evt);
+        return R.ok();
+    }
+
+    @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
+    @PostMapping(value = "/update")
+    @Operation(summary = "新增权限")
+    public R<Void> update(@RequestBody @Valid AddOrEditMenuOrButtonEvt evt) {
+        sysMenuService.updateMenu(evt);
+        return R.ok();
+    }
+
+    @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
+    @PostMapping(value = "/del")
+    @Operation(summary = "删除权限")
+    public R<Void> delete(@RequestBody @Valid IdEvt evt) {
+        sysMenuService.delete(evt);
         return R.ok();
     }
 

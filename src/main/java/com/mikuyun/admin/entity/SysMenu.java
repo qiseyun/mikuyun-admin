@@ -45,4 +45,7 @@ public class SysMenu extends BaseEntity {
     @Schema(name = "菜单类型 （0菜单 1按钮）")
     private Integer type;
 
+    @Schema(name = "描述")
+    private String describe;
+
 }

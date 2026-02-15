@@ -23,7 +23,7 @@
         `parent_id` AS pid
         FROM `mk_sys_menu`
         WHERE `is_delete` = 0
-        <if test="parentId != null and parentId != 0">
+        <if test="parentId != null and parentId != -1">
             AND `parent_id` = #{parentId}
         </if>
         AND `keep_alive` = 0

@@ -11,7 +11,9 @@ import lombok.Data;
  * @date 2023年5月1日/0001 17点06分
  */
 @Data
-public class AddMenuOrButtonEvt {
+public class AddOrEditMenuOrButtonEvt {
+
+    private Integer id;
 
     /**
      * 菜单名称
@@ -34,35 +36,15 @@ public class AddMenuOrButtonEvt {
     @NotNull
     private Integer parentId;
 
-    /**
-     * 前端URL
-     */
-    @Schema(name = "前端URL")
-    @NotBlank
-    private String path;
-
-    /**
-     * 父菜单ID
-     */
-    @Schema(name = "图标")
-    private String icon;
-
-    /**
-     * vue页面
-     */
-    @Schema(name = "vue页面")
-    @NotBlank
-    private String component;
-
-    @Schema(name = "排序值")
-    private Integer sort;
-
     @Schema(name = "0-开启，1- 关闭")
     @NotNull
     private Integer keepAlive;
 
-    @Schema(name = "菜单类型 （0菜单 1按钮）")
+    @Schema(name = "菜单类型 （-1根节点 0菜单 1按钮）")
     @NotNull
     private Integer type;
+
+    @Schema(name = "描述")
+    private String describe;
 
 }

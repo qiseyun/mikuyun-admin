@@ -36,7 +36,7 @@ public class ExcelTaskController {
     }
 
     @SaIgnore
-    @Operation(summary = "获取下载链接")
+    @Operation(summary = "获取七牛云私有文件下载链接")
     @PostMapping(value = "/getDownloadUrl")
     public R<String> getDownloadUrl(@RequestBody IdEvt evt) {
         return R.ok(excelTaskService.getDownloadUrl(evt));

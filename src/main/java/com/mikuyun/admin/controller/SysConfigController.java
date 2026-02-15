@@ -56,7 +56,7 @@ public class SysConfigController {
 
     @SaCheckRole("super_admin")
     @PostMapping(value = "/del")
-    @Operation(summary = "删除系统参数配置")
+    @Operation(summary = "删除系统配置")
     public R<Void> delSysConfig(@RequestBody @Valid IdEvt evt) {
         sysConfigService.delSysConfig(evt);
         return R.ok();

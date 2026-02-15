@@ -4,7 +4,7 @@ package com.mikuyun.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysMenu;
 import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysmenu.AddMenuOrButtonEvt;
+import com.mikuyun.admin.evt.sysmenu.AddOrEditMenuOrButtonEvt;
 import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
 
 import java.util.List;
@@ -40,7 +40,21 @@ public interface SysMenuService extends IService<SysMenu> {
      *
      * @param evt 新增参数
      */
-    void addMenuOrButton(AddMenuOrButtonEvt evt);
+    void addMenu(AddOrEditMenuOrButtonEvt evt);
+
+    /**
+     * 新增菜单或按钮
+     *
+     * @param evt 新增参数
+     */
+    void updateMenu(AddOrEditMenuOrButtonEvt evt);
+
+    /**
+     * 新增菜单或按钮
+     *
+     * @param evt 新增参数
+     */
+    void delete(IdEvt evt);
 
     /**
      * 管理员菜单树
