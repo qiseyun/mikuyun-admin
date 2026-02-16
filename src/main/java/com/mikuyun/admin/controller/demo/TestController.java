@@ -3,6 +3,7 @@ package com.mikuyun.admin.controller.demo;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.support.LockTemplateSupport;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class TestController {
 
     @SaIgnore
     @PostMapping(value = "lock")
+    @Operation(summary = "redis锁模板")
     public R<Void> testLock() {
         lockTemplateSupport.rLock("lock_test", 1L, TimeUnit.MINUTES, () -> {
             try {

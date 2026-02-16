@@ -4,11 +4,13 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.SysConfig;
 import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.evt.sysconfig.AddSysConfigEvt;
 import com.mikuyun.admin.evt.sysconfig.SysConfigListEvt;
 import com.mikuyun.admin.evt.sysconfig.UpdateSysConfigEvt;
+import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysConfigMapper;
 import com.mikuyun.admin.service.ISysConfigService;
 import com.mikuyun.admin.vo.sysconfig.SysConfigListVo;
@@ -71,9 +73,12 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
                 .eq(SysConfig::getIsDelete, 0)
                 .exists();
         if (exists) {
-            throw new RuntimeException("参数键已存在");
+            throw new ServiceException("参数键已存在");
         }
         SysConfig sysConfig = this.getById(evt.getId());
+        if (sysConfig.getIsLock().equals(1)) {
+            throw new ServiceException(ResultCode.DATA_IS_LOCK);
+        }
         String beforeData = JSON.toJSONString(sysConfig);
         BeanUtils.copyProperties(evt, sysConfig);
         sysConfig.setUpdateBy(Integer.parseInt(StpUtil.getLoginId().toString()));

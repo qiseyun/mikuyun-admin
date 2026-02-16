@@ -152,6 +152,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             sysUser.setPassword(pwd);
         }
         sysUser.setAvatar(evt.getHeadPortrait());
+        sysUser.setSalt(webConfigProperties.getSalt());
         String afterData = JSON.toJSONString(sysUser);
         log.info("个人信息修改: userId: {} \n beforeData:{} \n afterData:{}", loginId, beforeData, afterData);
         this.updateById(sysUser);
@@ -196,9 +197,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 删除缓存
      */
     private void clearCache() {
-        // 删除菜单缓存
-        String menuKey = Constant.CacheConstants.MENU_TREE + StpUtil.getLoginId();
-        stringRedisTemplate.delete(menuKey);
+        // 删除登录相关缓存
+        log.info("推出登录清除相关缓存");
     }
 
 }

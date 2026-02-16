@@ -4,6 +4,7 @@ package com.mikuyun.admin.controller.demo;
 import com.mikuyun.admin.RocketMqBiz.SendTestMq;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdNameStrEvt;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ public class MqTestController {
     private final SendTestMq sendTestMq;
 
     @PostMapping("/send")
+    @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
     public R<String> sendMessage(@RequestBody IdNameStrEvt evt) {
         sendTestMq.sendTestMq(evt);
         return R.ok( "Message sent successfully!");

@@ -91,7 +91,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
                     .should(s -> s.match(m -> m.field("excerpt").query(keyword)))
                     .build()._toQuery();
         }
-        // 构建排序：1. 按相关性得分降序（让 boost 生效）; 2. 按 id 降序（用于打平和 search_after 稳定性）
+        // 构建排序：1. 按相关性得分降序; 2. 按 id 降序
         List<SortOptions> sortOptions = Arrays.asList(
                 new SortOptions.Builder()
                         .score(s -> s.order(SortOrder.Desc))
