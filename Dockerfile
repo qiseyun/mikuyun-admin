@@ -1,6 +1,6 @@
 FROM openjdk:21-jdk-slim
 
-MAINTAINER qiseyun
+MAINTAINER mikuyun
 
 ENV TZ=PRC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

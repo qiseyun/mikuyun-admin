@@ -81,4 +81,4 @@ fi
 log "部署成功！项目 $PROJECT_NAME 版本 $TAG 已运行。"
 log "镜像信息: $IMAGE_NAME"
 log "内网地址: http://$PROJECT_NAME:$APP_PORT"
-log "外部地址: https://mikuyun-api.mikuyun.online"
+log "外部地址: https://xxxxx.xxx"
