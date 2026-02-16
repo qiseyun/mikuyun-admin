@@ -1,8 +1,6 @@
--- 建库 库名mikuyun,可以换成自己想要的
-# create schema mikuyun collate utf8mb4_general_ci;
+# 自行创建数据库
 
--- auto-generated definition
-create table mk_captcha
+create table mikuyun.mk_captcha
 (
     id              int auto_increment comment 'id'
         primary key,
@@ -12,18 +10,35 @@ create table mk_captcha
     gmt_created     timestamp default CURRENT_TIMESTAMP not null comment '创建时间',
     expiration_time timestamp default CURRENT_TIMESTAMP not null comment '到期时间'
 )
-    comment '验证码表';
+    comment '验证码表' collate = utf8mb4_german2_ci;
 
 create index index_account
-    on mk_captcha (account);
+    on mikuyun.mk_captcha (account);
 
 create index index_type_account
-    on mk_captcha (captcha_type, account);
+    on mikuyun.mk_captcha (captcha_type, account);
 
+create table mikuyun.mk_excel_task
+(
+    id               int auto_increment comment '主键ID'
+        primary key,
+    param            text                                   null comment '导出表格查询参数，json格式',
+    file_name        varchar(255) default ''                null comment '文件名，为空时有默认',
+    operation_ip     varchar(45)  default ''                null comment '操作ip',
+    task_start_time  datetime                               null comment '任务开始时间',
+    task_finish_time datetime                               null comment '任务完成时间',
+    excel_type       int                                    null comment '0:示例excel导出',
+    download_url     text                                   null comment 'excel下载链接',
+    status           int          default 0                 null comment '完成状态,0未开始 1未完成 2已完成',
+    gmt_created      timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified     timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by        int          default 0                 not null comment '创建人id',
+    update_by        int          default 0                 not null comment '更新人id',
+    is_delete        tinyint      default 0                 not null comment '0：正常 1：删除'
+)
+    comment 'excel任务表' charset = utf8mb4;
 
-
-
-create table mk_mq_msg_record
+create table mikuyun.mk_mq_msg_record
 (
     id             int auto_increment
         primary key,
@@ -34,19 +49,41 @@ create table mk_mq_msg_record
     gmt_created    timestamp    default CURRENT_TIMESTAMP null comment '创建时间',
     gmt_modified   timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间'
 )
-    comment '消息队列消息记录';
+    comment '消息队列消息记录' collate = utf8mb4_german2_ci;
 
 create index index_gmt_created_consume_status
-    on mk_mq_msg_record (gmt_created, consume_status);
+    on mikuyun.mk_mq_msg_record (gmt_created, consume_status);
 
 create index index_msg_id
-    on mk_mq_msg_record (msg_id);
+    on mikuyun.mk_mq_msg_record (msg_id);
 
+create table mikuyun.mk_posts
+(
+    id           int unsigned auto_increment
+        primary key,
+    user_id      int unsigned                                                      not null comment '作者ID',
+    title        varchar(255)                                                      not null comment '文章标题',
+    cover        varchar(500)                                                      not null comment 'URL友好的文章别名',
+    excerpt      varchar(500)                                                      null comment '文章摘要',
+    content      longtext                                                          not null comment '文章内容（Markdown或HTML）',
+    status       enum ('draft', 'published', 'archived') default 'draft'           null comment '状态',
+    view_count   int unsigned                            default '0'               null comment '浏览次数',
+    published_at datetime                                                          null comment '发布时间',
+    gmt_created  timestamp                               default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified timestamp                               default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by    int                                     default 0                 not null comment '创建人id',
+    update_by    int                                     default 0                 not null comment '更新人id',
+    is_delete    tinyint                                 default 0                 not null comment '0：正常 1：删除'
+)
+    comment '文章表' collate = utf8mb4_german2_ci;
 
+create index idx_posts_status_published
+    on mikuyun.mk_posts (status, published_at);
 
+create index idx_posts_user_id
+    on mikuyun.mk_posts (user_id);
 
-
-create table mk_sys_config
+create table mikuyun.mk_sys_config
 (
     id           bigint auto_increment comment '参数配置ID'
         primary key,
@@ -63,18 +100,52 @@ create table mk_sys_config
     constraint config_key
         unique (config_key)
 )
-    comment '参数配置表';
+    comment '参数配置表' collate = utf8mb4_german2_ci;
 
+create table mikuyun.mk_sys_dict
+(
+    id               bigint                                 not null comment '字典ID(规则)'
+        primary key,
+    sys_dict_type_id bigint                                 not null comment '关联sys_dict_type ID',
+    enum_name        varchar(64)                            not null comment '字典枚举名称',
+    enum_code        varchar(64)                            not null comment '字典枚举值',
+    sort             int                                    not null comment '排序(正序)',
+    remark           varchar(255) default ''                not null comment '备注',
+    is_lock          tinyint(1)   default 0                 not null comment '是否锁定',
+    gmt_created      timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified     timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by        int          default 0                 not null comment '创建人id',
+    update_by        int          default 0                 not null comment '更新人id',
+    is_delete        tinyint      default 0                 not null comment '0：正常 1：删除'
+)
+    comment '字典表' collate = utf8mb4_german2_ci
+                     row_format = DYNAMIC;
 
+create table mikuyun.mk_sys_dict_type
+(
+    id           bigint auto_increment comment '字典类型ID'
+        primary key,
+    type_name    varchar(64)  default ''                not null comment '字典类型名(中文)',
+    type_code    varchar(64)                            not null comment '字典类型码(英文)',
+    is_lock      tinyint(1)   default 0                 null comment '是否锁定，锁定的属性无法在页面进行修改',
+    remark       varchar(255) default ''                null comment '描述',
+    gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by    int          default 0                 not null comment '创建人id',
+    update_by    int          default 0                 not null comment '更新人id',
+    is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
+)
+    comment '字典类型' collate = utf8mb4_german2_ci
+                       row_format = DYNAMIC;
 
-
-create table mk_sys_file
+create table mikuyun.mk_sys_file
 (
     id             int auto_increment comment 'id'
         primary key,
+    channel        varchar(32)  default ''                not null comment '存储渠道: minio, qiniu',
     original_name  varchar(500)                           not null comment '原始名称',
     type           varchar(32)  default ''                not null comment '文件类型',
-    md5            varchar(32)                            not null comment '文件MD5',
+    md5            varchar(500)                           not null comment '文件MD5',
     file_ext       varchar(16)  default ''                not null comment '文件格式',
     url            varchar(512) default ''                not null comment '文件地址',
     file_size_byte bigint       default 0                 not null comment '文件大小(byte)',
@@ -84,33 +155,30 @@ create table mk_sys_file
     update_by      int          default 0                 not null comment '更新人id',
     is_delete      tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '文件表';
+    comment '文件表' collate = utf8mb4_german2_ci;
 
 create index index_gmt_created
-    on mk_sys_file (gmt_created);
+    on mikuyun.mk_sys_file (gmt_created);
 
 create index index_md5
-    on mk_sys_file (md5)
+    on mikuyun.mk_sys_file (md5)
     comment 'md5';
 
 create index index_original_name
-    on mk_sys_file (original_name);
+    on mikuyun.mk_sys_file (original_name);
 
 create index index_type
-    on mk_sys_file (type);
+    on mikuyun.mk_sys_file (type);
 
-
-
-
-create table mk_sys_menu
+create table mikuyun.mk_sys_menu
 (
     id           int auto_increment comment '菜单ID'
         primary key,
-    name         varchar(32)  default ''                not null comment '菜单名称',
-    permission   varchar(32)  default ''                not null comment '菜单权限标识',
+    name         varchar(32)  default ''                not null comment '名称',
+    permission   varchar(32)  default ''                not null comment '权限标识',
     parent_id    int          default 0                 not null comment '父菜单ID',
     keep_alive   tinyint      default 0                 not null comment '0-开启，1- 关闭',
-    type         tinyint      default 0                 not null comment '菜单类型 （-1主菜单 0页面 1组件 2接口）',
+    type         tinyint      default 0                 not null comment '菜单类型 （-1根节点 0页面 1组件 2接口）',
     `describe`   varchar(100) default ''                not null comment '描述',
     gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
     gmt_modified timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
@@ -118,12 +186,9 @@ create table mk_sys_menu
     update_by    int          default 0                 not null comment '更新人id',
     is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '系统菜单表(菜单权限)';
+    comment '系统菜单组件权限' collate = utf8mb4_german2_ci;
 
-
-
-
-create table mk_sys_role
+create table mikuyun.mk_sys_role
 (
     id           int auto_increment
         primary key,
@@ -138,21 +203,17 @@ create table mk_sys_role
     constraint index_role_code
         unique (role_code)
 )
-    comment '系统角色表';
+    comment '系统角色表' collate = utf8mb4_german2_ci;
 
-
-
-create table mk_sys_role_menu
+create table mikuyun.mk_sys_role_menu
 (
     role_id int not null comment '角色ID',
     menu_id int not null comment '菜单ID',
     primary key (menu_id, role_id)
 )
-    comment '角色菜单表';
+    comment '角色菜单表' collate = utf8mb4_german2_ci;
 
-
-
-create table mk_sys_user
+create table mikuyun.mk_sys_user
 (
     id           int auto_increment comment '主键ID'
         primary key,
@@ -165,33 +226,26 @@ create table mk_sys_user
     dept_id      int          default 0                 not null comment '部门ID',
     lock_flag    tinyint      default 0                 not null comment '0-正常，9-锁定',
     email        varchar(128) default ''                not null comment '邮箱',
-    user_type    tinyint      default 0                 not null comment '用户类型(0平台用户 1平台管理员 2超级管理员)',
     gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
     gmt_modified timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
     create_by    int          default 0                 not null comment '创建人id',
     update_by    int          default 0                 not null comment '更新人id',
     is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '用户表';
+    comment '用户表' collate = utf8mb4_german2_ci;
 
 create index index_username
-    on mk_sys_user (username);
+    on mikuyun.mk_sys_user (username);
 
-
-
-
-create table mk_sys_user_role
+create table mikuyun.mk_sys_user_role
 (
     user_id int not null comment '用户ID',
     role_id int not null comment '角色ID',
     primary key (user_id, role_id)
 )
-    comment '用户角色表';
+    comment '用户角色表' collate = utf8mb4_german2_ci;
 
-
-
-
-create table mk_user
+create table mikuyun.mk_user
 (
     id            int auto_increment comment '主键,自增'
         primary key,
@@ -206,21 +260,18 @@ create table mk_user
     gmt_modified  timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
     is_delete     tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '用户表';
+    comment '用户表' collate = utf8mb4_german2_ci;
 
 create index index_gmt_created
-    on mk_user (gmt_created);
+    on mikuyun.mk_user (gmt_created);
 
 create index index_nickname
-    on mk_user (nickname);
+    on mikuyun.mk_user (nickname);
 
 create index index_telephone
-    on mk_user (telephone, nickname);
+    on mikuyun.mk_user (telephone, nickname);
 
-
-
-
-create table mk_version
+create table mikuyun.mk_version
 (
     id             int auto_increment comment '主键,自增'
         primary key,
@@ -234,12 +285,9 @@ create table mk_version
     update_by      int          default 0                 not null comment '更新人id',
     is_delete      tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '软件版本';
+    comment '软件版本' collate = utf8mb4_german2_ci;
 
-
-
-
-create table region
+create table mikuyun.region
 (
     id        int auto_increment comment '主键,自增'
         primary key,
@@ -247,15 +295,13 @@ create table region
     parent_id int         default 0  not null comment '父节点编号',
     pinyin    varchar(50)            null comment '拼音'
 )
-    comment '城市地区表' row_format = DYNAMIC;
+    comment '城市地区表' collate = utf8mb4_german2_ci
+                         row_format = DYNAMIC;
 
 create index parent_id
-    on region (parent_id);
+    on mikuyun.region (parent_id);
 
-
-
-
-create table region_details
+create table mikuyun.region_details
 (
     id        int auto_increment comment 'ID'
         primary key,
@@ -275,69 +321,8 @@ create table region_details
                      row_format = DYNAMIC;
 
 create index pid
-    on region_details (pid);
+    on mikuyun.region_details (pid);
 
 create index zip
-    on region_details (zip);
-
-
-
-
--- auto-generated definition
-create table mk_captcha
-(
-    id              int auto_increment comment 'id'
-        primary key,
-    account         varchar(64)                         not null comment '接收账号',
-    captcha_str     varchar(16)                         not null comment '验证码',
-    captcha_type    tinyint   default 0                 not null comment '验证码类型(1手机号验证码,2邮箱验证码)',
-    gmt_created     timestamp default CURRENT_TIMESTAMP not null comment '创建时间',
-    expiration_time timestamp default CURRENT_TIMESTAMP not null comment '到期时间'
-)
-    comment '验证码表' engine = InnoDB;
-
-create index index_account
-    on mk_captcha (account);
-
-create index index_type_account
-    on mk_captcha (captcha_type, account);
-
-
-
-create table mk_dict_type
-(
-    id           int auto_increment comment '字典类型ID'
-        primary key,
-    type_name    varchar(64)  default ''                not null comment '字典类型名(中文)',
-    type_code    varchar(255)                            not null comment '字典类型码,格式:表名(大驼峰)_字段名(小驼峰)',
-    remark       varchar(255) default ''                not null comment '描述',
-    is_lock      tinyint(1)   default 0                 not null comment '是否锁定，锁定的属性无法在页面进行修改',
-    gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
-    gmt_modified timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
-    create_by    int          default 0                 not null comment '创建人id',
-    update_by    int          default 0                 not null comment '更新人id',
-    is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
-)
-    comment '字典类型' row_format = DYNAMIC;
-
-
-
-
-create table mk_dict
-(
-    id               int auto_increment comment '字典ID'
-        primary key,
-    sys_dict_type_id int                                    not null comment '关联sys_dict_type ID',
-    enum_name        varchar(128) default ''                not null comment '字典枚举名称',
-    enum_code        varchar(128) default ''                not null comment '字典枚举值',
-    sort             int          default 0                 not null comment '排序(正序)',
-    remark           varchar(255) default ''                not null comment '备注',
-    is_lock          tinyint(1)   default 0                 not null comment '是否锁定，锁定的属性无法在页面进行修改',
-    gmt_created      timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
-    gmt_modified     timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
-    create_by        int          default 0                 not null comment '创建人id',
-    update_by        int          default 0                 not null comment '更新人id',
-    is_delete        tinyint      default 0                 not null comment '0：正常 1：删除'
-)
-    comment '字典表' row_format = DYNAMIC;
+    on mikuyun.region_details (zip);
 
