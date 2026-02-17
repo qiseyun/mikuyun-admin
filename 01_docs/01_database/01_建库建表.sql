@@ -1,5 +1,7 @@
-# 自行创建数据库
+-- 建库
+CREATE SCHEMA mikuyun COLLATE utf8mb4_general_ci;
 
+-- 建表
 create table mikuyun.mk_captcha
 (
     id              int auto_increment comment 'id'
@@ -170,7 +172,7 @@ create index index_original_name
 create index index_type
     on mikuyun.mk_sys_file (type);
 
-create table mikuyun.mk_sys_menu
+create table mikuyun.mk_sys_permissions
 (
     id           int auto_increment comment '菜单ID'
         primary key,
@@ -205,11 +207,11 @@ create table mikuyun.mk_sys_role
 )
     comment '系统角色表' collate = utf8mb4_german2_ci;
 
-create table mikuyun.mk_sys_role_menu
+create table mikuyun.mk_sys_role_permissions
 (
-    role_id int not null comment '角色ID',
-    menu_id int not null comment '菜单ID',
-    primary key (menu_id, role_id)
+    role_id       int not null comment '角色ID',
+    permission_id int not null comment '菜单ID',
+    primary key (permission_id, role_id)
 )
     comment '角色菜单表' collate = utf8mb4_german2_ci;
 

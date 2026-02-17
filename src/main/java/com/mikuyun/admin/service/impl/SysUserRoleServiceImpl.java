@@ -54,7 +54,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 .map(item -> new SysUserRole(evt.getSysUserId(), item))
                 .toList();
         this.saveBatch(afterData);
-        log.info("用户角色更新: sysUserId:{} \n beforeRoleIds:{} \n afterMenuIds:{}", evt.getSysUserId(), beforeRoleIds, evt.getRoleIds());
+        log.info("用户角色更新: sysUserId:{} \n beforeRoleIds:{} \n afterPermissionIds:{}", evt.getSysUserId(), beforeRoleIds, evt.getRoleIds());
     }
 
 }

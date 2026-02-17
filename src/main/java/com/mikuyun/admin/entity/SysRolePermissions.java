@@ -17,16 +17,14 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("mk_sys_role_menu")
+@TableName("mk_sys_role_permissions")
 @Schema(description = "角色菜单表")
-public class SysRoleMenu {
-
+public class SysRolePermissions {
 
     @Schema(name = "角色ID")
     private Integer roleId;
 
-    @Schema(name = "菜单ID")
-    private Integer menuId;
-
+    @Schema(name = "权限ID")
+    private Integer permissionId;
 
 }
