@@ -70,11 +70,6 @@ public class Constant {
         /**
          * 菜单树
          */
-        public static final String MENU_TREE = "admin:menu_tree:";
-
-        /**
-         * 菜单树
-         */
         public static final String NORMAL_EXCEL_TASK = "excel:task:normal";
 
         /**

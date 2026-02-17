@@ -1,4 +1,4 @@
-package com.mikuyun.admin.evt.sysmenu;
+package com.mikuyun.admin.evt.syspermissions;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.Data;
  * @date 2023年5月1日/0001 17点06分
  */
 @Data
-public class AddOrEditMenuOrButtonEvt {
+public class AddOrEditPermissionEvt {
 
     private Integer id;
 

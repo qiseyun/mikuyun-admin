@@ -1,7 +1,7 @@
 package com.mikuyun.admin.config;
 
 import cn.dev33.satoken.stp.StpInterface;
-import com.mikuyun.admin.service.SysMenuService;
+import com.mikuyun.admin.service.SysPermissionsService;
 import com.mikuyun.admin.service.SysRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class StpInterfaceImpl implements StpInterface {
     private SysRoleService sysRoleService;
 
     @Resource
-    private SysMenuService sysMenuService;
+    private SysPermissionsService sysPermissionsService;
 
     /**
      * 权限
@@ -32,7 +32,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object o, String s) {
         // 权限分菜单权限和按钮权限
-        return sysMenuService.sysRoleMenuPermissions(o);
+        return sysPermissionsService.sysRolePermissions(o);
     }
 
     /**

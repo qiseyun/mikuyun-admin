@@ -2,7 +2,7 @@ package com.mikuyun.admin.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mikuyun.admin.entity.SysRoleMenu;
+import com.mikuyun.admin.entity.SysRolePermissions;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.mikuyun.admin.entity.SysRoleMenu;
  * @author qiseyun
  * @since 2022-11-05
  */
-public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
+public interface SysRolePermissionsMapper extends BaseMapper<SysRolePermissions> {
 
 }

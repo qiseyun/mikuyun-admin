@@ -2,10 +2,10 @@ package com.mikuyun.admin.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mikuyun.admin.entity.SysMenu;
+import com.mikuyun.admin.entity.SysPermissions;
 import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysmenu.AddOrEditMenuOrButtonEvt;
-import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
+import com.mikuyun.admin.evt.syspermissions.AddOrEditPermissionEvt;
+import com.mikuyun.admin.vo.syspermissions.SysPermissionListVo;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @author qiseyun
  * @since 2022-11-05
  */
-public interface SysMenuService extends IService<SysMenu> {
+public interface SysPermissionsService extends IService<SysPermissions> {
 
     /**
      * 用户角色菜单权限列表
@@ -25,7 +25,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param sysUserId 用户id
      * @return 对应角色权限列表
      */
-    List<String> sysRoleMenuPermissions(Object sysUserId);
+    List<String> sysRolePermissions(Object sysUserId);
 
     /**
      * 查询菜单列表
@@ -33,21 +33,21 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param evt 查询参数
      * @return 菜单列表
      */
-    List<SysMenuListVo> queryMenuList(IdEvt evt);
+    List<SysPermissionListVo> queryPermissionList(IdEvt evt);
 
     /**
      * 新增菜单或按钮
      *
      * @param evt 新增参数
      */
-    void addMenu(AddOrEditMenuOrButtonEvt evt);
+    void addPermission(AddOrEditPermissionEvt evt);
 
     /**
      * 新增菜单或按钮
      *
      * @param evt 新增参数
      */
-    void updateMenu(AddOrEditMenuOrButtonEvt evt);
+    void updatePermission(AddOrEditPermissionEvt evt);
 
     /**
      * 新增菜单或按钮

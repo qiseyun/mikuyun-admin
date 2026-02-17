@@ -9,20 +9,18 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.BaseEntity;
-import com.mikuyun.admin.entity.SysMenu;
+import com.mikuyun.admin.entity.SysPermissions;
 import com.mikuyun.admin.entity.SysRole;
 import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysmenu.AddOrEditMenuOrButtonEvt;
+import com.mikuyun.admin.evt.syspermissions.AddOrEditPermissionEvt;
 import com.mikuyun.admin.exception.ServiceException;
-import com.mikuyun.admin.mapper.SysMenuMapper;
-import com.mikuyun.admin.service.SysMenuService;
+import com.mikuyun.admin.mapper.SysPermissionsMapper;
+import com.mikuyun.admin.service.SysPermissionsService;
 import com.mikuyun.admin.service.SysRoleService;
-import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.TreeUtils;
-import com.mikuyun.admin.vo.sysmenu.SysMenuListVo;
+import com.mikuyun.admin.vo.syspermissions.SysPermissionListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,16 +39,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
+public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper, SysPermissions> implements SysPermissionsService {
 
     private final SysRoleService sysRoleService;
 
-    private final StringRedisTemplate stringRedisTemplate;
-
-    private final SysUserService sysUserService;
-
     @Override
-    public List<String> sysRoleMenuPermissions(Object sysUserId) {
+    public List<String> sysRolePermissions(Object sysUserId) {
         // 查询登录用户的角色列表
         List<Integer> collect = sysRoleService.querySysRoleInfo(sysUserId)
                 .stream()
@@ -59,42 +53,42 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if (CollectionUtil.isEmpty(collect)) {
             return new ArrayList<>();
         }
-        return new ArrayList<>(baseMapper.sysRoleMenuPermissions(collect));
+        return new ArrayList<>(baseMapper.sysRolePermissions(collect));
     }
 
     @Override
-    public List<SysMenuListVo> queryMenuList(IdEvt evt) {
+    public List<SysPermissionListVo> queryPermissionList(IdEvt evt) {
         // 页面组件列表
-        List<SysMenuListVo> sysMenuList = baseMapper.queryMenuList(evt.getId());
+        List<SysPermissionListVo> sysPermissionList = baseMapper.queryPermissionList(evt.getId());
         // 构建树结构
-        SysMenuListVo root = TreeUtils.getRoot(SysMenuListVo.class);
-        sysMenuList = TreeUtils.buildTree(sysMenuList, root);
-        return sysMenuList.getFirst().getChildren();
+        SysPermissionListVo root = TreeUtils.getRoot(SysPermissionListVo.class);
+        sysPermissionList = TreeUtils.buildTree(sysPermissionList, root);
+        return sysPermissionList.getFirst().getChildren();
     }
 
     @Override
-    public void addMenu(AddOrEditMenuOrButtonEvt evt) {
-        SysMenu sysMenu = new SysMenu();
-        BeanUtil.copyProperties(evt, sysMenu, "id");
-        sysMenu.setCreateBy(Integer.valueOf(StpUtil.getLoginId().toString()));
-        this.save(sysMenu);
+    public void addPermission(AddOrEditPermissionEvt evt) {
+        SysPermissions sysPermissions = new SysPermissions();
+        BeanUtil.copyProperties(evt, sysPermissions, "id");
+        sysPermissions.setCreateBy(Integer.valueOf(StpUtil.getLoginId().toString()));
+        this.save(sysPermissions);
     }
 
     @Override
-    public void updateMenu(AddOrEditMenuOrButtonEvt evt) {
+    public void updatePermission(AddOrEditPermissionEvt evt) {
         if (ObjectUtil.isEmpty(evt.getId())) {
             throw new ServiceException(ResultCode.PARAM_ERROR);
         }
-        SysMenu menu = this.getById(evt.getId());
-        String beforeData = JSON.toJSONString(menu);
-        menu.setName(evt.getName());
-        menu.setPermission(evt.getPermission());
-        menu.setKeepAlive(evt.getKeepAlive());
-        menu.setDescribe(evt.getDescribe());
-        menu.setUpdateBy(Integer.valueOf(StpUtil.getLoginId().toString()));
-        menu.setGmtModified(LocalDateTime.now());
-        this.updateById(menu);
-        String afterData = JSON.toJSONString(menu);
+        SysPermissions permission = this.getById(evt.getId());
+        String beforeData = JSON.toJSONString(permission);
+        permission.setName(evt.getName());
+        permission.setPermission(evt.getPermission());
+        permission.setKeepAlive(evt.getKeepAlive());
+        permission.setDescribe(evt.getDescribe());
+        permission.setUpdateBy(Integer.valueOf(StpUtil.getLoginId().toString()));
+        permission.setGmtModified(LocalDateTime.now());
+        this.updateById(permission);
+        String afterData = JSON.toJSONString(permission);
         log.info("权限编辑: id={} \n beforeData={} \n afterData={}", evt.getId(), beforeData, afterData);
     }
 
@@ -104,14 +98,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .set(BaseEntity::getIsDelete, 1)
                 .set(BaseEntity::getUpdateBy, Integer.valueOf(StpUtil.getLoginId().toString()))
                 .set(BaseEntity::getGmtModified, LocalDateTime.now())
-                .eq(SysMenu::getId, evt.getId())
+                .eq(SysPermissions::getId, evt.getId())
                 .update();
     }
 
     @Override
     public List<Integer> getRolePermissions(Integer roleId) {
         // 查询权限列表
-        return this.baseMapper.getRoleMenuIds(roleId);
+        return this.baseMapper.getRolePermissionIds(roleId);
     }
 
 }

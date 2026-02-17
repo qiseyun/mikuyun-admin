@@ -2,8 +2,8 @@ package com.mikuyun.admin.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mikuyun.admin.entity.SysRoleMenu;
-import com.mikuyun.admin.evt.sysmenu.EditRPEvt;
+import com.mikuyun.admin.entity.SysRolePermissions;
+import com.mikuyun.admin.evt.syspermissions.EditRPEvt;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import com.mikuyun.admin.evt.sysmenu.EditRPEvt;
  * @author qiseyun
  * @since 2022-11-05
  */
-public interface SysRoleMenuService extends IService<SysRoleMenu> {
+public interface SysRolePermissionsService extends IService<SysRolePermissions> {
 
     /**
      * 给角色新增菜单

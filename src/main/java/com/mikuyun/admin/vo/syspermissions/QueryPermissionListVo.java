@@ -1,4 +1,4 @@
-package com.mikuyun.admin.vo.sysmenu;
+package com.mikuyun.admin.vo.syspermissions;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2023年5月1日/0001 1点20分
  */
 @Data
-public class QueryMenuListVo {
+public class QueryPermissionListVo {
 
     /**
      * 菜单id

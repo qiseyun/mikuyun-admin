@@ -1,4 +1,4 @@
-package com.mikuyun.admin.vo.sysmenu;
+package com.mikuyun.admin.vo.syspermissions;
 
 import com.mikuyun.admin.model.TreeModel;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2024年1月18日/0018 11点52分
  */
 @Data
-public class SysMenuListVo implements TreeModel<SysMenuListVo> {
+public class SysPermissionListVo implements TreeModel<SysPermissionListVo> {
 
     /**
      * 菜单id
@@ -43,7 +43,7 @@ public class SysMenuListVo implements TreeModel<SysMenuListVo> {
      */
     private Integer type;
 
-    private List<SysMenuListVo> children;
+    private List<SysPermissionListVo> children;
 
     @Override
     public Long getDeep() {

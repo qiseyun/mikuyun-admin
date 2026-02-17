@@ -4,7 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.LoginEvt;
-import com.mikuyun.admin.service.SysMenuService;
+import com.mikuyun.admin.service.SysPermissionsService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
@@ -31,7 +31,7 @@ public class SysUserLoginController {
 
     private final SysUserService sysUserService;
 
-    private final SysMenuService sysMenuService;
+    private final SysPermissionsService sysPermissionsService;
 
     @PostMapping(value = "/login")
     @Operation(summary = "管理员登录")
@@ -42,7 +42,7 @@ public class SysUserLoginController {
     @GetMapping(value = "/permissions")
     @Operation(summary = "查询权限列表")
     public R<List<String>> sysLogin() {
-        return R.ok(sysMenuService.sysRoleMenuPermissions(StpUtil.getLoginId()));
+        return R.ok(sysPermissionsService.sysRolePermissions(StpUtil.getLoginId()));
     }
 
     /**
