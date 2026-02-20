@@ -1,6 +1,7 @@
 package com.mikuyun.admin.controller.demo;
 
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import com.mikuyun.admin.RocketMqBiz.SendTestMq;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdNameStrEvt;
@@ -21,6 +22,7 @@ public class MqTestController {
 
     private final SendTestMq sendTestMq;
 
+    @SaIgnore
     @PostMapping("/send")
     @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
     public R<String> sendMessage(@RequestBody IdNameStrEvt evt) {

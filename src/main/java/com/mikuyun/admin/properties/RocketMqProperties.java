@@ -2,7 +2,6 @@ package com.mikuyun.admin.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * @author jiangQL
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
  * @date 2025/1/25 14:16
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "rocketmq")
 public class RocketMqProperties {
 

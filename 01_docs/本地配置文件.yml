@@ -139,8 +139,8 @@ xxl:
 
 ######## rocketMQ配置
 rocketmq:
-  enabled: false
-  nameServer: nameServer:9876
+  enabled: true
+  nameServer: 127.0.0.1:9876
   groupName: mikuyun-admin
   consumeThread: 8
 

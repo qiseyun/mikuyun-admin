@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SendTestMq {
 
-//    private final RocketProducer rocketProducer;
+    private final RocketProducer rocketProducer;
 
     public void sendTestMq(IdNameStrEvt evt) {
         Message message = new Message();
@@ -27,8 +27,8 @@ public class SendTestMq {
         message.setTags(MqTopicEnum.TEST.getTag());
         message.setBody(MqSerializationUtils.serialize(evt));
         // 设置属性：自定义延时秒
-//        message.setDelayTimeSec(45);
-//        rocketProducer.send(message);
+        message.setDelayTimeSec(45);
+        rocketProducer.send(message);
     }
 
 }

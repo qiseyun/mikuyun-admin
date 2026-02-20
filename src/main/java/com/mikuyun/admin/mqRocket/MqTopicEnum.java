@@ -12,7 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MqTopicEnum {
 
-    TEST("mikuyun", "test", "测试消息"),
+    TEST("mikuyun-test", "test", "测试消息"),
 
     CANAL_SERVER("canal_server", "canal_gxy", "文章同步"),
 
