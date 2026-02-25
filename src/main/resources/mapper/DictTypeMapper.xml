@@ -4,7 +4,7 @@
 
     <select id="queryPageList" resultType="com.mikuyun.admin.entity.DictType">
         SELECT *
-        FROM mk_dict_type
+        FROM mk_sys_dict_type
         WHERE is_delete = 0
         <if test="evt.id != null">
             AND id = #{evt.id}
