@@ -3,15 +3,15 @@
 <mapper namespace="com.mikuyun.admin.mapper.SysPermissionsMapper">
 
     <select id="sysRolePermissions" resultType="java.lang.String">
-        SELECT sm.permission
-        FROM mk_sys_permissions AS sm
-        LEFT JOIN mk_sys_role_permissions AS srm ON sm.id = srm.permission_id
-        WHERE sm.is_delete = 0
-        AND srm.role_id IN
+        SELECT t1.permission
+        FROM mk_sys_permissions AS t1
+        LEFT JOIN mk_sys_role_permissions AS t2 ON t1.id = t2.permission_id
+        WHERE t1.is_delete = 0
+        AND t2.role_id IN
         <foreach collection="roleIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        GROUP BY sm.id
+        GROUP BY t1.id
     </select>
 
     <select id="queryPermissionList" resultType="com.mikuyun.admin.vo.syspermissions.SysPermissionListVo">
@@ -31,18 +31,18 @@
     </select>
 
     <select id="getPermissionList" resultType="com.mikuyun.admin.vo.syspermissions.SysPermissionListVo">
-        SELECT sm.`id`,
-               sm.`name`,
-               sm.`parent_id` AS pid
-        FROM `mk_sys_permissions` AS sm
-                 LEFT JOIN `mk_sys_role_permissions` AS srm ON sm.`id` = srm.`permission_id`
-                 LEFT JOIN `mk_sys_user_role` AS sr ON srm.`role_id` = sr.`role_id`
-        WHERE sm.`is_delete` = 0
-          And sm.`keep_alive` = 0
-          AND sm.`type` IN (-1, 0, 1)
-          AND sr.`user_id` = #{sysUserId}
-        GROUP BY sm.`id`
-        ORDER BY sm.`id`
+        SELECT t1.`id`,
+               t1.`name`,
+               t1.`parent_id` AS pid
+        FROM `mk_sys_permissions` AS t1
+                 LEFT JOIN `mk_sys_role_permissions` AS t2 ON t1.`id` = t2.`permission_id`
+                 LEFT JOIN `mk_sys_user_role` AS t3 ON t2.`role_id` = t3.`role_id`
+        WHERE t1.`is_delete` = 0
+          AND t1.`keep_alive` = 0
+          AND t1.`type` IN (-1, 0, 1)
+          AND t3.`user_id` = #{sysUserId}
+        GROUP BY t1.`id`
+        ORDER BY t1.`id`
     </select>
     <select id="getRolePermissionIds" resultType="java.lang.Integer">
         SELECT t1.`permission_id`
