@@ -16,7 +16,7 @@ public class WebConfigProperties {
     @Value("${mikuyun.salt.admin}")
     private String salt;
 
-    @Value("${mikuyun.salt..user}")
+    @Value("${mikuyun.salt.user}")
     private String userSalt;
 
     /**
