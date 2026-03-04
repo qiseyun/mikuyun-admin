@@ -1,0 +1,35 @@
+networks:
+    mikuyun:
+        external: true
+services:
+    nacos:
+        container_name: ${CONTAINER_NAME}-standalone
+        deploy:
+            resources:
+                limits:
+                    cpus: ${CPUS}
+                    memory: ${MEMORY_LIMIT}
+        environment:
+            - NACOS_AUTH_ENABLE=${NACOS_AUTH_ENABLE:-FALSE}
+            - PREFER_HOST_MODE=hostname
+            - MODE=standalone
+            - JVM_XMS=${JVM_XMS}
+            - JVM_XMX=${JVM_XMX}
+            - JVM_XMN=${JVM_XMN}
+            - JVM_MS=${JVM_MS}
+            - JVM_MMS=${JVM_MMS}
+            - NACOS_AUTH_IDENTITY_KEY=${NACOS_AUTH_IDENTITY_KEY}
+            - NACOS_AUTH_IDENTITY_VALUE=${NACOS_AUTH_IDENTITY_VALUE}
+            - NACOS_AUTH_TOKEN=${NACOS_AUTH_TOKEN}
+            - NACOS_SERVER_IP=${NACOS_SERVER_IP}
+        image: nacos/nacos-server:v3.1.0
+        labels:
+            createdBy: Apps
+        ports:
+            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:8080
+            - ${HOST_IP}:${PANEL_APP_PORT_API_HTTP}:8848
+            - ${HOST_IP}:${PANEL_APP_PORT_COMMUNICATION}:9848
+        restart: on-failure:5
+        volumes:
+            - ./data/logs:/home/nacos/logs
+            - ./data/data:/home/nacos/data
