@@ -1,0 +1,31 @@
+version: '3'
+networks:
+    mikuyun:
+        external: true
+services:
+  namesrv:
+    networks:
+      - mikuyun
+    image: apache/rocketmq:5.1.3
+    container_name: rmq-namesrv
+    ports: 
+      - 127.0.0.1:9876:9876
+    command: sh mqnamesrv
+    restart: on-failure:5
+  broker:
+    networks:
+      - mikuyun
+    image: apache/rocketmq:5.1.3
+    container_name: rmq-broker
+    ports:
+      - 127.0.0.1:10909:10909
+      - 127.0.0.1:10911:10911
+      - 127.0.0.1:10912:10912
+    volumes:
+       - ./broker/broker.conf:/home/rocketmq/rocketmq-5.1.3/conf/broker.conf
+       - ./broker/logs:/home/rocketmq/logs
+       - ./broker/store:/home/rocketmq/store
+    command: sh mqbroker -n namesrv:9876 -c /home/rocketmq/rocketmq-5.1.3/conf/broker.conf
+    depends_on:
+      - namesrv
+    restart: on-failure:5
