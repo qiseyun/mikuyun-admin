@@ -1,7 +1,5 @@
 package com.mikuyun.admin;
 
-import cn.dev33.satoken.SaManager;
-import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;

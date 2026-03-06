@@ -1,5 +1,5 @@
 -- 建库
-CREATE SCHEMA mikuyun COLLATE utf8mb4_general_ci;
+CREATE SCHEMA mikuyun COLLATE utf8mb4_0900_ai_ci;
 
 -- 建表
 create table mikuyun.mk_captcha
@@ -12,7 +12,7 @@ create table mikuyun.mk_captcha
     gmt_created     timestamp default CURRENT_TIMESTAMP not null comment '创建时间',
     expiration_time timestamp default CURRENT_TIMESTAMP not null comment '到期时间'
 )
-    comment '验证码表' collate = utf8mb4_german2_ci;
+    comment '验证码表' collate = utf8mb4_0900_ai_ci;
 
 create index index_account
     on mikuyun.mk_captcha (account);
@@ -51,7 +51,7 @@ create table mikuyun.mk_mq_msg_record
     gmt_created    timestamp    default CURRENT_TIMESTAMP null comment '创建时间',
     gmt_modified   timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间'
 )
-    comment '消息队列消息记录' collate = utf8mb4_german2_ci;
+    comment '消息队列消息记录' collate = utf8mb4_0900_ai_ci;
 
 create index index_gmt_created_consume_status
     on mikuyun.mk_mq_msg_record (gmt_created, consume_status);
@@ -77,7 +77,7 @@ create table mikuyun.mk_posts
     update_by    int                                     default 0                 not null comment '更新人id',
     is_delete    tinyint                                 default 0                 not null comment '0：正常 1：删除'
 )
-    comment '文章表' collate = utf8mb4_german2_ci;
+    comment '文章表' collate = utf8mb4_0900_ai_ci;
 
 create index idx_posts_status_published
     on mikuyun.mk_posts (status, published_at);
@@ -102,7 +102,7 @@ create table mikuyun.mk_sys_config
     constraint config_key
         unique (config_key)
 )
-    comment '参数配置表' collate = utf8mb4_german2_ci;
+    comment '参数配置表' collate = utf8mb4_0900_ai_ci;
 
 create table mikuyun.mk_sys_dict
 (
@@ -120,7 +120,7 @@ create table mikuyun.mk_sys_dict
     update_by        int          default 0                 not null comment '更新人id',
     is_delete        tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '字典表' collate = utf8mb4_german2_ci
+    comment '字典表' collate = utf8mb4_0900_ai_ci
                      row_format = DYNAMIC;
 
 create table mikuyun.mk_sys_dict_type
@@ -137,7 +137,7 @@ create table mikuyun.mk_sys_dict_type
     update_by    int          default 0                 not null comment '更新人id',
     is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '字典类型' collate = utf8mb4_german2_ci
+    comment '字典类型' collate = utf8mb4_0900_ai_ci
                        row_format = DYNAMIC;
 
 create table mikuyun.mk_sys_file
@@ -157,7 +157,7 @@ create table mikuyun.mk_sys_file
     update_by      int          default 0                 not null comment '更新人id',
     is_delete      tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '文件表' collate = utf8mb4_german2_ci;
+    comment '文件表' collate = utf8mb4_0900_ai_ci;
 
 create index index_gmt_created
     on mikuyun.mk_sys_file (gmt_created);
@@ -188,7 +188,7 @@ create table mikuyun.mk_sys_permissions
     update_by    int          default 0                 not null comment '更新人id',
     is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '系统菜单组件权限' collate = utf8mb4_german2_ci;
+    comment '系统菜单组件权限' collate = utf8mb4_0900_ai_ci;
 
 create table mikuyun.mk_sys_role
 (
@@ -205,7 +205,7 @@ create table mikuyun.mk_sys_role
     constraint index_role_code
         unique (role_code)
 )
-    comment '系统角色表' collate = utf8mb4_german2_ci;
+    comment '系统角色表' collate = utf8mb4_0900_ai_ci;
 
 create table mikuyun.mk_sys_role_permissions
 (
@@ -213,7 +213,7 @@ create table mikuyun.mk_sys_role_permissions
     permission_id int not null comment '菜单ID',
     primary key (permission_id, role_id)
 )
-    comment '角色菜单表' collate = utf8mb4_german2_ci;
+    comment '角色菜单表' collate = utf8mb4_0900_ai_ci;
 
 create table mikuyun.mk_sys_user
 (
@@ -234,7 +234,7 @@ create table mikuyun.mk_sys_user
     update_by    int          default 0                 not null comment '更新人id',
     is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '用户表' collate = utf8mb4_german2_ci;
+    comment '用户表' collate = utf8mb4_0900_ai_ci;
 
 create index index_username
     on mikuyun.mk_sys_user (username);
@@ -245,7 +245,7 @@ create table mikuyun.mk_sys_user_role
     role_id int not null comment '角色ID',
     primary key (user_id, role_id)
 )
-    comment '用户角色表' collate = utf8mb4_german2_ci;
+    comment '用户角色表' collate = utf8mb4_0900_ai_ci;
 
 create table mikuyun.mk_user
 (
@@ -262,7 +262,7 @@ create table mikuyun.mk_user
     gmt_modified  timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
     is_delete     tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '用户表' collate = utf8mb4_german2_ci;
+    comment '用户表' collate = utf8mb4_0900_ai_ci;
 
 create index index_gmt_created
     on mikuyun.mk_user (gmt_created);
@@ -287,7 +287,7 @@ create table mikuyun.mk_version
     update_by      int          default 0                 not null comment '更新人id',
     is_delete      tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '软件版本' collate = utf8mb4_german2_ci;
+    comment '软件版本' collate = utf8mb4_0900_ai_ci;
 
 create table mikuyun.region
 (
@@ -297,7 +297,7 @@ create table mikuyun.region
     parent_id int         default 0  not null comment '父节点编号',
     pinyin    varchar(50)            null comment '拼音'
 )
-    comment '城市地区表' collate = utf8mb4_german2_ci
+    comment '城市地区表' collate = utf8mb4_0900_ai_ci
                          row_format = DYNAMIC;
 
 create index parent_id
