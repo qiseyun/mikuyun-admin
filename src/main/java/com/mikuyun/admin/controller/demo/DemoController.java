@@ -1,12 +1,14 @@
 package com.mikuyun.admin.controller.demo;
 
-import cn.dev33.satoken.annotation.SaIgnore;
+import com.mikuyun.admin.RocketMqBiz.SendTestMq;
 import com.mikuyun.admin.common.R;
+import com.mikuyun.admin.evt.IdNameStrEvt;
 import com.mikuyun.admin.support.LockTemplateSupport;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,12 +22,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/test")
-public class TestController {
+@RequestMapping(value = "/demo")
+public class DemoController {
 
     private final LockTemplateSupport lockTemplateSupport;
 
-    @SaIgnore
+    private final SendTestMq sendTestMq;
+
     @PostMapping(value = "lock")
     @Operation(summary = "redis锁模板")
     public R<Void> testLock() {
@@ -38,6 +41,13 @@ public class TestController {
             }
         });
         return R.ok();
+    }
+
+    @PostMapping("/send")
+    @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
+    public R<String> sendMessage(@RequestBody IdNameStrEvt evt) {
+        sendTestMq.sendTestMq(evt);
+        return R.ok("Message sent successfully!");
     }
 
 }

@@ -24,6 +24,7 @@ public class MvcConfigure implements WebMvcConfigurer {
         registry.addInterceptor(new SaInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(
+                        "/demo/**",
                         "/auth/login",
                         "/api/users/login",
                         "/api/users/register",

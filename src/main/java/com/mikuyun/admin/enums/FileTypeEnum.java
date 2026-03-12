@@ -33,6 +33,11 @@ public enum FileTypeEnum {
      */
     DOC("document", "文档类文件", new String[]{"txt", "doc", "docx", "ppt", "xls", "xlsx", "pdf"}),
 
+    /**
+     * 测试文件
+     */
+    TEST("test", "测试", new String[]{"*"}),
+
     ;
 
     private final String type;
