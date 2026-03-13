@@ -139,7 +139,7 @@ xxl:
 
 ######## rocketMQ配置
 rocketmq:
-  enabled: true
+  enabled: false
   nameServer: 127.0.0.1:9876
   groupName: mikuyun-admin
   consumeThread: 8

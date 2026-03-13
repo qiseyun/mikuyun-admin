@@ -46,7 +46,7 @@ public class DemoController {
     @PostMapping("/send")
     @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
     public R<String> sendMessage(@RequestBody IdNameStrEvt evt) {
-        sendTestMq.sendTestMq(evt);
+//        sendTestMq.sendTestMq(evt);
         return R.ok("Message sent successfully!");
     }
 
