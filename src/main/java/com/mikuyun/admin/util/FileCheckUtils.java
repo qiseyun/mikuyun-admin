@@ -56,7 +56,8 @@ public class FileCheckUtils {
         if (StrUtil.isBlank(fileName)) {
             return false;
         }
-        return Arrays.asList(typeEnum.getSuffix()).contains(fileName);
+        String[] suffix = typeEnum.getSuffix();
+        return Arrays.asList(suffix).contains("*") || Arrays.asList(suffix).contains(fileName);
     }
 
 }

@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author mikuyun
  * @since 2025-12-27 14:54
+ *
+ * Elasticsearch使用示例
+ *
  */
 @RequiredArgsConstructor
 @RestController
@@ -35,7 +38,7 @@ public class PostsController {
     @GetMapping(value = "/test")
     @Operation(summary = "从es分页检索demo")
     public R<SearchAfterResult<PostDoc>> getList() {
-        return R.ok(postsService.findByTitleOrExcerpt("okhttp3封装 虚拟线程", "", 5));
+        return R.ok(postsService.findByTitleOrExcerpt("OkHttp3封装 虚拟线程", "", 5));
     }
 
 }
