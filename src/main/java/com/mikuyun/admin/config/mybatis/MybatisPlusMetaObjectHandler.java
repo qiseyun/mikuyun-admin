@@ -1,4 +1,4 @@
-package com.mikuyun.admin.config;
+package com.mikuyun.admin.config.mybatis;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
