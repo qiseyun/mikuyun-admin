@@ -1,4 +1,4 @@
-package com.mikuyun.admin.config;
+package com.mikuyun.admin.config.mybatis;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.metadata.IPage;
