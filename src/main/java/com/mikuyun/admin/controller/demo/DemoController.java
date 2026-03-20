@@ -1,14 +1,19 @@
 package com.mikuyun.admin.controller.demo;
 
+import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.RocketMqBiz.SendTestMq;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdNameStrEvt;
+import com.mikuyun.admin.evt.ProhibitedWordsCheckEvt;
 import com.mikuyun.admin.support.LockTemplateSupport;
 import com.mikuyun.admin.util.AhoCorasickAutomatonUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
 
@@ -50,10 +55,13 @@ public class DemoController {
         return R.ok("Message sent successfully!");
     }
 
-    @GetMapping("/sensitiveWordDetection")
-    @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
-    public R<String> sensitiveWordDetection(String keyword) {
-        return R.ok(ahoCorasickAutomatonUtils.replaceSensitiveWords(keyword, '*'));
+    @PostMapping("/prohibitedWordsCheck")
+    @Operation(summary = "违禁词检测")
+    public R<ProhibitedWordsCheckEvt> prohibitedWordsCheck(@RequestBody ProhibitedWordsCheckEvt evt) {
+        evt.setToText(ahoCorasickAutomatonUtils.replaceSensitiveWords(evt.getText(), StrUtil.isBlank(evt.getReplacement()) ? "*" : evt.getReplacement()));
+        evt.setProhibited(ahoCorasickAutomatonUtils.containsSensitiveWord(evt.getText()));
+        evt.setText(null);
+        return R.ok(evt);
     }
 
 }

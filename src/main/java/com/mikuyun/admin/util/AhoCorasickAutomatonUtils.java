@@ -156,7 +156,7 @@ public class AhoCorasickAutomatonUtils {
      * @param replacement 替换字符
      * @return 已和谐的文本
      */
-    public String replaceSensitiveWords(String text, char replacement) {
+    public String replaceSensitiveWords(String text, String replacement) {
         // 标记哪些位置要替换
         boolean[] mask = new boolean[text.length()];
         AcNode cur = root;
