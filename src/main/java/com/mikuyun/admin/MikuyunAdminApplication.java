@@ -1,7 +1,7 @@
 package com.mikuyun.admin;
 
 import cn.dev33.satoken.SaManager;
-import com.alibaba.fastjson2.JSON;
+import cn.dev33.satoken.config.SaTokenConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +35,8 @@ public class MikuyunAdminApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(MikuyunAdminApplication.class, args);
         MikuyunAdminApplication app = context.getBean(MikuyunAdminApplication.class);
+        SaTokenConfig saTokenConfig = SaManager.getConfig();
+        log.info(saTokenConfig.toString());
         log.info("MikuyunAdminApplication started successfully ----> env: {}, port: {}, tokenName: {}, xxl-job: {}", app.env, app.port, app.tokenName, app.xxlJobEnabled);
     }
 
