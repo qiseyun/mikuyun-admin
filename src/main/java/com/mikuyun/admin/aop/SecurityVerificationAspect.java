@@ -48,7 +48,6 @@ public class SecurityVerificationAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         if (Objects.equals(accessToken, request.getHeader("access_token"))) {
-            log.info("accessToken: {}", request.getHeader("access_token"));
             return joinPoint.proceed();
         }
         throw new ServiceException(ResultCode.ACCESS_TOKEN_ERROR);
