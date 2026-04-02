@@ -1,10 +1,10 @@
-package com.mikuyun.admin.listener;
+package com.mikuyun.admin.mqRocket.consumer;
 
 import com.alibaba.fastjson2.JSON;
 import com.mikuyun.admin.entity.document.PostDoc;
 import com.mikuyun.admin.es.PostsEsRepository;
 import com.mikuyun.admin.mqRocket.IBaseMessageListener;
-import com.mikuyun.admin.mqRocket.MqTopicEnum;
+import com.mikuyun.admin.mqRocket.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +29,12 @@ public class PostsAsyncMqListener implements IBaseMessageListener {
 
     @Override
     public String getTopic() {
-        return MqTopicEnum.CANAL_SERVER.getRocketMqTopic();
+        return TopicEnum.CANAL_SERVER.getRocketMqTopic();
     }
 
     @Override
     public String getTag() {
-        return MqTopicEnum.CANAL_SERVER.getTag();
+        return TopicEnum.CANAL_SERVER.getTag();
     }
 
     @Override

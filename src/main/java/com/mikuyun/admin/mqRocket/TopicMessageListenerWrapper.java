@@ -43,7 +43,8 @@ public class TopicMessageListenerWrapper implements MessageListenerConcurrently 
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         } catch (Exception e) {
-            log.error("consume error topic={} tag={} content={} errorMsg={}", topic, tags, content, e.getMessage());
+            log.error("consume error topic={}, tag={}, reconsumeTimes: {}, content={}, errorMsg={}", topic, tags, messageExt.getReconsumeTimes(), content, e.getMessage());
+            // 这里只是会进行默认配置的重新消费, 如果都失败了就会直接丢弃
             return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
     }

@@ -3,7 +3,7 @@ package com.mikuyun.admin.mqRocket.consumer;
 import com.alibaba.fastjson2.JSON;
 import com.mikuyun.admin.evt.IdNameStrEvt;
 import com.mikuyun.admin.mqRocket.IBaseMessageListener;
-import com.mikuyun.admin.mqRocket.MqTopicEnum;
+import com.mikuyun.admin.mqRocket.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
@@ -20,12 +20,12 @@ public class DemoConsumer implements IBaseMessageListener {
 
     @Override
     public String getTopic() {
-        return MqTopicEnum.TEST.getRocketMqTopic();
+        return TopicEnum.TEST.getRocketMqTopic();
     }
 
     @Override
     public String getTag() {
-        return MqTopicEnum.TEST.getTag();
+        return TopicEnum.TEST.getTag();
     }
 
     @Override

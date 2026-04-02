@@ -35,6 +35,7 @@ public enum ResultCode {
     TOKEN_REPLACE(11014, "Token已被顶下线"),
     TOKEN_PUT_FORWARD(11015, "Token已被踢下线"),
     TOKEN_FROZEN(11016, "Token已被冻结"),
+    ACCESS_TOKEN_ERROR(11017, "accessToken 异常"),
 
     /**
      * 登录异常
