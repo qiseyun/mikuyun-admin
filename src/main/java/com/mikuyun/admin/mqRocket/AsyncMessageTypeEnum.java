@@ -10,17 +10,16 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum MqTopicEnum {
+public enum AsyncMessageTypeEnum {
 
-    TEST("mikuyun-test", "test", "测试消息"),
-
-    CANAL_SERVER("canal_server", "canal_gxy", "文章同步"),
+    /**
+     * demo_1
+     */
+    DEMO_ONE("demo_one", "测试消息"),
 
     ;
 
-    private final String rocketMqTopic;
-
-    private final String tag;
+    private final String type;
 
     private final String desc;
 

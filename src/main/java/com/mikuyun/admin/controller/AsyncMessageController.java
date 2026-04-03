@@ -1,0 +1,42 @@
+package com.mikuyun.admin.controller;
+
+import cn.dev33.satoken.annotation.SaIgnore;
+import com.alibaba.fastjson2.JSON;
+import com.mikuyun.admin.annotation.SecurityVerification;
+import com.mikuyun.admin.common.R;
+import com.mikuyun.admin.mqRocket.AsyncMessageEvt;
+import com.mikuyun.admin.mqRocket.IAsyncMessageService;
+import com.mikuyun.admin.support.factory.AsyncMessageFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @auth mikuyun
+ * @date 2026/4/2 22:41
+ */
+@Slf4j
+@RequestMapping(value = "/async/message")
+@RestController
+@RequiredArgsConstructor
+public class AsyncMessageController {
+
+    private final AsyncMessageFactory asyncMessageFactory;
+
+    @Operation(summary = "发送消息到消息队列(用于消息补发)")
+    @PostMapping(value = "/send")
+    @SaIgnore
+    @SecurityVerification
+    public R<Boolean> send(@Valid @RequestBody AsyncMessageEvt evt) {
+        IAsyncMessageService asyncMessageService = asyncMessageFactory.getAsyncMessageService(evt.getType());
+        boolean result = asyncMessageService.isBatch() ? asyncMessageService.rocketMqMessageSendBatch(evt) : asyncMessageService.rocketMqMessageSend(evt);
+        log.info("asyncMessageSend params={} isBatch={} result={}", JSON.toJSONString(evt), asyncMessageService.isBatch(), result);
+        return R.ok(result);
+    }
+
+}
