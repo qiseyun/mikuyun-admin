@@ -30,9 +30,9 @@ public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageSe
         message.setTags(getTopic().getTag());
         message.setKeys(getKey(content));
         message.setBody(MqSerializationUtils.serialize(content));
-        //设置延迟时间
-        if (evt.getDelayTimeSec() != null && evt.getDelayTimeSec() > 0) {
-            message.setDelayTimeSec(evt.getDelayTimeSec());
+        // 设置延迟时间这里是设置延时等级, 想使用DelayTimeSec DelayTimeMs则必须使用Rocketmq5.x + Rocketmq Proxy
+        if (evt.getDelayTimeLevel() != null && evt.getDelayTimeLevel() > 0) {
+            message.setDelayTimeLevel(evt.getDelayTimeLevel());
         }
         return rocketProducer.send(message);
     }

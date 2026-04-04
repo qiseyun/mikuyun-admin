@@ -25,8 +25,8 @@ public class SendTestMq {
         message.setTopic(TopicEnum.TEST.getRocketMqTopic());
         message.setTags(TopicEnum.TEST.getTag());
         message.setBody(MqSerializationUtils.serialize(evt));
-        // 设置属性：自定义延时秒
-        message.setDelayTimeSec(45);
+        // 延时等级 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
+        message.setDelayTimeLevel(3);
 //        rocketProducer.send(message);
     }
 
