@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @Tag(name = "系统用户login")
 @RequestMapping(value = "/auth")
-public class SysUserLoginController {
+public class SysLoginController {
 
     private final SysUserService sysUserService;
 

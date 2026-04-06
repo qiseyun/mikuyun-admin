@@ -1,4 +1,4 @@
-package com.mikuyun.admin.mqRocket;
+package com.mikuyun.admin.rocketmq;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSONObject;
@@ -30,9 +30,9 @@ public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageSe
         message.setTags(getTopic().getTag());
         message.setKeys(getKey(content));
         message.setBody(MqSerializationUtils.serialize(content));
-        //设置延迟时间
-        if (evt.getDelayTimeSec() != null && evt.getDelayTimeSec() > 0) {
-            message.setDelayTimeSec(evt.getDelayTimeSec());
+        // 设置延迟时间这里是设置延时等级, 想使用DelayTimeSec DelayTimeMs则必须使用Rocketmq5.x + Rocketmq Proxy
+        if (evt.getDelayTimeLevel() != null) {
+            message.setDelayTimeLevel(evt.getDelayTimeLevel().getLevel());
         }
         return rocketProducer.send(message);
     }
@@ -58,6 +58,7 @@ public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageSe
 
     /**
      * 获取MQ消息key
+     * 各实现类根据消息content来制作消息key
      *
      * @param content 消息内容
      * @return String

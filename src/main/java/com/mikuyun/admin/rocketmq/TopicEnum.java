@@ -1,4 +1,4 @@
-package com.mikuyun.admin.mqRocket;
+package com.mikuyun.admin.rocketmq;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +13,8 @@ import lombok.Getter;
 public enum TopicEnum {
 
     TEST("mikuyun-test", "test", "测试消息"),
+
+    LOGIN_EMAIL("login", "email", "登录邮件"),
 
     CANAL_SERVER("canal_server", "canal_gxy", "文章同步"),
 

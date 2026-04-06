@@ -1,4 +1,4 @@
-package com.mikuyun.admin.mqRocket;
+package com.mikuyun.admin.rocketmq;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
@@ -44,7 +44,7 @@ public class TopicMessageListenerWrapper implements MessageListenerConcurrently 
             }
         } catch (Exception e) {
             log.error("consume error topic={}, tag={}, reconsumeTimes: {}, content={}, errorMsg={}", topic, tags, messageExt.getReconsumeTimes(), content, e.getMessage());
-            // 这里只是会进行默认配置的重新消费, 如果都失败了就会直接丢弃
+            // 这里只是会进行默认配置的重新消费, 如果都失败了就会直接丢弃, 需要到rocketmq打开死信队列
             return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
     }

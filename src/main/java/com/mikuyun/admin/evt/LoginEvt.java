@@ -26,4 +26,11 @@ public class LoginEvt {
     @NotBlank(message = "密码不能为空白!")
     private String password;
 
+
+    /**
+     * 设备类型
+     */
+    @Schema(name = "设备类型")
+    private String deviceType;
+
 }

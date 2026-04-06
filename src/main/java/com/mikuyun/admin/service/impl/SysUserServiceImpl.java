@@ -7,6 +7,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.common.ResultCode;
@@ -21,17 +22,22 @@ import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
+import com.mikuyun.admin.rocketmq.RocketProducer;
+import com.mikuyun.admin.rocketmq.TopicEnum;
 import com.mikuyun.admin.service.SysUserService;
+import com.mikuyun.admin.util.MqSerializationUtils;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
 import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -51,6 +57,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    private final RocketProducer rocketProducer;
+
     @Override
     public UserTokenVo sysAdminLogin(LoginEvt evt) {
         SysUser sysUser = this.lambdaQuery()
@@ -69,7 +77,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new ServiceException(ResultCode.LOGIN_ERROR);
         }
         // 登陆返回token信息
-        return login(sysUser.getId());
+        UserTokenVo tokenVo = login(sysUser.getId(), evt.getDeviceType());
+        // 登录邮件
+        loginEmail(
+                StrUtil.isBlank(evt.getDeviceType()) ? "default" : evt.getDeviceType(),
+                LocalDateTime.now(), sysUser.getEmail(),
+                sysUser.getUsername(), sysUser.getId()
+        );
+        return tokenVo;
     }
 
     @Override
@@ -183,9 +198,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param sysUserId 用户id
      * @return UserTokenVo
      */
-    private UserTokenVo login(Integer sysUserId) {
+    private UserTokenVo login(Integer sysUserId, String deviceType) {
         UserTokenVo userToken = new UserTokenVo();
-        StpUtil.login(sysUserId);
+        StpUtil.login(sysUserId, StrUtil.isBlank(deviceType) ? "default" : deviceType);
         String tokenValue = StpUtil.getTokenValue();
         long timestamp = System.currentTimeMillis() / 1000;
         userToken.setAccessToken(tokenValue);
@@ -199,6 +214,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private void clearCache() {
         // 删除登录相关缓存
         log.info("推出登录清除相关缓存");
+    }
+
+    /**
+     * 登录邮件消息
+     *
+     * @param facility  登录设备
+     * @param loginTime 登陆时间
+     * @param to        收件人
+     * @param username  用户名
+     */
+    private void loginEmail(String facility, LocalDateTime loginTime, String to, String username, Integer sysUserId) {
+        JSONObject body = new JSONObject();
+        body.put("facility", facility);
+        body.put("loginTime", loginTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss")));
+        body.put("to", to);
+        body.put("username", username);
+        Message message = new Message();
+        message.setKeys("login:" + sysUserId);
+        message.setBody(MqSerializationUtils.serialize(body));
+        message.setTopic(TopicEnum.LOGIN_EMAIL.getRocketMqTopic());
+        message.setTags(TopicEnum.LOGIN_EMAIL.getTag());
+        rocketProducer.send(message);
     }
 
 }

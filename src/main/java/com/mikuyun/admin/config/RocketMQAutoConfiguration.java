@@ -1,7 +1,7 @@
 package com.mikuyun.admin.config;
 
-import com.mikuyun.admin.mqRocket.ConsumerRegister;
-import com.mikuyun.admin.mqRocket.RocketProducer;
+import com.mikuyun.admin.rocketmq.ConsumerRegister;
+import com.mikuyun.admin.rocketmq.RocketProducer;
 import com.mikuyun.admin.properties.RocketMqProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
