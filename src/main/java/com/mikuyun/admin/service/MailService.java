@@ -1,6 +1,7 @@
 package com.mikuyun.admin.service;
 
 import java.io.File;
+import java.time.LocalDateTime;
 
 /**
  * @author jiangQL
@@ -37,5 +38,15 @@ public interface MailService {
      * @param content 内容
      */
     void sendHtmlMail(String to, String subject, String content);
+
+    /**
+     * 登录邮件
+     *
+     * @param facility    登录设备
+     * @param loginTime 登陆时间
+     * @param to          收件人
+     * @param username    用户名
+     */
+    void loginMail(String facility, String loginTime, String to, String username);
 
 }

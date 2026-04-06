@@ -1,7 +1,8 @@
 package com.mikuyun.admin.support.factory;
 
-import com.mikuyun.admin.mqRocket.IAsyncMessageService;
+import com.mikuyun.admin.rocketmq.IAsyncMessageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.util.Map;
  * @auth mikuyun
  * @date 2026/4/2 22:43
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AsyncMessageFactory implements InitializingBean {
@@ -25,6 +27,7 @@ public class AsyncMessageFactory implements InitializingBean {
     public void afterPropertiesSet() {
         Map<String, IAsyncMessageService> beansOfType = applicationContext.getBeansOfType(IAsyncMessageService.class);
         beansOfType.values().forEach(v -> asyncMessageServiceMap.put(v.getTypeEnum().getType(), v));
+        log.info("AsyncMessageFactory initializing success");
     }
 
     /**

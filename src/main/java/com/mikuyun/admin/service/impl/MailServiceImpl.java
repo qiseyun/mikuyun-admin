@@ -1,6 +1,7 @@
 package com.mikuyun.admin.service.impl;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.properties.WebConfigProperties;
@@ -13,8 +14,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author jiangQL
@@ -28,7 +33,9 @@ public class MailServiceImpl implements MailService {
 
     private final WebConfigProperties webConfigProperties;
 
-    private final JavaMailSender mailSender;
+    private final JavaMailSender javaMailSender;
+
+    private final TemplateEngine templateEngine;
 
     /**
      * 发信邮箱
@@ -46,7 +53,7 @@ public class MailServiceImpl implements MailService {
             message.setCc(cc);
             message.setSubject(subject);
             message.setText(content);
-            mailSender.send(message);
+            javaMailSender.send(message);
         } catch (Exception e) {
             throw new ServiceException(ResultCode.MAIL_SEND_ERROR);
         }
@@ -55,7 +62,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendAttachFileMail(String to, String subject, String content, File file) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
             //邮件发送人
             messageHelper.setFrom(getEmail());
@@ -68,7 +75,7 @@ public class MailServiceImpl implements MailService {
             //添加附件
             messageHelper.addAttachment(file.getName(), file);
             //发送
-            mailSender.send(message);
+            javaMailSender.send(message);
         } catch (MessagingException e) {
             throw new ServiceException(ResultCode.MAIL_SEND_ERROR);
         }
@@ -77,7 +84,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendHtmlMail(String to, String subject, String content) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
             //邮件发送人
             messageHelper.setFrom(getEmail());
@@ -88,11 +95,28 @@ public class MailServiceImpl implements MailService {
             //邮件内容
             messageHelper.setText(content, true);
             //发送
-            mailSender.send(message);
+            javaMailSender.send(message);
             log.info("登陆通知邮件已发送至：{}", to);
         } catch (MessagingException e) {
             throw new ServiceException(ResultCode.MAIL_SEND_ERROR);
         }
+    }
+
+    @Override
+    public void loginMail(String facility, String loginTime, String to, String username) {
+        if (StrUtil.isBlank(to)) {
+            return;
+        }
+        // 设置邮件内容
+        Context context = new Context();
+        String subject = "用户登录提醒";
+        String content = "详情：" + "您的账号已登录设备[" + facility + "]。";
+        String date = "登陆时间：" + loginTime;
+        context.setVariable("content", content);
+        context.setVariable("date", date);
+        context.setVariable("user", username);
+        String mail = templateEngine.process("loginInformMailTemplate.html", context);
+        this.sendHtmlMail(to, subject, mail);
     }
 
 }

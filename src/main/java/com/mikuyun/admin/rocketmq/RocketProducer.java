@@ -1,4 +1,4 @@
-package com.mikuyun.admin.mqRocket;
+package com.mikuyun.admin.rocketmq;
 
 import com.mikuyun.admin.properties.RocketMqProperties;
 import jakarta.annotation.PreDestroy;

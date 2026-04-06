@@ -1,9 +1,9 @@
-package com.mikuyun.admin.mqRocket.consumer;
+package com.mikuyun.admin.rocketmq.consumer;
 
 import com.alibaba.fastjson2.JSON;
 import com.mikuyun.admin.evt.IdNameStrEvt;
-import com.mikuyun.admin.mqRocket.IBaseMessageListener;
-import com.mikuyun.admin.mqRocket.TopicEnum;
+import com.mikuyun.admin.rocketmq.IBaseMessageListener;
+import com.mikuyun.admin.rocketmq.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;

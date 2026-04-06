@@ -1,11 +1,11 @@
-package com.mikuyun.admin.mqRocket.producer;
+package com.mikuyun.admin.rocketmq.producer;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
-import com.mikuyun.admin.mqRocket.AbstractAsyncMessageServiceImpl;
-import com.mikuyun.admin.mqRocket.AsyncMessageTypeEnum;
-import com.mikuyun.admin.mqRocket.RocketProducer;
-import com.mikuyun.admin.mqRocket.TopicEnum;
+import com.mikuyun.admin.rocketmq.AbstractAsyncMessageServiceImpl;
+import com.mikuyun.admin.rocketmq.AsyncMessageTypeEnum;
+import com.mikuyun.admin.rocketmq.RocketProducer;
+import com.mikuyun.admin.rocketmq.TopicEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

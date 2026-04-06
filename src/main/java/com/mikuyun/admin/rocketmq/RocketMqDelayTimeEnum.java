@@ -1,4 +1,4 @@
-package com.mikuyun.admin.mqRocket;
+package com.mikuyun.admin.rocketmq;
 
 import com.mikuyun.admin.exception.BizException;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Getter
 @AllArgsConstructor
-public enum RocketMqDelayTime {
+public enum RocketMqDelayTimeEnum {
 
     S_1(1, 1, TimeUnit.SECONDS),
     S_5(2, 5, TimeUnit.SECONDS),
@@ -52,8 +52,8 @@ public enum RocketMqDelayTime {
     /**
      * 根据 level (1-18) 获取对应的枚举
      */
-    public static RocketMqDelayTime fromLevel(int level) {
-        for (RocketMqDelayTime item : values()) {
+    public static RocketMqDelayTimeEnum fromLevel(int level) {
+        for (RocketMqDelayTimeEnum item : values()) {
             if (item.level == level) {
                 return item;
             }
@@ -64,9 +64,9 @@ public enum RocketMqDelayTime {
     /**
      * 根据目标延迟秒数，选择最接近且不小于该时间的最小延迟等级
      */
-    public static RocketMqDelayTime chooseBestForAtLeast(long targetSeconds) {
-        RocketMqDelayTime best = null;
-        for (RocketMqDelayTime candidate : values()) {
+    public static RocketMqDelayTimeEnum chooseBestForAtLeast(long targetSeconds) {
+        RocketMqDelayTimeEnum best = null;
+        for (RocketMqDelayTimeEnum candidate : values()) {
             if (candidate.toSeconds() >= targetSeconds) {
                 if (best == null || candidate.toSeconds() < best.toSeconds()) {
                     best = candidate;

@@ -1,4 +1,4 @@
-package com.mikuyun.admin.mqRocket;
+package com.mikuyun.admin.rocketmq;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
