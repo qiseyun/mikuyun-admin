@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2025/12/17 22:20
  * AC 自动机节点

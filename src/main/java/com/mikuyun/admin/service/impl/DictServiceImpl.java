@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 字典表 服务实现类
  * </p>
  *
- * @author jiangQL
+ * @author mikuyun
  * @since 2025-04-18 23:14
  */
 @Service

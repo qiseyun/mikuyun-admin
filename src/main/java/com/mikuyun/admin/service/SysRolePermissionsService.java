@@ -10,7 +10,7 @@ import com.mikuyun.admin.evt.syspermissions.EditRPEvt;
  * 角色菜单表 服务类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-05
  */
 public interface SysRolePermissionsService extends IService<SysRolePermissions> {

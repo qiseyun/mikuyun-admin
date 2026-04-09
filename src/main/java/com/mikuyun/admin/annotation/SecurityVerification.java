@@ -1,10 +1,9 @@
 package com.mikuyun.admin.annotation;
 
 import java.lang.annotation.*;
-import java.util.concurrent.TimeUnit;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2025/11/22 21:58
  */

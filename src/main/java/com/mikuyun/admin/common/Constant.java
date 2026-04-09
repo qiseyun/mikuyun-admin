@@ -1,7 +1,7 @@
 package com.mikuyun.admin.common;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2024/3/13 13:33
  */

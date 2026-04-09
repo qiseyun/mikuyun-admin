@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.MqMsgRecord;
  * Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-09-05
  */
 public interface MqMsgRecordMapper extends BaseMapper<MqMsgRecord> {

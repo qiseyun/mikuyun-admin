@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 字典表 服务类
  * </p>
  *
- * @author jiangQL
+ * @author mikuyun
  * @since 2025-04-18 23:14
  */
 public interface IDictService extends IService<Dict> {

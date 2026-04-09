@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Result Code Enum.
  *
- * @author qiseyun
+ * @author mikuyun
  */
 @Getter
 @AllArgsConstructor

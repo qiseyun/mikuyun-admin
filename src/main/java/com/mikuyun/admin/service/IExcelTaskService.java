@@ -9,7 +9,7 @@ import com.mikuyun.admin.evt.IdEvt;
  * 服务类
  * </p>
  *
- * @author jiangQL
+ * @author mikuyun
  * @since 2025/04/11 23:27
  */
 public interface IExcelTaskService extends IService<ExcelTask> {

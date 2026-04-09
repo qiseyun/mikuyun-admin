@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.SysUserRole;
  * 用户角色表 Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-05-01
  */
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {

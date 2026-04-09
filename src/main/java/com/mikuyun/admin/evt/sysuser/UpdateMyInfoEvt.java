@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2026/2/11 22:14
  */

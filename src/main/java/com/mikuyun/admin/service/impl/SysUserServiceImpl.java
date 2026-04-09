@@ -45,7 +45,7 @@ import java.util.List;
  * 用户表 服务实现类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-07
  */
 @Slf4j
@@ -231,7 +231,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         body.put("to", to);
         body.put("username", username);
         Message message = new Message();
-        message.setKeys("login:" + sysUserId);
+        message.setKeys("login:" + sysUserId + "_tm:" + System.currentTimeMillis());
         message.setBody(MqSerializationUtils.serialize(body));
         message.setTopic(TopicEnum.LOGIN_EMAIL.getRocketMqTopic());
         message.setTags(TopicEnum.LOGIN_EMAIL.getTag());

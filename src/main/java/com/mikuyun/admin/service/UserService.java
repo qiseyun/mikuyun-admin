@@ -10,7 +10,7 @@ import com.mikuyun.admin.evt.user.AddUserEvt;
  * 服务类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-01
  */
 public interface UserService extends IService<User> {

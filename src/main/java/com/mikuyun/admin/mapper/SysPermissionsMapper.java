@@ -14,7 +14,7 @@ import java.util.Set;
  * 菜单权限表 Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-05
  */
 public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {

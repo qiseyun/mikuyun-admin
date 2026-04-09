@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * 验证码表
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-04-16
  */
 @Data

@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.User;
  * Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-01
  */
 public interface UserMapper extends BaseMapper<User> {

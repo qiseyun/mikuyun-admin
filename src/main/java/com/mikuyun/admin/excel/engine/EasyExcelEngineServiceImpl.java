@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2025/4/11 21:15
  * 大批量分页流式导出
