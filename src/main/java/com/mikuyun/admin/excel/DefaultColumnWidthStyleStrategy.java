@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2025/12/13 11:17
  * 默认的列宽样式策略

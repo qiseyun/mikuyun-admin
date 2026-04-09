@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
  * Service exception class.
  * 自定义异常
  *
- * @author qiseyun
+ * @author mikuyun
  * @version 1.0
  * @date 2023年3月25日/0025 0点17分
  */

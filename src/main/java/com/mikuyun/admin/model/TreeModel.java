@@ -3,7 +3,7 @@ package com.mikuyun.admin.model;
 import java.util.List;
 
 /**
- * @author qiseyun
+ * @author mikuyun
  * @version 1.0
  * @date 2024/3/22 17:34
  */

@@ -14,7 +14,7 @@ import java.util.List;
  * 菜单权限表 服务类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-05
  */
 public interface SysPermissionsService extends IService<SysPermissions> {

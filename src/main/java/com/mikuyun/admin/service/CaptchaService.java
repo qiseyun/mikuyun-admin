@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.Captcha;
  * 验证码表 服务类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-04-16
  */
 public interface CaptchaService extends IService<Captcha> {

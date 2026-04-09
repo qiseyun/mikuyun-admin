@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.SysFile;
  * 文件表 服务类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-04-22
  */
 public interface ISysFileService extends IService<SysFile> {

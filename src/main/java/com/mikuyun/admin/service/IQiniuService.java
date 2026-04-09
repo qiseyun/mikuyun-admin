@@ -5,7 +5,7 @@ import com.qiniu.storage.model.DefaultPutRet;
 import java.io.InputStream;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2026/1/30 12:44
  */

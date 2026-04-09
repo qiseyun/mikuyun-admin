@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * 软件版本
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2024-05-05
  */
 @Data

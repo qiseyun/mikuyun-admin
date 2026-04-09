@@ -11,7 +11,7 @@ import com.mikuyun.admin.evt.DictType.DictTypePageEvt;
  * 字典类型 服务类
  * </p>
  *
- * @author jiangQL
+ * @author mikuyun
  * @since 2025-04-18 23:14
  */
 public interface IDictTypeService extends IService<DictType> {

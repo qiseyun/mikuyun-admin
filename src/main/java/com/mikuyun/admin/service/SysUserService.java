@@ -20,7 +20,7 @@ import java.util.List;
  * 用户表 服务类
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-07
  */
 public interface SysUserService extends IService<SysUser> {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
- * @author qiseyun
+ * @author mikuyun
  * @version 1.0
  * @date 2022/11/1 14:35
  */

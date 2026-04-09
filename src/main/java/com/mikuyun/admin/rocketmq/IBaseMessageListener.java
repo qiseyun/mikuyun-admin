@@ -3,7 +3,7 @@ package com.mikuyun.admin.rocketmq;
 import org.apache.rocketmq.common.message.MessageExt;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2025/1/25 14:18
  */

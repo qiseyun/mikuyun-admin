@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.SysRolePermissions;
  * 角色菜单表 Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2022-11-05
  */
 public interface SysRolePermissionsMapper extends BaseMapper<SysRolePermissions> {

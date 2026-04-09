@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
- * @author qiseyun
+ * @author mikuyun
  * @version 1.0
  * @date 2022/11/1 15:35
  */

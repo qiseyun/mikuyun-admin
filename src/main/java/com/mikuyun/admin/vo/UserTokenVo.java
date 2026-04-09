@@ -3,7 +3,7 @@ package com.mikuyun.admin.vo;
 import lombok.Data;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2025/3/30 09:38
  */

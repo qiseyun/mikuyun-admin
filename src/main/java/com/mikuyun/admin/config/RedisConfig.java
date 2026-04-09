@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2024/11/9 23:23
  */

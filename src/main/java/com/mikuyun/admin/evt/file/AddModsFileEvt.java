@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * @author jiangQL
+ * @author mikuyun
  * @version 1.0
  * @date 2024/4/30 上午9:03
  */

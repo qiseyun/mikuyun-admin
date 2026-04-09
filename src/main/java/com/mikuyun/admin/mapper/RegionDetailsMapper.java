@@ -13,7 +13,7 @@ import java.util.List;
  * 地区表 Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2025/03/02 22:03
  */
 public interface RegionDetailsMapper extends BaseMapper<RegionDetails> {

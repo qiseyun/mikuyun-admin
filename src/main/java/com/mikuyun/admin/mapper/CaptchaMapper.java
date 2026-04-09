@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.Captcha;
  * 验证码表 Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-04-16
  */
 public interface CaptchaMapper extends BaseMapper<Captcha> {

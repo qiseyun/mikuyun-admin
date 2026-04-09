@@ -9,7 +9,7 @@ import com.mikuyun.admin.entity.SysFile;
  * 文件表 Mapper 接口
  * </p>
  *
- * @author qiseyun
+ * @author mikuyun
  * @since 2023-04-22
  */
 public interface SysFileMapper extends BaseMapper<SysFile> {
