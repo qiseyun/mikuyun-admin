@@ -1,6 +1,7 @@
 package com.mikuyun.admin.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.syspermissions.EditRPEvt;
@@ -30,7 +31,7 @@ public class SysRolePermissionsController {
 
     private final SysRolePermissionsService sysRolePermissionsService;
 
-    @SaCheckRole(value = {"super_admin"})
+    @SaCheckPermission(value = "system:role:permission")
     @PostMapping(value = "/edit")
     @Operation(summary = "角色权限编辑")
     public R<Void> addPermissionToRole(@RequestBody @Valid EditRPEvt evt) {

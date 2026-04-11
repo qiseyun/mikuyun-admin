@@ -44,7 +44,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     private final SysRoleService sysRoleService;
 
     @Override
-    public List<String> sysRolePermissions(Object sysUserId) {
+    public List<String> sysRolePermissions(Integer sysUserId) {
         // 查询登录用户的角色列表
         List<Integer> collect = sysRoleService.querySysRoleInfo(sysUserId)
                 .stream()

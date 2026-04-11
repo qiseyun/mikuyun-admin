@@ -6,7 +6,7 @@ import com.mikuyun.admin.annotation.SecurityVerification;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.rocketmq.AsyncMessageEvt;
 import com.mikuyun.admin.rocketmq.IAsyncMessageService;
-import com.mikuyun.admin.support.factory.AsyncMessageFactory;
+import com.mikuyun.admin.factory.AsyncMessageFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

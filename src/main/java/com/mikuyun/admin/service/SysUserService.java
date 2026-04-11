@@ -39,7 +39,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUserId 用户id
      * @return 管理员信息
      */
-    SysUserInfo getSysUserInfo(Object sysUserId);
+    SysUserInfo getSysUserInfo(Integer sysUserId);
 
     /**
      * 管理员列表

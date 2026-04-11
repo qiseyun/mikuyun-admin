@@ -35,7 +35,6 @@ import org.apache.rocketmq.common.message.Message;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -88,8 +87,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUserInfo getSysUserInfo(Object sysUserId) {
-        SysUser sysUser = this.getById((Serializable) sysUserId);
+    public SysUserInfo getSysUserInfo(Integer sysUserId) {
+        SysUser sysUser = this.getById(sysUserId);
         if (ObjectUtil.isEmpty(sysUser)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST);
         }

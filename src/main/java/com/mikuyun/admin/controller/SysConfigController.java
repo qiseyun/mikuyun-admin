@@ -1,5 +1,6 @@
 package com.mikuyun.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
@@ -32,13 +33,14 @@ public class SysConfigController {
 
     private final ISysConfigService sysConfigService;
 
+    @SaCheckPermission("system:config:page_view")
     @GetMapping(value = "/list")
     @Operation(summary = "系统参数配置列表")
     public R<List<SysConfigListVo>> list(SysConfigListEvt evt) {
         return R.ok(sysConfigService.getSysConfigList(evt));
     }
 
-    @SaCheckRole("super_admin")
+    @SaCheckPermission("system:config:add")
     @PostMapping(value = "/add")
     @Operation(summary = "新增系统参数配置")
     public R<Void> addSysConfig(@RequestBody @Valid AddSysConfigEvt evt) {
@@ -46,7 +48,7 @@ public class SysConfigController {
         return R.ok();
     }
 
-    @SaCheckRole("super_admin")
+    @SaCheckPermission("system:config:edit")
     @PostMapping(value = "/update")
     @Operation(summary = "编辑系统参数配置")
     public R<Void> updateSysConfig(@RequestBody @Valid UpdateSysConfigEvt evt) {
@@ -54,7 +56,7 @@ public class SysConfigController {
         return R.ok();
     }
 
-    @SaCheckRole("super_admin")
+    @SaCheckPermission("system:config:delete")
     @PostMapping(value = "/del")
     @Operation(summary = "删除系统配置")
     public R<Void> delSysConfig(@RequestBody @Valid IdEvt evt) {

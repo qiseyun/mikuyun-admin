@@ -1,4 +1,4 @@
-package com.mikuyun.admin.support.factory;
+package com.mikuyun.admin.factory;
 
 import com.mikuyun.admin.rocketmq.IAsyncMessageService;
 import lombok.RequiredArgsConstructor;
