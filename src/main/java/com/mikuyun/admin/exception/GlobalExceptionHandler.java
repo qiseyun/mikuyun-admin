@@ -10,8 +10,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2022/11/1 14:35
+ * @since 2022/11/1 14:35
  */
 @RestControllerAdvice
 @Slf4j

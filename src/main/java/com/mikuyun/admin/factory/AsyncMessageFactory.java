@@ -1,4 +1,4 @@
-package com.mikuyun.admin.support.factory;
+package com.mikuyun.admin.factory;
 
 import com.mikuyun.admin.rocketmq.IAsyncMessageService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * @auth mikuyun
- * @date 2026/4/2 22:43
+ * @since 2026/4/2 22:43
  */
 @Slf4j
 @Component

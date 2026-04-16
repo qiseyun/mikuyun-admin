@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * @auth mikuyun
- * @date 2026/3/31 21:35
+ * @since 2026/3/31 21:35
  */
 @Data
 public class AsyncMessageEvt {

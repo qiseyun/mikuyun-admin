@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * 代码自动生成,如果连的开发数据库生成的实体类,可能存在线上数据库表没有对应字段,一定要慎用。
  *
  * @author: mikuyun
- * @date: 4/12/24 8:06
+ * @since: 4/12/24 8:06
  */
 public class CodeGenerator {
 

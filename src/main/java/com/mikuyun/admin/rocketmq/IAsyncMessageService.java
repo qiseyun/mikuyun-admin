@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @auth mikuyun
- * @date 2026/3/31 21:26
+ * @since 2026/3/31 21:26
  */
 public interface IAsyncMessageService {
 

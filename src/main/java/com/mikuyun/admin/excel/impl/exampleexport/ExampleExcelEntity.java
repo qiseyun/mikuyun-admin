@@ -5,8 +5,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 21:27
+ * @since 2025/4/11 21:27
  */
 @Data
 public class ExampleExcelEntity {

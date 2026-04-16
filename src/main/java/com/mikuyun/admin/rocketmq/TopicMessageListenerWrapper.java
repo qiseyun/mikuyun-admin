@@ -13,8 +13,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/1/25 14:17
+ * @since 2025/1/25 14:17
  */
 @Slf4j
 public class TopicMessageListenerWrapper implements MessageListenerConcurrently {

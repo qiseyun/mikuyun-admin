@@ -4,8 +4,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/3/22 17:34
+ * @since 2024/3/22 17:34
  */
 public interface TreeModel<T> {
 

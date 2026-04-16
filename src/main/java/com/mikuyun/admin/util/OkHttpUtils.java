@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author qise
- * @date 2025/3/16 10:39
+ * @since 2025/3/16 10:39
  */
 @Slf4j
 public class OkHttpUtils {

@@ -5,8 +5,7 @@ import lombok.Getter;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/8/2 下午7:44
+ * @since 2024/8/2 下午7:44
  */
 @Getter
 @AllArgsConstructor

@@ -9,8 +9,7 @@ import java.io.IOException;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月11日/0011 16点14分
+ * @since 2024/1/11 16:14
  */
 @WebFilter(filterName = "CorsFilter")
 @Configuration

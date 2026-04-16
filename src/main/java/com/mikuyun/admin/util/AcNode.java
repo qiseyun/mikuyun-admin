@@ -5,8 +5,7 @@ import java.util.Map;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/17 22:20
+ * @since 2025/12/17 22:20
  * AC 自动机节点
  */
 public class AcNode {

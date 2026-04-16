@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 20:37
+ * @since 2025/4/11 20:37
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

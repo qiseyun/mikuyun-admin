@@ -6,7 +6,7 @@ import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.ExcelTask;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import com.mikuyun.admin.service.IExcelTaskService;
-import com.mikuyun.admin.support.factory.ExcelEngineFactory;
+import com.mikuyun.admin.factory.ExcelEngineFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,8 +20,7 @@ import java.util.concurrent.Semaphore;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 22:47
+ * @since 2025/4/11 22:47
  */
 @Slf4j
 @Component

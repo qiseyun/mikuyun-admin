@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/1/25 14:20
+ * @since 2025/1/25 14:20
  */
 @Slf4j
 @RequiredArgsConstructor

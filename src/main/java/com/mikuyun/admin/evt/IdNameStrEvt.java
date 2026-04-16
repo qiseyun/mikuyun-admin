@@ -4,8 +4,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/1/26 17:33
+ * @since 2025/1/26 17:33
  */
 @Data
 public class IdNameStrEvt {

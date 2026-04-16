@@ -4,8 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/11/22 21:58
+ * @since 2025/11/22 21:58
  */
 @Documented
 @Target(ElementType.METHOD)

@@ -5,8 +5,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/4/30 上午9:03
+ * @since 2024/4/30 上午9:03
  */
 @Data
 public class AddModsFileEvt {

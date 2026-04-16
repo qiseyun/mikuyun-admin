@@ -13,8 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/11/9 23:23
+ * @since 2024/11/9 23:23
  */
 @Slf4j
 @Configuration

@@ -6,8 +6,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月17日/0017 21点59分
+ * @since 2024年1月17日/0017 21点59分
  */
 @Data
 public class AddRoleToSysUser {

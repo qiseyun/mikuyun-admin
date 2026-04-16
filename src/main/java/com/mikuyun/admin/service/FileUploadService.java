@@ -6,8 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年4月22日/0022 15点52分
+ * @since 2023年4月22日/0022 15点52分
  */
 public interface FileUploadService {
 

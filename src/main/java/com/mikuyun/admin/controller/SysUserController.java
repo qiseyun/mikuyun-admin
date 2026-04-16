@@ -1,7 +1,7 @@
 package com.mikuyun.admin.controller;
 
 
-import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
@@ -35,13 +35,14 @@ public class SysUserController {
 
     private final SysUserService sysUserService;
 
+    @SaCheckPermission(value = "system:user:page_view")
     @GetMapping(value = "/list")
     @Operation(summary = "后台用户列表")
     public R<List<SysUserListVo>> list(SysUserListEvt evt) {
         return R.ok(sysUserService.getSysUserList(evt));
     }
 
-    @SaCheckRole(value = {"admin", "super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:user:add")
     @PostMapping(value = "/add")
     @Operation(summary = "新增后台用户")
     public R<Void> addUser(@RequestBody @Valid AddSysUserEvt evt) {
@@ -49,7 +50,7 @@ public class SysUserController {
         return R.ok();
     }
 
-    @SaCheckRole(value = {"admin", "super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:user:edit")
     @PostMapping(value = "/update")
     @Operation(summary = "编辑后台用户")
     public R<Void> updateSysUser(@RequestBody @Valid UpdateSysUserEvt evt) {
@@ -57,7 +58,7 @@ public class SysUserController {
         return R.ok();
     }
 
-    @SaCheckRole(value = {"admin", "super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:user:delete", mode = SaMode.OR)
     @PostMapping(value = "/del")
     @Operation(summary = "删除后台用户")
     public R<Void> delSysUser(@RequestBody @Valid IdEvt evt) {

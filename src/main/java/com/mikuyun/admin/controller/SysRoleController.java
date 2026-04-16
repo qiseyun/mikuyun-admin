@@ -1,6 +1,7 @@
 package com.mikuyun.admin.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
@@ -33,13 +34,14 @@ public class SysRoleController {
 
     private final SysRoleService sysRoleService;
 
+    @SaCheckPermission(value = "system:role:page_view")
     @GetMapping(value = "/getRoleList")
     @Operation(summary = "获取系统角色列表")
     public R<List<QuerySysRoleListVo>> getRoleList(SysRoleEvt evt) {
         return R.ok(sysRoleService.queryRoleList(evt));
     }
 
-    @SaCheckRole(value = "super_admin")
+    @SaCheckPermission(value = "system:role:add")
     @PostMapping(value = "/add")
     @Operation(summary = "新增角色")
     public R<Void> addSysRole(@RequestBody @Valid AddSysRoleListEvt evt) {
@@ -47,7 +49,7 @@ public class SysRoleController {
         return R.ok();
     }
 
-    @SaCheckRole(value = "super_admin")
+    @SaCheckPermission(value = "system:role:edit")
     @PostMapping(value = "/update")
     @Operation(summary = "修改角色")
     public R<Void> updateSysRole(@RequestBody @Valid UpdateSysRoleEvt evt) {
@@ -55,7 +57,7 @@ public class SysRoleController {
         return R.ok();
     }
 
-    @SaCheckRole(value = "super_admin")
+    @SaCheckPermission(value = "system:role:delete")
     @PostMapping(value = "/del")
     @Operation(summary = "删除角色")
     public R<Void> delSysRole(@RequestBody @Valid IdEvt evt) {

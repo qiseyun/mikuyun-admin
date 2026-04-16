@@ -7,8 +7,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/2/8 16:26
+ * @since 2026/2/8 16:26
  */
 @Data
 public class UpdateSysUserEvt {

@@ -12,8 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/11/9 20:58
+ * @since 2024/11/9 20:58
  */
 @Slf4j
 @Component

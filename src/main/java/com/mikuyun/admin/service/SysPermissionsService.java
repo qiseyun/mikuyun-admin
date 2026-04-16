@@ -25,7 +25,7 @@ public interface SysPermissionsService extends IService<SysPermissions> {
      * @param sysUserId 用户id
      * @return 对应角色权限列表
      */
-    List<String> sysRolePermissions(Object sysUserId);
+    List<String> sysRolePermissions(Integer sysUserId);
 
     /**
      * 查询菜单列表

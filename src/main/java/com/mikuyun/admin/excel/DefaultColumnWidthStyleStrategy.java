@@ -13,8 +13,7 @@ import java.util.Map;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/13 11:17
+ * @since 2025/12/13 11:17
  * 默认的列宽样式策略
  */
 public class DefaultColumnWidthStyleStrategy extends AbstractColumnWidthStyleStrategy {

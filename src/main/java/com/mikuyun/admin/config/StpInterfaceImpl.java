@@ -11,8 +11,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2022/11/1 14:30
+ * @since 2022/11/1 14:30
  */
 @Slf4j
 @Component
@@ -32,7 +31,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object o, String s) {
         // 权限分菜单权限和按钮权限
-        return sysPermissionsService.sysRolePermissions(o);
+        return sysPermissionsService.sysRolePermissions(Integer.valueOf((String) o));
     }
 
     /**
@@ -43,6 +42,6 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object o, String s) {
         // 管理员角色查询
-        return sysRoleService.querySysRole(o);
+        return sysRoleService.querySysRole(Integer.valueOf((String) o));
     }
 }

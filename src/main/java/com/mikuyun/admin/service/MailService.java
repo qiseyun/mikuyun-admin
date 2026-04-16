@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023/4/3 11:08
+ * @since 2023/4/3 11:08
  */
 public interface MailService {
 

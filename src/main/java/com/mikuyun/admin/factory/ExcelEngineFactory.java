@@ -1,4 +1,4 @@
-package com.mikuyun.admin.support.factory;
+package com.mikuyun.admin.factory;
 
 import com.mikuyun.admin.excel.ExcelDataSupplier;
 import com.mikuyun.admin.exception.BizException;
@@ -14,8 +14,7 @@ import java.util.Map;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 20:33
+ * @since 2025/4/11 20:33
  */
 @Slf4j
 @Component

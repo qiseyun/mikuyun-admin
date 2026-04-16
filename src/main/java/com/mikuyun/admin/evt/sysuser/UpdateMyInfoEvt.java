@@ -7,8 +7,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/2/11 22:14
+ * @since 2026/2/11 22:14
  */
 @Data
 public class UpdateMyInfoEvt {

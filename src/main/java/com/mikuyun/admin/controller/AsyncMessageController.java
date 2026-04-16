@@ -6,7 +6,7 @@ import com.mikuyun.admin.annotation.SecurityVerification;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.rocketmq.AsyncMessageEvt;
 import com.mikuyun.admin.rocketmq.IAsyncMessageService;
-import com.mikuyun.admin.support.factory.AsyncMessageFactory;
+import com.mikuyun.admin.factory.AsyncMessageFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @auth mikuyun
- * @date 2026/4/2 22:41
+ * @since 2026/4/2 22:41
  */
 @Slf4j
 @RequestMapping(value = "/async/message")

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @auth mikuyun
- * @date 2026/3/31 21:28
+ * @since 2026/3/31 21:28
  */
 @Slf4j
 public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageService {

@@ -23,8 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/3/22 02:04
+ * @since 2025/3/22 02:04
  */
 @Slf4j
 @RequiredArgsConstructor

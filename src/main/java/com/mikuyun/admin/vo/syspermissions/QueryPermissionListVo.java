@@ -5,8 +5,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年5月1日/0001 1点20分
+ * @since 2023年5月1日/0001 1点20分
  */
 @Data
 public class QueryPermissionListVo {

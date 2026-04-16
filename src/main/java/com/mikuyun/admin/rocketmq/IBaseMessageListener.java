@@ -4,8 +4,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/1/25 14:18
+ * @since 2025/1/25 14:18
  */
 public interface IBaseMessageListener {
 

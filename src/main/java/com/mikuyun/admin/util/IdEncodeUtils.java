@@ -6,8 +6,7 @@ import java.util.Base64;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025-5-1 11:00
+ * @since 2025-5-1 11:00
  */
 public class IdEncodeUtils {
 

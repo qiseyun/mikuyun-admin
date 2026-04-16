@@ -30,14 +30,14 @@ public class SysUserRoleController {
 
     private final SysUserRoleService sysUserRoleService;
 
-    @SaCheckRole(value = {"admin", "super_admin"}, mode = SaMode.OR)
+    @SaCheckRole(value = "system:user:page_view")
     @GetMapping(value = "/getRoles/{sysUserId}")
     @Operation(summary = "获取用户角色")
     public R<List<Integer>> getRoles(@PathVariable Integer sysUserId) {
         return R.ok(sysUserRoleService.getRoles(sysUserId));
     }
 
-    @SaCheckRole(value = {"admin", "super_admin"}, mode = SaMode.OR)
+    @SaCheckRole(value = "system:user:edit_role")
     @PostMapping(value = "/editRoles")
     @Operation(summary = "编辑用户角色")
     public R<Void> editRoles(@RequestBody @Valid EditUserRoleEvt evt) {

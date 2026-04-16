@@ -19,8 +19,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2022/11/1 13:33
+ * @since 2022/11/1 13:33
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -42,7 +41,8 @@ public class SysLoginController {
     @GetMapping(value = "/permissions")
     @Operation(summary = "查询权限列表")
     public R<List<String>> sysLogin() {
-        return R.ok(sysPermissionsService.sysRolePermissions(StpUtil.getLoginId()));
+        Object loginId = StpUtil.getLoginId();
+        return R.ok(sysPermissionsService.sysRolePermissions(Integer.valueOf((String) loginId)));
     }
 
     /**
@@ -51,7 +51,8 @@ public class SysLoginController {
     @GetMapping(value = "/getInfo")
     @Operation(summary = "查询登录用户信息")
     public R<SysUserInfo> getInfo() {
-        return R.ok(sysUserService.getSysUserInfo(StpUtil.getLoginId()));
+        Object loginId = StpUtil.getLoginId();
+        return R.ok(sysUserService.getSysUserInfo(Integer.valueOf((String) loginId)));
     }
 
     /**

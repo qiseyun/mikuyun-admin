@@ -7,8 +7,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/5/1 13:34
+ * @since 2025/5/1 13:34
  */
 @Data
 public class DictTypeEvt {

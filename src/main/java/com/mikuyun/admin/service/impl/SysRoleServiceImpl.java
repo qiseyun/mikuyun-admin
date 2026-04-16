@@ -33,12 +33,12 @@ import java.util.List;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
     @Override
-    public List<SysRole> querySysRoleInfo(Object sysUserId) {
+    public List<SysRole> querySysRoleInfo(Integer sysUserId) {
         return baseMapper.querySysRoleInfo(sysUserId);
     }
 
     @Override
-    public List<String> querySysRole(Object sysUserId) {
+    public List<String> querySysRole(Integer sysUserId) {
         return baseMapper.querySysRole(sysUserId);
     }
 

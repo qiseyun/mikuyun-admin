@@ -7,8 +7,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/2/7 20:21
+ * @since 2026/2/7 20:21
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -1,6 +1,7 @@
 package com.mikuyun.admin.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import com.mikuyun.admin.common.R;
@@ -32,14 +33,14 @@ public class SysPermissionsController {
 
     private final SysPermissionsService sysPermissionsService;
 
-    @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:permission:page_view")
     @GetMapping(value = "/tree")
     @Operation(summary = "获取系统权限树", description = "-1,除接口外的所有权限; 获取下级就传id,0就是根节点")
     public R<List<SysPermissionListVo>> getSysPermissionTree(IdEvt evt) {
         return R.ok(sysPermissionsService.queryPermissionList(evt));
     }
 
-    @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:permission:add")
     @PostMapping(value = "/add")
     @Operation(summary = "新增权限")
     public R<Void> add(@RequestBody @Valid AddOrEditPermissionEvt evt) {
@@ -47,7 +48,7 @@ public class SysPermissionsController {
         return R.ok();
     }
 
-    @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:permission:edit")
     @PostMapping(value = "/update")
     @Operation(summary = "编辑权限")
     public R<Void> update(@RequestBody @Valid AddOrEditPermissionEvt evt) {
@@ -55,7 +56,7 @@ public class SysPermissionsController {
         return R.ok();
     }
 
-    @SaCheckRole(value = {"super_admin"}, mode = SaMode.OR)
+    @SaCheckPermission(value = "system:permission:delete")
     @PostMapping(value = "/del")
     @Operation(summary = "删除权限")
     public R<Void> delete(@RequestBody @Valid IdEvt evt) {
@@ -63,6 +64,7 @@ public class SysPermissionsController {
         return R.ok();
     }
 
+    @SaCheckPermission(value = "system:role:page_view")
     @GetMapping(value = "/rolePermissions/{roleId}")
     @Operation(summary = "获取角色权限id列表")
     public R<List<Integer>> getRolePermissions(@PathVariable Integer roleId) {
