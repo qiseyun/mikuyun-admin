@@ -8,8 +8,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/13 11:40
+ * @since 2025/12/13 11:40
  */
 public class StyleUtils {
 

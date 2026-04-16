@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年6月3日/0003 17点53分
+ * @since 2023年6月3日/0003 17点53分
  * <p>
  * 自定义侦听器实现
  * Sa-Token 提供一种侦听器机制，通过注册侦听器，你可以订阅框架的一些关键性事件，例如：用户登录、退出、被踢下线等。

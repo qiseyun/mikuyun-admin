@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/27 22:25
+ * @since 2025/12/27 22:25
  */
 public class EsUtils {
 

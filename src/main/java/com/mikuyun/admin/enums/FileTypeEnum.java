@@ -6,8 +6,7 @@ import lombok.Getter;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年3月25日/0025 0点17分
+ * @since 2023年3月25日/0025 0点17分
  */
 @Getter
 @AllArgsConstructor

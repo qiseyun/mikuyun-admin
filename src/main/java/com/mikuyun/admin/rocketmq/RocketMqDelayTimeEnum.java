@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @auth mikuyun
- * @date 2026/4/4 13:11
+ * @since 2026/4/4 13:11
  * RocketMQ 延迟消息等级枚举（按延迟时间命名）
  * 对应默认配置: "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h"
  */

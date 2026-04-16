@@ -9,8 +9,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月17日/0017 22点09分
+ * @since 2024年1月17日/0017 22点09分
  */
 @Data
 public class EditRPEvt {

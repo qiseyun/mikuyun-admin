@@ -14,8 +14,7 @@ import java.util.Arrays;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/7/15 下午2:04
+ * @since 2024/7/15 下午2:04
  */
 @Slf4j
 public class FileCheckUtils {

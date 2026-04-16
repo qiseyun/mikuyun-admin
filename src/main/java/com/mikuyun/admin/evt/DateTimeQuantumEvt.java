@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年4月16日/0016 0点06分
+ * @since 2023年4月16日/0016 0点06分
  */
 @Data
 public class DateTimeQuantumEvt {

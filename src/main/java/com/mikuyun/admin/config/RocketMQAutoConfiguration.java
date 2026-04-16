@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/3 15:24
+ * @since 2025/12/3 15:24
  */
 @Configuration
 @EnableConfigurationProperties(RocketMqProperties.class)

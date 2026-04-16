@@ -15,8 +15,7 @@ import java.util.Collection;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 21:15
+ * @since 2025/4/11 21:15
  * 大批量分页流式导出
  */
 @Slf4j

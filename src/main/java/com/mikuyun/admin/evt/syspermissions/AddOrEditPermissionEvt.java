@@ -7,8 +7,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年5月1日/0001 17点06分
+ * @since 2023年5月1日/0001 17点06分
  */
 @Data
 public class AddOrEditPermissionEvt {

@@ -7,8 +7,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月18日/0018 11点52分
+ * @since 2024年1月18日/0018 11点52分
  */
 @Data
 public class SysPermissionListVo implements TreeModel<SysPermissionListVo> {

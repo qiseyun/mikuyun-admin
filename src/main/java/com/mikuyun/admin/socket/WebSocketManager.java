@@ -11,8 +11,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/3/15 11:27
+ * @since 2024/3/15 11:27
  */
 @Slf4j
 public class WebSocketManager {

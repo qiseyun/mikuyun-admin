@@ -6,8 +6,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年5月6日/0006 23点50分
+ * @since 2023年5月6日/0006 23点50分
  */
 @Data
 public class AddSysRoleListEvt {

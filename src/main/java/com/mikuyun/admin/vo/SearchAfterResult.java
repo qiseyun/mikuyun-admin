@@ -6,8 +6,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/27 21:46
+ * @since 2025/12/27 21:46
  */
 @Data
 public class SearchAfterResult<T> {

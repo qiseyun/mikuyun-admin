@@ -4,8 +4,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/3/30 09:38
+ * @since 2025/3/30 09:38
  */
 @Data
 public class UserTokenVo {

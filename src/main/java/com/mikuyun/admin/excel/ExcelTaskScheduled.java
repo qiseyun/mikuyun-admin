@@ -20,8 +20,7 @@ import java.util.concurrent.Semaphore;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 22:47
+ * @since 2025/4/11 22:47
  */
 @Slf4j
 @Component

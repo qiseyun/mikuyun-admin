@@ -6,8 +6,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2022/11/3 11:17
+ * @since 2022/11/3 11:17
  */
 @Data
 public class AddUserEvt {

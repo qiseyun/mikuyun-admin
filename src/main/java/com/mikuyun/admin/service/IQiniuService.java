@@ -6,8 +6,7 @@ import java.io.InputStream;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/1/30 12:44
+ * @since 2026/1/30 12:44
  */
 public interface IQiniuService {
 

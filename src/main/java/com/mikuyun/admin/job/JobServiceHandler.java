@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月23日/0023 22点16分
+ * @since 2024年1月23日/0023 22点16分
  */
 @Component
 @Slf4j

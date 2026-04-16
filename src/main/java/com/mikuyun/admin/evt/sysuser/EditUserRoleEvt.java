@@ -8,8 +8,7 @@ import java.util.List;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/2/11 18:11
+ * @since 2026/2/11 18:11
  */
 @Data
 public class EditUserRoleEvt {

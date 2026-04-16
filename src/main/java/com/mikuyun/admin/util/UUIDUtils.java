@@ -5,8 +5,7 @@ import cn.hutool.core.util.IdUtil;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023/3/8 11:47
+ * @since 2023/3/8 11:47
  */
 public class UUIDUtils {
 

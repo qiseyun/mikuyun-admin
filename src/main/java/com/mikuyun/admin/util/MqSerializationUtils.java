@@ -6,8 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/1/25 14:28
+ * @since 2025/1/25 14:28
  */
 public class MqSerializationUtils {
 

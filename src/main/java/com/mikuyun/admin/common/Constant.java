@@ -2,8 +2,7 @@ package com.mikuyun.admin.common;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/3/13 13:33
+ * @since 2024/3/13 13:33
  */
 public class Constant {
 

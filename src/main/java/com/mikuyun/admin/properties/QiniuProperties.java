@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @auth mikuyun
- * @date 2026/1/30 17:04
+ * @since 2026/1/30 17:04
  */
 @Data
 @Component

@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/27 15:56
+ * @since 2025/12/27 15:56
  */
 @Repository
 public interface PostsEsRepository extends ElasticsearchRepository<PostDoc, Integer> {

@@ -5,8 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/1/25 14:16
+ * @since 2025/1/25 14:16
  */
 @Data
 @ConfigurationProperties(prefix = "rocketmq")

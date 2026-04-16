@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/2/8
+ * @since 2026/2/8
  */
 @Data
 public class SysConfigListVo {

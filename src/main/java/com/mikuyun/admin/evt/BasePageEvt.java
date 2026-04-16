@@ -6,8 +6,7 @@ import org.apache.poi.ss.formula.functions.T;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月14日/0014 10点54分
+ * @since 2024年1月14日/0014 10点54分
  */
 @Data
 public class BasePageEvt {

@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @auth mikuyun
- * @date 2026/3/20 18:52
+ * @since 2026/3/20 18:52
  */
 @Data
 public class ProhibitedWordsCheckEvt {

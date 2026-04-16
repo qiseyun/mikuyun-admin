@@ -4,8 +4,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/4/11 21:25
+ * @since 2025/4/11 21:25
  */
 @Data
 public class ExcelPageDto {

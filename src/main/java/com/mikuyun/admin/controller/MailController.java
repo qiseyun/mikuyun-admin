@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2023年4月16日/0016 0点02分
+ * @since 2023年4月16日/0016 0点02分
  */
 @Tag(name = "邮件相关接口")
 @RestController

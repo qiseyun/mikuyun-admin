@@ -9,8 +9,7 @@ import lombok.experimental.Accessors;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2022/11/1 10:06
+ * @since 2022/11/1 10:06
  */
 @Data
 @Accessors(chain = true)

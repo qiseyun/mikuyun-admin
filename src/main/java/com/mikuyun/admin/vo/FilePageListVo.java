@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024年1月14日/0014 10点28分
+ * @since 2024年1月14日/0014 10点28分
  */
 @Data
 public class FilePageListVo {

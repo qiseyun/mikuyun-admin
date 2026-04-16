@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2025/12/27 15:12
+ * @since 2025/12/27 15:12
  *
  * replicas 单机设置 0 集群 1
  */

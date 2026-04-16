@@ -6,8 +6,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2024/5/5 上午1:09
+ * @since 2024/5/5 上午1:09
  */
 @Data
 public class LogicDelEvt {

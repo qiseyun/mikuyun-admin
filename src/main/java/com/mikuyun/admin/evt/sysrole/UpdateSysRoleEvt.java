@@ -6,8 +6,7 @@ import lombok.Data;
 
 /**
  * @author mikuyun
- * @version 1.0
- * @date 2026/2/8 20:37
+ * @since 2026/2/8 20:37
  */
 @Data
 public class UpdateSysRoleEvt {
