@@ -1,4 +1,4 @@
-package com.mikuyun.admin.rocketmq;
+package com.mikuyun.admin.rocketmq.enums;
 
 import com.mikuyun.admin.exception.BizException;
 import lombok.AllArgsConstructor;

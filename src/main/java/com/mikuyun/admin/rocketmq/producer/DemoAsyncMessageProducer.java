@@ -3,9 +3,9 @@ package com.mikuyun.admin.rocketmq.producer;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.rocketmq.AbstractAsyncMessageServiceImpl;
-import com.mikuyun.admin.rocketmq.AsyncMessageTypeEnum;
+import com.mikuyun.admin.rocketmq.enums.AsyncMessageTypeEnum;
 import com.mikuyun.admin.rocketmq.RocketProducer;
-import com.mikuyun.admin.rocketmq.TopicEnum;
+import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

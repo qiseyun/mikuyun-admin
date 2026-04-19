@@ -2,7 +2,7 @@ package com.mikuyun.admin.rocketmq.consumer;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.rocketmq.IBaseMessageListener;
-import com.mikuyun.admin.rocketmq.TopicEnum;
+import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.service.MailService;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.RequiredArgsConstructor;

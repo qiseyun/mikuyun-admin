@@ -2,6 +2,7 @@ package com.mikuyun.admin.rocketmq;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSONObject;
+import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.Message;

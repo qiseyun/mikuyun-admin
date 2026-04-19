@@ -23,7 +23,7 @@ import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.rocketmq.RocketProducer;
-import com.mikuyun.admin.rocketmq.TopicEnum;
+import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import com.mikuyun.admin.vo.SysUserInfo;

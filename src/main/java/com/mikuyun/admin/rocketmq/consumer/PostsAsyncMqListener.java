@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.mikuyun.admin.entity.document.PostDoc;
 import com.mikuyun.admin.es.PostsEsRepository;
 import com.mikuyun.admin.rocketmq.IBaseMessageListener;
-import com.mikuyun.admin.rocketmq.TopicEnum;
+import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
