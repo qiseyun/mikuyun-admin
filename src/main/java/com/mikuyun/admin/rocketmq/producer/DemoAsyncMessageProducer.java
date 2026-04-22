@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * @auth mikuyun
+ * @author mikuyun
  * @since 2026/4/2 23:18
  */
 @Slf4j

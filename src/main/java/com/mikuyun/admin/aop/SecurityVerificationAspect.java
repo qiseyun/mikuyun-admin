@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.Objects;
 
 /**
- * @auth mikuyun
+ * @author mikuyun
  * @since 2026/4/2 23:04
  */
 @Aspect

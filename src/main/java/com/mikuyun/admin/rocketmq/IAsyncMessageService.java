@@ -7,7 +7,7 @@ import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import java.util.List;
 
 /**
- * @auth mikuyun
+ * @author mikuyun
  * @since 2026/3/31 21:26
  */
 public interface IAsyncMessageService {

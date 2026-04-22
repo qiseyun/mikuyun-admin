@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 
 /**
- * @auth mikuyun
+ * @author mikuyun
  * @since 2026/1/30 11:28
  */
 @Slf4j

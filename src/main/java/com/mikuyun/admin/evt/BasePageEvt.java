@@ -2,7 +2,6 @@ package com.mikuyun.admin.evt;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
-import org.apache.poi.ss.formula.functions.T;
 
 /**
  * @author mikuyun
@@ -30,14 +29,14 @@ public class BasePageEvt {
     /**
      * 获取一个分页对象关闭count
      */
-    public Page<T> generatePageCountFalse() {
+    public Page generatePageCountFalse() {
         return new Page<>(current, size, false);
     }
 
     /**
      * 获取一个分页对象(打开count)
      */
-    public Page<T> generatePageCountTrue() {
+    public Page generatePageCountTrue() {
         return new Page<>(current, size, true);
     }
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @auth mikuyun
+ * @author mikuyun
  * @since 2026/3/31 21:35
  */
 @Data

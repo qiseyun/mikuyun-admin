@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @auth mikuyun
+ * @author mikuyun
  * @since 2026/4/2 22:41
  */
 @Slf4j
