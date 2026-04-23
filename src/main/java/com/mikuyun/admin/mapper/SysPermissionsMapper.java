@@ -44,9 +44,9 @@ public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {
     List<SysPermissionListVo> getPermissionList(@Param("sysUserId") Integer sysUserId);
 
     /**
-     * 超级管理员菜单树
+     * 角色的权限id列表
      *
-     * @return 菜单树
+     * @return 权限id列表
      */
     List<Integer> getRolePermissionIds(@Param("roleId") Integer roleId);
 
