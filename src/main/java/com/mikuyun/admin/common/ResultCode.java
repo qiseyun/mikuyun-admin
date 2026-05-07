@@ -79,7 +79,11 @@ public enum ResultCode {
     NET_WORK_ERROR(61000, "网络波动,请稍后再试"),
     PARAM_ERROR(61100, "参数错误"),
     DOWNLOAD_FILE_FAILED(61200, "文件下载失败"),
-    MAIL_SENDING_FAILED(611300, "邮件发送失败");
+    MAIL_SENDING_FAILED(611300, "邮件发送失败"),
+    NOT_PERMISSION(611400, "无权限"),
+    NOT_ROLE(611500, "无角色权限"),
+
+    ;
 
     private final int code;
 

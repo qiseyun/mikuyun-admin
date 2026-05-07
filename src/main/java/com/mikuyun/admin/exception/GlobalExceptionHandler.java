@@ -1,5 +1,7 @@
 package com.mikuyun.admin.exception;
 
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.exception.SaTokenException;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.common.ResultCode;
@@ -16,8 +18,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    // 全局异常拦截
-    @ExceptionHandler
+    @ExceptionHandler(value = Exception.class)
     public R<Void> handlerException(Exception e) {
         log.error("全局异常拦截: {}", e.getMessage(), e);
         if (e instanceof NoResourceFoundException) {
@@ -29,6 +30,18 @@ public class GlobalExceptionHandler {
             }
         }
         return R.error(ResultCode.SYSTEM_ERROR);
+    }
+
+    @ExceptionHandler(value = NotPermissionException.class)
+    public R<Void> handlerException(NotPermissionException e) {
+        log.error("全局异常拦截: {}", e.getMessage(), e);
+        return R.error(ResultCode.NOT_PERMISSION);
+    }
+
+    @ExceptionHandler(value = NotRoleException.class)
+    public R<Void> handlerException(NotRoleException e) {
+        log.error("全局异常拦截: {}", e.getMessage(), e);
+        return R.error(ResultCode.NOT_ROLE);
     }
 
 }

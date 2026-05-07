@@ -20,7 +20,7 @@ import java.util.List;
 public interface SysPermissionsService extends IService<SysPermissions> {
 
     /**
-     * 用户角色菜单权限列表
+     * 用户角色的权限列表
      *
      * @param sysUserId 用户id
      * @return 对应角色权限列表
