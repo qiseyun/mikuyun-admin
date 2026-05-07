@@ -1,7 +1,6 @@
 package com.mikuyun.admin.controller;
 
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.evt.IdEvt;
 import com.mikuyun.admin.service.IExcelTaskService;
@@ -27,7 +26,6 @@ public class ExcelTaskController {
 
     private final IExcelTaskService excelTaskService;
 
-    @SaIgnore
     @Operation(summary = "发送excel导出通知")
     @PostMapping(value = "/notice")
     public R<Void> notice(@RequestBody IdEvt evt) {
