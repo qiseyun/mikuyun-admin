@@ -1,7 +1,7 @@
 package com.mikuyun.admin.service;
 
 
-import com.mikuyun.admin.evt.mail.MailCaptchaEvt;
+import com.mikuyun.admin.dto.mail.MailCaptchaDto;
 
 /**
  * @author mikuyun
@@ -9,6 +9,6 @@ import com.mikuyun.admin.evt.mail.MailCaptchaEvt;
  */
 public interface CommonService {
 
-    void mailCaptcha(MailCaptchaEvt evt);
+    void mailCaptcha(MailCaptchaDto dto);
 
 }

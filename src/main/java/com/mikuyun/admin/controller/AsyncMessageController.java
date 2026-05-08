@@ -4,7 +4,7 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import com.alibaba.fastjson2.JSON;
 import com.mikuyun.admin.annotation.SecurityVerification;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.rocketmq.AsyncMessageEvt;
+import com.mikuyun.admin.rocketmq.AsyncMessageDto;
 import com.mikuyun.admin.rocketmq.IAsyncMessageService;
 import com.mikuyun.admin.factory.AsyncMessageFactory;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,10 +32,10 @@ public class AsyncMessageController {
     @PostMapping(value = "/send")
     @SaIgnore
     @SecurityVerification
-    public R<Boolean> send(@Valid @RequestBody AsyncMessageEvt evt) {
-        IAsyncMessageService asyncMessageService = asyncMessageFactory.getAsyncMessageService(evt.getType());
-        boolean result = asyncMessageService.isBatch() ? asyncMessageService.rocketMqMessageSendBatch(evt) : asyncMessageService.rocketMqMessageSend(evt);
-        log.info("asyncMessageSend params={} isBatch={} result={}", JSON.toJSONString(evt), asyncMessageService.isBatch(), result);
+    public R<Boolean> send(@Valid @RequestBody AsyncMessageDto dto) {
+        IAsyncMessageService asyncMessageService = asyncMessageFactory.getAsyncMessageService(dto.getType());
+        boolean result = asyncMessageService.isBatch() ? asyncMessageService.rocketMqMessageSendBatch(dto) : asyncMessageService.rocketMqMessageSend(dto);
+        log.info("asyncMessageSend params={} isBatch={} result={}", JSON.toJSONString(dto), asyncMessageService.isBatch(), result);
         return R.ok(result);
     }
 

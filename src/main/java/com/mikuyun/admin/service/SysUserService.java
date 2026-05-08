@@ -3,12 +3,12 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysUser;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.LoginEvt;
-import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
-import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
-import com.mikuyun.admin.evt.sysuser.UpdateMyInfoEvt;
-import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.LoginDto;
+import com.mikuyun.admin.dto.sysuser.AddSysUserDto;
+import com.mikuyun.admin.dto.sysuser.SysUserListDto;
+import com.mikuyun.admin.dto.sysuser.UpdateMyInfoDto;
+import com.mikuyun.admin.dto.sysuser.UpdateSysUserDto;
 import com.mikuyun.admin.vo.SysUserInfo;
 import com.mikuyun.admin.vo.UserTokenVo;
 import com.mikuyun.admin.vo.sysuser.SysUserListVo;
@@ -28,10 +28,10 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 管理员登录逻辑
      *
-     * @param evt 登陆参数
+     * @param dto 登陆参数
      * @return 管理员信息
      */
-    UserTokenVo sysAdminLogin(LoginEvt evt);
+    UserTokenVo sysAdminLogin(LoginDto dto);
 
     /**
      * 管理员信息
@@ -44,31 +44,31 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 管理员列表
      *
-     * @param evt 查询参数
+     * @param dto 查询参数
      * @return List<SysUserListVo>
      */
-    List<SysUserListVo> getSysUserList(SysUserListEvt evt);
+    List<SysUserListVo> getSysUserList(SysUserListDto dto);
 
     /**
      * 新增管理员
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void addSysUser(AddSysUserEvt evt);
+    void addSysUser(AddSysUserDto dto);
 
     /**
      * 新增管理员
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void updateSysUser(UpdateSysUserEvt evt);
+    void updateSysUser(UpdateSysUserDto dto);
 
     /**
      * 新增管理员
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void delSysUser(IdEvt evt);
+    void delSysUser(IdDto dto);
 
     /**
      * 登出业务相关
@@ -85,8 +85,8 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 修改我的信息
      *
-     * @param evt 我的信息
+     * @param dto 我的信息
      */
-    void updateMyInfo(UpdateMyInfoEvt evt);
+    void updateMyInfo(UpdateMyInfoDto dto);
 
 }

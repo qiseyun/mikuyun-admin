@@ -2,8 +2,8 @@ package com.mikuyun.admin.controller.demo;
 
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.IdNameStrEvt;
-import com.mikuyun.admin.evt.ProhibitedWordsCheckEvt;
+import com.mikuyun.admin.dto.IdNameStrDto;
+import com.mikuyun.admin.dto.ProhibitedWordsCheckDto;
 import com.mikuyun.admin.rocketmq.enums.RocketMqDelayTimeEnum;
 import com.mikuyun.admin.rocketmq.RocketProducer;
 import com.mikuyun.admin.rocketmq.enums.TopicEnum;
@@ -53,10 +53,10 @@ public class DemoController {
 
     @PostMapping("/send")
     @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
-    public R<Void> sendMessage(@RequestBody IdNameStrEvt evt) {
+    public R<Void> sendMessage(@RequestBody IdNameStrDto dto) {
         Message message = new Message();
-        message.setKeys("demoId:" + evt.getId());
-        message.setBody(MqSerializationUtils.serialize(evt));
+        message.setKeys("demoId:" + dto.getId());
+        message.setBody(MqSerializationUtils.serialize(dto));
         message.setTopic(TopicEnum.TEST.getDesc());
         message.setTags(TopicEnum.TEST.getTag());
         // 延时等级
@@ -67,11 +67,11 @@ public class DemoController {
 
     @PostMapping("/prohibitedWordsCheck")
     @Operation(summary = "违禁词检测")
-    public R<ProhibitedWordsCheckEvt> prohibitedWordsCheck(@RequestBody ProhibitedWordsCheckEvt evt) {
-        evt.setToText(ahoCorasickAutomatonUtils.replaceSensitiveWords(evt.getText(), StrUtil.isBlank(evt.getReplacement()) ? "*" : evt.getReplacement()));
-        evt.setProhibited(ahoCorasickAutomatonUtils.containsSensitiveWord(evt.getText()));
-        evt.setText(null);
-        return R.ok(evt);
+    public R<ProhibitedWordsCheckDto> prohibitedWordsCheck(@RequestBody ProhibitedWordsCheckDto dto) {
+        dto.setToText(ahoCorasickAutomatonUtils.replaceSensitiveWords(dto.getText(), StrUtil.isBlank(dto.getReplacement()) ? "*" : dto.getReplacement()));
+        dto.setProhibited(ahoCorasickAutomatonUtils.containsSensitiveWord(dto.getText()));
+        dto.setText(null);
+        return R.ok(dto);
     }
 
 }

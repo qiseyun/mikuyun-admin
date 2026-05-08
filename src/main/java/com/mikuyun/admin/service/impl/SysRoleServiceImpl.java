@@ -7,10 +7,10 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.BaseEntity;
 import com.mikuyun.admin.entity.SysRole;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysrole.AddSysRoleListEvt;
-import com.mikuyun.admin.evt.sysrole.SysRoleEvt;
-import com.mikuyun.admin.evt.sysrole.UpdateSysRoleEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.sysrole.AddSysRoleListDto;
+import com.mikuyun.admin.dto.sysrole.SysRoleDto;
+import com.mikuyun.admin.dto.sysrole.UpdateSysRoleDto;
 import com.mikuyun.admin.mapper.SysRoleMapper;
 import com.mikuyun.admin.service.SysRoleService;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
@@ -43,25 +43,25 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public List<QuerySysRoleListVo> queryRoleList(SysRoleEvt evt) {
-        evt.initPageParamsNoRestrictions();
-        return baseMapper.queryRoleList(evt);
+    public List<QuerySysRoleListVo> queryRoleList(SysRoleDto dto) {
+        dto.initPageParamsNoRestrictions();
+        return baseMapper.queryRoleList(dto);
     }
 
     @Override
-    public void addSysRole(AddSysRoleListEvt evt) {
+    public void addSysRole(AddSysRoleListDto dto) {
         SysRole sysRole = new SysRole();
-        BeanUtil.copyProperties(evt, sysRole);
+        BeanUtil.copyProperties(dto, sysRole);
         sysRole.setCreateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
         this.save(sysRole);
     }
 
     @Override
-    public void updateSysRole(UpdateSysRoleEvt evt) {
-        this.getById(evt.getId());
-        SysRole sysRole = this.getById(evt.getId());
+    public void updateSysRole(UpdateSysRoleDto dto) {
+        this.getById(dto.getId());
+        SysRole sysRole = this.getById(dto.getId());
         String beforeData = JSON.toJSONString(sysRole);
-        BeanUtil.copyProperties(evt, sysRole);
+        BeanUtil.copyProperties(dto, sysRole);
         sysRole.setUpdateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
         sysRole.setGmtModified(LocalDateTime.now());
         this.updateById(sysRole);
@@ -70,12 +70,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public void delSysRole(IdEvt evt) {
+    public void delSysRole(IdDto dto) {
         this.lambdaUpdate()
                 .set(SysRole::getIsDelete, 1)
                 .set(BaseEntity::getUpdateBy, StpUtil.getLoginId())
                 .set(BaseEntity::getGmtModified, LocalDateTime.now())
-                .eq(SysRole::getId, evt.getId())
+                .eq(SysRole::getId, dto.getId())
                 .update();
     }
 

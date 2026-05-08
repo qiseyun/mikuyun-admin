@@ -3,7 +3,7 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysUserRole;
-import com.mikuyun.admin.evt.sysuser.EditUserRoleEvt;
+import com.mikuyun.admin.dto.sysuser.EditUserRoleDto;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ public interface SysUserRoleService extends IService<SysUserRole> {
     /**
      * 编辑后台用户角色
      *
-     * @param evt 编辑参数
+     * @param dto 编辑参数
      */
-    void editRoles(EditUserRoleEvt evt);
+    void editRoles(EditUserRoleDto dto);
 
 }

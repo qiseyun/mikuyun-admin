@@ -1,7 +1,7 @@
 package com.mikuyun.admin.rocketmq.consumer;
 
 import com.alibaba.fastjson2.JSON;
-import com.mikuyun.admin.evt.IdNameStrEvt;
+import com.mikuyun.admin.dto.IdNameStrDto;
 import com.mikuyun.admin.rocketmq.IBaseMessageListener;
 import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
@@ -30,8 +30,8 @@ public class DemoConsumer implements IBaseMessageListener {
     @Override
     public Boolean consumer(MessageExt message) {
         try {
-            IdNameStrEvt evt = MqSerializationUtils.deserialize(message.getBody(), IdNameStrEvt.class);
-            log.info(JSON.toJSONString(evt));
+            IdNameStrDto dto = MqSerializationUtils.deserialize(message.getBody(), IdNameStrDto.class);
+            log.info(JSON.toJSONString(dto));
         } catch (Exception e) {
             log.error("Exception: {} \n", e.getMessage(), e);
             return false;

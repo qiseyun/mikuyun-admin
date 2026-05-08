@@ -4,7 +4,7 @@ package com.mikuyun.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.entity.SysUserRole;
-import com.mikuyun.admin.evt.sysuser.EditUserRoleEvt;
+import com.mikuyun.admin.dto.sysuser.EditUserRoleDto;
 import com.mikuyun.admin.mapper.SysUserRoleMapper;
 import com.mikuyun.admin.service.SysUserRoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,24 +37,24 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void editRoles(EditUserRoleEvt evt) {
+    public void editRoles(EditUserRoleDto dto) {
         List<Integer> beforeRoleIds = this.lambdaQuery()
-                .eq(SysUserRole::getUserId, evt.getSysUserId())
+                .eq(SysUserRole::getUserId, dto.getSysUserId())
                 .list()
                 .stream()
                 .map(SysUserRole::getRoleId)
                 .toList();
         // 删除旧角色
         LambdaQueryWrapper<SysUserRole> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysUserRole::getUserId, evt.getSysUserId());
+        lambdaQueryWrapper.eq(SysUserRole::getUserId, dto.getSysUserId());
         this.getBaseMapper().delete(lambdaQueryWrapper);
         // 更新角色
-        List<SysUserRole> afterData = evt.getRoleIds()
+        List<SysUserRole> afterData = dto.getRoleIds()
                 .stream()
-                .map(item -> new SysUserRole(evt.getSysUserId(), item))
+                .map(item -> new SysUserRole(dto.getSysUserId(), item))
                 .toList();
         this.saveBatch(afterData);
-        log.info("用户角色更新: sysUserId:{} \n beforeRoleIds:{} \n afterPermissionIds:{}", evt.getSysUserId(), beforeRoleIds, evt.getRoleIds());
+        log.info("用户角色更新: sysUserId:{} \n beforeRoleIds:{} \n afterPermissionIds:{}", dto.getSysUserId(), beforeRoleIds, dto.getRoleIds());
     }
 
 }

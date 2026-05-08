@@ -3,7 +3,7 @@ package com.mikuyun.admin.controller;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.LoginEvt;
+import com.mikuyun.admin.dto.LoginDto;
 import com.mikuyun.admin.service.SysPermissionsService;
 import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.SysUserInfo;
@@ -34,8 +34,8 @@ public class SysLoginController {
 
     @PostMapping(value = "/login")
     @Operation(summary = "管理员登录")
-    public R<UserTokenVo> sysLogin(@RequestBody LoginEvt evt) {
-        return R.ok(sysUserService.sysAdminLogin(evt));
+    public R<UserTokenVo> sysLogin(@RequestBody LoginDto dto) {
+        return R.ok(sysUserService.sysAdminLogin(dto));
     }
 
     @GetMapping(value = "/permissions")

@@ -1,8 +1,10 @@
 -- 建库
 CREATE SCHEMA mikuyun COLLATE utf8mb4_0900_ai_ci;
 
+USE mikuyun;
+
 -- 建表
-create table mikuyun.mk_captcha
+create table mk_captcha
 (
     id              int auto_increment comment 'id'
         primary key,
@@ -15,12 +17,12 @@ create table mikuyun.mk_captcha
     comment '验证码表' collate = utf8mb4_0900_ai_ci;
 
 create index index_account
-    on mikuyun.mk_captcha (account);
+    on mk_captcha (account);
 
 create index index_type_account
-    on mikuyun.mk_captcha (captcha_type, account);
+    on mk_captcha (captcha_type, account);
 
-create table mikuyun.mk_excel_task
+create table mk_excel_task
 (
     id               int auto_increment comment '主键ID'
         primary key,
@@ -40,7 +42,7 @@ create table mikuyun.mk_excel_task
 )
     comment 'excel任务表' charset = utf8mb4;
 
-create table mikuyun.mk_mq_msg_record
+create table mk_mq_msg_record
 (
     id             int auto_increment
         primary key,
@@ -54,12 +56,12 @@ create table mikuyun.mk_mq_msg_record
     comment '消息队列消息记录' collate = utf8mb4_0900_ai_ci;
 
 create index index_gmt_created_consume_status
-    on mikuyun.mk_mq_msg_record (gmt_created, consume_status);
+    on mk_mq_msg_record (gmt_created, consume_status);
 
 create index index_msg_id
-    on mikuyun.mk_mq_msg_record (msg_id);
+    on mk_mq_msg_record (msg_id);
 
-create table mikuyun.mk_posts
+create table mk_posts
 (
     id           int unsigned auto_increment
         primary key,
@@ -80,12 +82,12 @@ create table mikuyun.mk_posts
     comment '文章表' collate = utf8mb4_0900_ai_ci;
 
 create index idx_posts_status_published
-    on mikuyun.mk_posts (status, published_at);
+    on mk_posts (status, published_at);
 
 create index idx_posts_user_id
-    on mikuyun.mk_posts (user_id);
+    on mk_posts (user_id);
 
-create table mikuyun.mk_sys_config
+create table mk_sys_config
 (
     id           bigint auto_increment comment '参数配置ID'
         primary key,
@@ -104,28 +106,32 @@ create table mikuyun.mk_sys_config
 )
     comment '参数配置表' collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.mk_sys_dict
-(
-    id               bigint                                 not null comment '字典ID(规则)'
-        primary key,
-    sys_dict_type_id bigint                                 not null comment '关联sys_dict_type ID',
-    enum_name        varchar(64)                            not null comment '字典枚举名称',
-    enum_code        varchar(64)                            not null comment '字典枚举值',
-    sort             int                                    not null comment '排序(正序)',
-    remark           varchar(255) default ''                not null comment '备注',
-    is_lock          tinyint(1)   default 0                 not null comment '是否锁定',
-    gmt_created      timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
-    gmt_modified     timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
-    create_by        int          default 0                 not null comment '创建人id',
-    update_by        int          default 0                 not null comment '更新人id',
-    is_delete        tinyint      default 0                 not null comment '0：正常 1：删除'
-)
-    comment '字典表' collate = utf8mb4_0900_ai_ci
-                     row_format = DYNAMIC;
 
-create table mikuyun.mk_sys_dict_type
+create table mk_sys_dict
 (
-    id           bigint auto_increment comment '字典类型ID'
+    id           int auto_increment comment '字典ID(规则)'
+        primary key,
+    dict_type_id int                                    not null comment '关联sys_dict_type ID',
+    enum_name    varchar(64)                            not null comment '字典枚举名称',
+    enum_code    varchar(64)                            not null comment '字典枚举值',
+    sort         int                                    not null comment '排序(正序)',
+    remark       varchar(255) default ''                not null comment '备注',
+    is_lock      tinyint(1)   default 0                 not null comment '是否锁定',
+    gmt_created  timestamp    default CURRENT_TIMESTAMP not null comment '创建时间',
+    gmt_modified timestamp    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    create_by    int          default 0                 not null comment '创建人id',
+    update_by    int          default 0                 not null comment '更新人id',
+    is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
+)
+    comment '字典表' charset = utf8mb4
+                     collate = utf8mb4_0900_ai_ci;
+
+create index idx_type_id
+    on mk_sys_dict (dict_type_id);
+
+create table mk_sys_dict_type
+(
+    id           int auto_increment comment '字典类型ID'
         primary key,
     type_name    varchar(64)  default ''                not null comment '字典类型名(中文)',
     type_code    varchar(64)                            not null comment '字典类型码(英文)',
@@ -137,10 +143,14 @@ create table mikuyun.mk_sys_dict_type
     update_by    int          default 0                 not null comment '更新人id',
     is_delete    tinyint      default 0                 not null comment '0：正常 1：删除'
 )
-    comment '字典类型' collate = utf8mb4_0900_ai_ci
-                       row_format = DYNAMIC;
+    comment '字典类型' charset = utf8mb4
+                       collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.mk_sys_file
+create unique index idx_unique_code
+    on mk_sys_dict_type (type_code);
+
+
+create table mk_sys_file
 (
     id             int auto_increment comment 'id'
         primary key,
@@ -160,19 +170,19 @@ create table mikuyun.mk_sys_file
     comment '文件表' collate = utf8mb4_0900_ai_ci;
 
 create index index_gmt_created
-    on mikuyun.mk_sys_file (gmt_created);
+    on mk_sys_file (gmt_created);
 
 create index index_md5
-    on mikuyun.mk_sys_file (md5)
+    on mk_sys_file (md5)
     comment 'md5';
 
 create index index_original_name
-    on mikuyun.mk_sys_file (original_name);
+    on mk_sys_file (original_name);
 
 create index index_type
-    on mikuyun.mk_sys_file (type);
+    on mk_sys_file (type);
 
-create table mikuyun.mk_sys_permissions
+create table mk_sys_permissions
 (
     id           int auto_increment comment '菜单ID'
         primary key,
@@ -190,7 +200,7 @@ create table mikuyun.mk_sys_permissions
 )
     comment '系统菜单组件权限' collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.mk_sys_role
+create table mk_sys_role
 (
     id           int auto_increment
         primary key,
@@ -207,7 +217,7 @@ create table mikuyun.mk_sys_role
 )
     comment '系统角色表' collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.mk_sys_role_permissions
+create table mk_sys_role_permissions
 (
     role_id       int not null comment '角色ID',
     permission_id int not null comment '菜单ID',
@@ -215,7 +225,7 @@ create table mikuyun.mk_sys_role_permissions
 )
     comment '角色菜单表' collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.mk_sys_user
+create table mk_sys_user
 (
     id           int auto_increment comment '主键ID'
         primary key,
@@ -237,9 +247,9 @@ create table mikuyun.mk_sys_user
     comment '用户表' collate = utf8mb4_0900_ai_ci;
 
 create index index_username
-    on mikuyun.mk_sys_user (username);
+    on mk_sys_user (username);
 
-create table mikuyun.mk_sys_user_role
+create table mk_sys_user_role
 (
     user_id int not null comment '用户ID',
     role_id int not null comment '角色ID',
@@ -247,7 +257,7 @@ create table mikuyun.mk_sys_user_role
 )
     comment '用户角色表' collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.mk_user
+create table mk_user
 (
     id            int auto_increment comment '主键,自增'
         primary key,
@@ -265,15 +275,15 @@ create table mikuyun.mk_user
     comment '用户表' collate = utf8mb4_0900_ai_ci;
 
 create index index_gmt_created
-    on mikuyun.mk_user (gmt_created);
+    on mk_user (gmt_created);
 
 create index index_nickname
-    on mikuyun.mk_user (nickname);
+    on mk_user (nickname);
 
 create index index_telephone
-    on mikuyun.mk_user (telephone, nickname);
+    on mk_user (telephone, nickname);
 
-create table mikuyun.mk_version
+create table mk_version
 (
     id             int auto_increment comment '主键,自增'
         primary key,
@@ -289,7 +299,7 @@ create table mikuyun.mk_version
 )
     comment '软件版本' collate = utf8mb4_0900_ai_ci;
 
-create table mikuyun.region
+create table region
 (
     id        int auto_increment comment '主键,自增'
         primary key,
@@ -297,34 +307,32 @@ create table mikuyun.region
     parent_id int         default 0  not null comment '父节点编号',
     pinyin    varchar(50)            null comment '拼音'
 )
-    comment '城市地区表' collate = utf8mb4_0900_ai_ci
-                         row_format = DYNAMIC;
+    comment '城市地区表' collate = utf8mb4_0900_ai_ci;
 
 create index parent_id
-    on mikuyun.region (parent_id);
+    on region (parent_id);
 
-create table mikuyun.region_details
+create table region_details
 (
     id        int auto_increment comment 'ID'
         primary key,
-    pid       int          null comment '父id',
-    shortname varchar(100) null comment '简称',
-    name      varchar(100) null comment '名称',
-    mergename varchar(255) null comment '全称',
-    level     tinyint      null comment '层级 0 1 2 省市区县',
-    pinyin    varchar(100) null comment '拼音',
-    code      varchar(100) null comment '长途区号',
-    zip       varchar(100) null comment '邮编',
-    first     varchar(50)  null comment '首字母',
-    lng       varchar(100) null comment '经度',
-    lat       varchar(100) null comment '纬度'
+    pid       int          default 0  not null comment '父id',
+    shortname varchar(100) default '' not null comment '简称',
+    name      varchar(100) default '' not null comment '名称',
+    mergename varchar(255) default '' not null comment '全称',
+    level     tinyint      default 0  not null comment '层级 0 1 2 省市区县',
+    pinyin    varchar(100) default '' not null comment '拼音',
+    code      varchar(100) default '' not null comment '长途区号',
+    zip       varchar(100) default '' not null comment '邮编',
+    first     varchar(50)  default '' not null comment '首字母',
+    lng       varchar(100) default '' not null comment '经度',
+    lat       varchar(100) default '' not null comment '纬度'
 )
-    comment '地区表' charset = utf8mb3
-                     row_format = DYNAMIC;
+    comment '地区表' charset = utf8mb4;
 
 create index pid
-    on mikuyun.region_details (pid);
+    on region_details (pid);
 
 create index zip
-    on mikuyun.region_details (zip);
+    on region_details (zip);
 

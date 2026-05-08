@@ -3,7 +3,7 @@ package com.mikuyun.admin.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.mail.MailCaptchaEvt;
+import com.mikuyun.admin.dto.mail.MailCaptchaDto;
 import com.mikuyun.admin.service.CommonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,8 +31,8 @@ public class MailController {
     @SaIgnore
     @PostMapping(value = "/captcha")
     @Operation(summary = "邮件验证码")
-    public R<Void> mailCaptcha(@RequestBody MailCaptchaEvt evt) {
-        commonService.mailCaptcha(evt);
+    public R<Void> mailCaptcha(@RequestBody MailCaptchaDto dto) {
+        commonService.mailCaptcha(dto);
         return R.ok();
     }
 

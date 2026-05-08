@@ -2,12 +2,11 @@ package com.mikuyun.admin.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysrole.AddSysRoleListEvt;
-import com.mikuyun.admin.evt.sysrole.SysRoleEvt;
-import com.mikuyun.admin.evt.sysrole.UpdateSysRoleEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.sysrole.AddSysRoleListDto;
+import com.mikuyun.admin.dto.sysrole.SysRoleDto;
+import com.mikuyun.admin.dto.sysrole.UpdateSysRoleDto;
 import com.mikuyun.admin.service.SysRoleService;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,31 +36,31 @@ public class SysRoleController {
     @SaCheckPermission(value = "system:role:page_view")
     @GetMapping(value = "/getRoleList")
     @Operation(summary = "获取系统角色列表")
-    public R<List<QuerySysRoleListVo>> getRoleList(SysRoleEvt evt) {
-        return R.ok(sysRoleService.queryRoleList(evt));
+    public R<List<QuerySysRoleListVo>> getRoleList(SysRoleDto dto) {
+        return R.ok(sysRoleService.queryRoleList(dto));
     }
 
     @SaCheckPermission(value = "system:role:add")
     @PostMapping(value = "/add")
     @Operation(summary = "新增角色")
-    public R<Void> addSysRole(@RequestBody @Valid AddSysRoleListEvt evt) {
-        sysRoleService.addSysRole(evt);
+    public R<Void> addSysRole(@RequestBody @Valid AddSysRoleListDto dto) {
+        sysRoleService.addSysRole(dto);
         return R.ok();
     }
 
     @SaCheckPermission(value = "system:role:edit")
     @PostMapping(value = "/update")
     @Operation(summary = "修改角色")
-    public R<Void> updateSysRole(@RequestBody @Valid UpdateSysRoleEvt evt) {
-        sysRoleService.updateSysRole(evt);
+    public R<Void> updateSysRole(@RequestBody @Valid UpdateSysRoleDto dto) {
+        sysRoleService.updateSysRole(dto);
         return R.ok();
     }
 
     @SaCheckPermission(value = "system:role:delete")
     @PostMapping(value = "/del")
     @Operation(summary = "删除角色")
-    public R<Void> delSysRole(@RequestBody @Valid IdEvt evt) {
-        sysRoleService.delSysRole(evt);
+    public R<Void> delSysRole(@RequestBody @Valid IdDto dto) {
+        sysRoleService.delSysRole(dto);
         return R.ok();
     }
 

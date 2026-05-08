@@ -2,7 +2,7 @@ package com.mikuyun.admin.controller;
 
 
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.IdEvt;
+import com.mikuyun.admin.dto.IdDto;
 import com.mikuyun.admin.service.IExcelTaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author mikuyun
@@ -28,15 +28,15 @@ public class ExcelTaskController {
 
     @Operation(summary = "发送excel导出通知")
     @PostMapping(value = "/notice")
-    public R<Void> notice(@RequestBody IdEvt evt) {
-        excelTaskService.notice(evt);
+    public R<Void> notice(@RequestBody IdDto dto) {
+        excelTaskService.notice(dto);
         return R.ok();
     }
 
     @Operation(summary = "获取七牛云私有文件下载链接")
     @PostMapping(value = "/getDownloadUrl")
-    public R<String> getDownloadUrl(@RequestBody IdEvt evt) {
-        return R.ok(excelTaskService.getDownloadUrl(evt));
+    public R<String> getDownloadUrl(@RequestBody IdDto dto) {
+        return R.ok(excelTaskService.getDownloadUrl(dto));
     }
 
 }

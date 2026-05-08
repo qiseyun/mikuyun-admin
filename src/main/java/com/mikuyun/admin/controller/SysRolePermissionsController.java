@@ -2,9 +2,8 @@ package com.mikuyun.admin.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.syspermissions.EditRPEvt;
+import com.mikuyun.admin.dto.syspermissions.EditRPDto;
 import com.mikuyun.admin.service.SysRolePermissionsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,8 +33,8 @@ public class SysRolePermissionsController {
     @SaCheckPermission(value = "system:role:permission")
     @PostMapping(value = "/edit")
     @Operation(summary = "角色权限编辑")
-    public R<Void> addPermissionToRole(@RequestBody @Valid EditRPEvt evt) {
-        sysRolePermissionsService.editRolePermission(evt);
+    public R<Void> addPermissionToRole(@RequestBody @Valid EditRPDto dto) {
+        sysRolePermissionsService.editRolePermission(dto);
         return R.ok();
     }
 

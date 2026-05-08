@@ -3,7 +3,7 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysRolePermissions;
-import com.mikuyun.admin.evt.syspermissions.EditRPEvt;
+import com.mikuyun.admin.dto.syspermissions.EditRPDto;
 
 /**
  * <p>
@@ -18,8 +18,8 @@ public interface SysRolePermissionsService extends IService<SysRolePermissions> 
     /**
      * 给角色新增菜单
      *
-     * @param evt 参数
+     * @param dto 参数
      */
-    void editRolePermission(EditRPEvt evt);
+    void editRolePermission(EditRPDto dto);
 
 }

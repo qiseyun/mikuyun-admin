@@ -6,7 +6,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.User;
-import com.mikuyun.admin.evt.user.AddUserEvt;
+import com.mikuyun.admin.dto.user.AddUserDto;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.UserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
@@ -34,12 +34,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final WebConfigProperties webConfigProperties;
 
     @Override
-    public void add(AddUserEvt evt) {
+    public void add(AddUserDto dto) {
         User user = new User();
         // 对称加密
-        String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), evt.getPassword());
+        String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), dto.getPassword());
         LocalDateTime now = LocalDateTime.now();
-        BeanUtil.copyProperties(evt, user);
+        BeanUtil.copyProperties(dto, user);
         user.setPassword(pwd);
         user.setNickname("用户" + now.toInstant(ZoneOffset.of("+8")).toEpochMilli());
         try {

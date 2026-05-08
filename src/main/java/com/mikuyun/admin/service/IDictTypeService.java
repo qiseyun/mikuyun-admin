@@ -1,10 +1,11 @@
 package com.mikuyun.admin.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.DictType;
-import com.mikuyun.admin.evt.DictType.DictTypeEvt;
-import com.mikuyun.admin.evt.DictType.DictTypePageEvt;
+import com.mikuyun.admin.dto.dict.EditDictTypeDto;
+import com.mikuyun.admin.dto.dict.DictTypePageDto;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,20 +22,20 @@ public interface IDictTypeService extends IService<DictType> {
      *
      * @return List<DictType>
      */
-    IPage<DictType> pageList(DictTypePageEvt evt);
+    List<DictType> pageList(DictTypePageDto dto);
 
     /**
      * 新增
      *
-     * @param evt 参数
+     * @param dto 参数
      */
-    void add(DictTypeEvt evt);
+    void add(EditDictTypeDto dto);
 
     /**
      * 编辑
      *
-     * @param evt 参数
+     * @param dto 参数
      */
-    void update(DictTypeEvt evt);
+    void update(EditDictTypeDto dto);
 
 }

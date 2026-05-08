@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.ExcelTask;
-import com.mikuyun.admin.evt.IdEvt;
+import com.mikuyun.admin.dto.IdDto;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import com.mikuyun.admin.mapper.ExcelTaskMapper;
 import com.mikuyun.admin.service.IExcelTaskService;
@@ -32,8 +32,8 @@ public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask
     private final IQiniuService qiniuService;
 
     @Override
-    public void notice(IdEvt evt) {
-        ExcelTask excelTask = this.getById(evt.getId());
+    public void notice(IdDto dto) {
+        ExcelTask excelTask = this.getById(dto.getId());
         if (excelTask.getStatus().equals(2)) {
             log.info("excelTaskId:{} 状态已完成", excelTask.getId());
             return;
@@ -47,8 +47,8 @@ public class ExcelTaskServiceImpl extends ServiceImpl<ExcelTaskMapper, ExcelTask
     }
 
     @Override
-    public String getDownloadUrl(IdEvt evt) {
-        ExcelTask excelTask = this.getById(evt.getId());
+    public String getDownloadUrl(IdDto dto) {
+        ExcelTask excelTask = this.getById(dto.getId());
         return qiniuService.getDownloadUrl(excelTask.getDownloadUrl(), null);
     }
 

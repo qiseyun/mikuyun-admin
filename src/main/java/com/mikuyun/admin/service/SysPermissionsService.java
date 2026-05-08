@@ -3,8 +3,8 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysPermissions;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.syspermissions.AddOrEditPermissionEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.syspermissions.AddOrEditPermissionDto;
 import com.mikuyun.admin.vo.syspermissions.SysPermissionListVo;
 
 import java.util.List;
@@ -30,31 +30,31 @@ public interface SysPermissionsService extends IService<SysPermissions> {
     /**
      * 查询菜单列表
      *
-     * @param evt 查询参数
+     * @param dto 查询参数
      * @return 菜单列表
      */
-    List<SysPermissionListVo> queryPermissionList(IdEvt evt);
+    List<SysPermissionListVo> queryPermissionList(IdDto dto);
 
     /**
      * 新增菜单或按钮
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void addPermission(AddOrEditPermissionEvt evt);
+    void addPermission(AddOrEditPermissionDto dto);
 
     /**
      * 新增菜单或按钮
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void updatePermission(AddOrEditPermissionEvt evt);
+    void updatePermission(AddOrEditPermissionDto dto);
 
     /**
      * 新增菜单或按钮
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void delete(IdEvt evt);
+    void delete(IdDto dto);
 
     /**
      * 管理员菜单树

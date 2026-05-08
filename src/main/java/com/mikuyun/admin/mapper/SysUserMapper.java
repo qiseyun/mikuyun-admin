@@ -3,7 +3,7 @@ package com.mikuyun.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mikuyun.admin.entity.SysUser;
-import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
+import com.mikuyun.admin.dto.sysuser.SysUserListDto;
 import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 
 import java.util.List;
@@ -21,9 +21,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 用户列表
      *
-     * @param evt 查询参数
+     * @param dto 查询参数
      * @return List<SysUserListVo>
      */
-    List<SysUserListVo> getSysUsers(SysUserListEvt evt);
+    List<SysUserListVo> getSysUsers(SysUserListDto dto);
 
 }

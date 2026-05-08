@@ -1,0 +1,52 @@
+package com.mikuyun.admin.dto;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.Data;
+
+/**
+ * @author mikuyun
+ * @since 2024年1月14日/0014 10点54分
+ */
+@Data
+public class BasePageDto {
+
+    /**
+     * 当前页
+     */
+    private long current = 1;
+
+    /**
+     * 每页大小
+     */
+    private long size = 10;
+
+    /**
+     * 偏移量
+     */
+    private long offset;
+
+
+    /**
+     * 获取一个分页对象关闭count
+     */
+    public Page generatePageCountFalse() {
+        return new Page<>(current, size, false);
+    }
+
+    /**
+     * 获取一个分页对象(打开count)
+     */
+    public Page generatePageCountTrue() {
+        return new Page<>(current, size, true);
+    }
+
+    public void initPageParams() {
+        if (this.size > 100) this.size = 10;
+        this.offset = (this.current - 1) * this.size;
+    }
+
+    public void initPageParamsNoRestrictions() {
+        this.offset = (this.current - 1) * this.size;
+    }
+
+}

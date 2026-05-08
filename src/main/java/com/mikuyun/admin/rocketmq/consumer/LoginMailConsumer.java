@@ -34,12 +34,12 @@ public class LoginMailConsumer implements IBaseMessageListener {
     @Override
     public Boolean consumer(MessageExt message) {
         try {
-            JSONObject evt = MqSerializationUtils.deserialize(message.getBody(), JSONObject.class);
+            JSONObject dto = MqSerializationUtils.deserialize(message.getBody(), JSONObject.class);
             mailService.loginMail(
-                    evt.getString("facility"),
-                    evt.getString("loginTime"),
-                    evt.getString("to"),
-                    evt.getString("username")
+                    dto.getString("facility"),
+                    dto.getString("loginTime"),
+                    dto.getString("to"),
+                    dto.getString("username")
             );
         } catch (Exception e) {
             log.error("Exception: {} \n", e.getMessage(), e);

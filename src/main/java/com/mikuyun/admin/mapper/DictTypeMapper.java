@@ -1,12 +1,11 @@
 package com.mikuyun.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mikuyun.admin.entity.DictType;
-import com.mikuyun.admin.evt.DictType.DictTypePageEvt;
+import com.mikuyun.admin.dto.dict.DictTypePageDto;
 import org.apache.ibatis.annotations.Param;
-import org.apache.poi.ss.formula.functions.T;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,7 +22,7 @@ public interface DictTypeMapper extends BaseMapper<DictType> {
      *
      * @return List<DictType>
      */
-    IPage<DictType> queryPageList(@Param("evt") DictTypePageEvt evt, @Param("page") Page<T> page);
+    List<DictType> queryPageList(@Param("dto") DictTypePageDto dto);
 
 }
 

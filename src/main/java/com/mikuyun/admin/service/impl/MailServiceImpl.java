@@ -8,7 +8,6 @@ import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -25,14 +25,16 @@ import java.io.File;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    private final WebConfigProperties webConfigProperties;
+    @Resource
+    private WebConfigProperties webConfigProperties;
 
-    private final JavaMailSender javaMailSender;
+    @Resource
+    private JavaMailSender javaMailSender;
 
-    private final TemplateEngine templateEngine;
+    @Resource
+    private TemplateEngine templateEngine;
 
     /**
      * 发信邮箱

@@ -1,0 +1,21 @@
+package com.mikuyun.admin.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+/**
+ * @author mikuyun
+ * @since 2023年4月16日/0016 0点04分
+ */
+@Data
+public class StrDto {
+
+    /**
+     * 字符串关键字
+     */
+    @Schema(name = "字符串关键字")
+    @NotBlank(message = "参数不能为空白!")
+    private String str;
+
+}

@@ -11,8 +11,8 @@ import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.BaseEntity;
 import com.mikuyun.admin.entity.SysPermissions;
 import com.mikuyun.admin.entity.SysRole;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.syspermissions.AddOrEditPermissionEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.syspermissions.AddOrEditPermissionDto;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysPermissionsMapper;
 import com.mikuyun.admin.service.SysPermissionsService;
@@ -57,9 +57,9 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     }
 
     @Override
-    public List<SysPermissionListVo> queryPermissionList(IdEvt evt) {
+    public List<SysPermissionListVo> queryPermissionList(IdDto dto) {
         // 页面组件列表
-        List<SysPermissionListVo> sysPermissionList = baseMapper.queryPermissionList(evt.getId());
+        List<SysPermissionListVo> sysPermissionList = baseMapper.queryPermissionList(dto.getId());
         // 构建树结构
         SysPermissionListVo root = TreeUtils.getRoot(SysPermissionListVo.class);
         sysPermissionList = TreeUtils.buildTree(sysPermissionList, root);
@@ -67,38 +67,38 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     }
 
     @Override
-    public void addPermission(AddOrEditPermissionEvt evt) {
+    public void addPermission(AddOrEditPermissionDto dto) {
         SysPermissions sysPermissions = new SysPermissions();
-        BeanUtil.copyProperties(evt, sysPermissions, "id");
+        BeanUtil.copyProperties(dto, sysPermissions, "id");
         sysPermissions.setCreateBy(Integer.valueOf(StpUtil.getLoginId().toString()));
         this.save(sysPermissions);
     }
 
     @Override
-    public void updatePermission(AddOrEditPermissionEvt evt) {
-        if (ObjectUtil.isEmpty(evt.getId())) {
+    public void updatePermission(AddOrEditPermissionDto dto) {
+        if (ObjectUtil.isEmpty(dto.getId())) {
             throw new ServiceException(ResultCode.PARAM_ERROR);
         }
-        SysPermissions permission = this.getById(evt.getId());
+        SysPermissions permission = this.getById(dto.getId());
         String beforeData = JSON.toJSONString(permission);
-        permission.setName(evt.getName());
-        permission.setPermission(evt.getPermission());
-        permission.setKeepAlive(evt.getKeepAlive());
-        permission.setDescribe(evt.getDescribe());
+        permission.setName(dto.getName());
+        permission.setPermission(dto.getPermission());
+        permission.setKeepAlive(dto.getKeepAlive());
+        permission.setDescribe(dto.getDescribe());
         permission.setUpdateBy(Integer.valueOf(StpUtil.getLoginId().toString()));
         permission.setGmtModified(LocalDateTime.now());
         this.updateById(permission);
         String afterData = JSON.toJSONString(permission);
-        log.info("权限编辑: id={} \n beforeData={} \n afterData={}", evt.getId(), beforeData, afterData);
+        log.info("权限编辑: id={} \n beforeData={} \n afterData={}", dto.getId(), beforeData, afterData);
     }
 
     @Override
-    public void delete(IdEvt evt) {
+    public void delete(IdDto dto) {
         this.lambdaUpdate()
                 .set(BaseEntity::getIsDelete, 1)
                 .set(BaseEntity::getUpdateBy, Integer.valueOf(StpUtil.getLoginId().toString()))
                 .set(BaseEntity::getGmtModified, LocalDateTime.now())
-                .eq(SysPermissions::getId, evt.getId())
+                .eq(SysPermissions::getId, dto.getId())
                 .update();
     }
 

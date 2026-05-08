@@ -25,14 +25,14 @@ public interface IAsyncMessageService {
      *
      * @return boolean
      */
-    boolean rocketMqMessageSend(AsyncMessageEvt evt);
+    boolean rocketMqMessageSend(AsyncMessageDto dto);
 
     /**
      * 批量消息发送,不支持延时等级,因为这是要发送到多个topic的
      *
      * @return boolean
      */
-    boolean rocketMqMessageSendBatch(AsyncMessageEvt evt);
+    boolean rocketMqMessageSendBatch(AsyncMessageDto dto);
 
     /**
      * 获取要发送的topic

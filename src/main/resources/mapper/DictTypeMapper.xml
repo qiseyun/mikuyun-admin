@@ -6,19 +6,19 @@
         SELECT *
         FROM mk_sys_dict_type
         WHERE is_delete = 0
-        <if test="evt.id != null">
-            AND id = #{evt.id}
+        <if test="dto.id != null">
+            AND id = #{dto.id}
         </if>
-        <if test="evt.typeName != null and evt.typeName != ''">
-            AND type_name LIKE CONCAT('%', #{evt.typeName}, '%')
+        <if test="dto.typeName != null and dto.typeName != ''">
+            AND type_name LIKE CONCAT('%', #{dto.typeName}, '%')
         </if>
-        <if test="evt.typeCode != null and evt.typeCode !=''">
-            AND type_code = #{evt.typeCode}
+        <if test="dto.typeCode != null and dto.typeCode !=''">
+            AND type_code = #{dto.typeCode}
         </if>
-        <if test="evt.remark != null and evt.remark != ''">
-            AND remark LIKE CONCAT('%', #{evt.remark}, '%')
+        <if test="dto.remark != null and dto.remark != ''">
+            AND remark LIKE CONCAT('%', #{dto.remark}, '%')
         </if>
-        ORDER BY id DESC
+        LIMIT #{dto.offset}, #{dto.size}
     </select>
 
 </mapper>

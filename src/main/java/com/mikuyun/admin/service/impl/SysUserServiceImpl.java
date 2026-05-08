@@ -13,12 +13,12 @@ import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.BaseEntity;
 import com.mikuyun.admin.entity.SysUser;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.LoginEvt;
-import com.mikuyun.admin.evt.sysuser.AddSysUserEvt;
-import com.mikuyun.admin.evt.sysuser.SysUserListEvt;
-import com.mikuyun.admin.evt.sysuser.UpdateMyInfoEvt;
-import com.mikuyun.admin.evt.sysuser.UpdateSysUserEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.LoginDto;
+import com.mikuyun.admin.dto.sysuser.AddSysUserDto;
+import com.mikuyun.admin.dto.sysuser.SysUserListDto;
+import com.mikuyun.admin.dto.sysuser.UpdateMyInfoDto;
+import com.mikuyun.admin.dto.sysuser.UpdateSysUserDto;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.SysUserMapper;
 import com.mikuyun.admin.properties.WebConfigProperties;
@@ -59,9 +59,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final RocketProducer rocketProducer;
 
     @Override
-    public UserTokenVo sysAdminLogin(LoginEvt evt) {
+    public UserTokenVo sysAdminLogin(LoginDto dto) {
         SysUser sysUser = this.lambdaQuery()
-                .eq(SysUser::getUsername, evt.getUsername())
+                .eq(SysUser::getUsername, dto.getUsername())
                 .eq(SysUser::getIsDelete, Constant.STATUS_NORMAL_INT)
                 .one();
         if (ObjectUtil.isEmpty(sysUser)) {
@@ -72,14 +72,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         // 解密后对比
         String pwd = SaSecureUtil.aesDecrypt(sysUser.getSalt(), sysUser.getPassword());
-        if (ObjectUtil.notEqual(evt.getPassword(), pwd)) {
+        if (ObjectUtil.notEqual(dto.getPassword(), pwd)) {
             throw new ServiceException(ResultCode.LOGIN_ERROR);
         }
         // 登陆返回token信息
-        UserTokenVo tokenVo = login(sysUser.getId(), evt.getDeviceType());
+        UserTokenVo tokenVo = login(sysUser.getId(), dto.getDeviceType());
         // 登录邮件
         loginEmail(
-                StrUtil.isBlank(evt.getDeviceType()) ? "default" : evt.getDeviceType(),
+                StrUtil.isBlank(dto.getDeviceType()) ? "default" : dto.getDeviceType(),
                 LocalDateTime.now(), sysUser.getEmail(),
                 sysUser.getUsername(), sysUser.getId()
         );
@@ -96,44 +96,44 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public List<SysUserListVo> getSysUserList(SysUserListEvt evt) {
-        evt.initPageParams();
-        return this.baseMapper.getSysUsers(evt);
+    public List<SysUserListVo> getSysUserList(SysUserListDto dto) {
+        dto.initPageParams();
+        return this.baseMapper.getSysUsers(dto);
     }
 
     @Override
-    public void addSysUser(AddSysUserEvt evt) {
+    public void addSysUser(AddSysUserDto dto) {
         // 对称加密
-        String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), evt.getPassword());
+        String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), dto.getPassword());
         SysUser sysUser = new SysUser();
-        sysUser.setUsername(evt.getUsername());
+        sysUser.setUsername(dto.getUsername());
         sysUser.setPassword(pwd);
-        sysUser.setRealName(evt.getRealName());
+        sysUser.setRealName(dto.getRealName());
         sysUser.setSalt(webConfigProperties.getSalt());
-        sysUser.setPhone(evt.getTelephone());
+        sysUser.setPhone(dto.getTelephone());
         sysUser.setCreateBy(Integer.parseInt(StpUtil.getLoginId().toString()));
-        sysUser.setEmail(evt.getEmail());
+        sysUser.setEmail(dto.getEmail());
         this.save(sysUser);
         log.info("新增管理员; id: {}", sysUser.getId());
     }
 
     @Override
-    public void updateSysUser(UpdateSysUserEvt evt) {
-        SysUser sysUser = this.lambdaQuery().eq(SysUser::getId, evt.getId()).one();
+    public void updateSysUser(UpdateSysUserDto dto) {
+        SysUser sysUser = this.lambdaQuery().eq(SysUser::getId, dto.getId()).one();
         String beforeData = JSON.toJSONString(sysUser);
-        BeanUtil.copyProperties(evt, sysUser);
+        BeanUtil.copyProperties(dto, sysUser);
         String afterData = JSON.toJSONString(sysUser);
         log.info("\n修改后台用户信息: \n before:{} \n after:{}", beforeData, afterData);
         this.updateById(sysUser);
     }
 
     @Override
-    public void delSysUser(IdEvt evt) {
+    public void delSysUser(IdDto dto) {
         this.lambdaUpdate()
                 .set(BaseEntity::getIsDelete, 1)
                 .set(BaseEntity::getUpdateBy, StpUtil.getLoginId())
                 .set(BaseEntity::getGmtModified, LocalDateTime.now())
-                .eq(SysUser::getId, evt.getId())
+                .eq(SysUser::getId, dto.getId())
                 .update();
     }
 
@@ -152,20 +152,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public void updateMyInfo(UpdateMyInfoEvt evt) {
+    public void updateMyInfo(UpdateMyInfoDto dto) {
         Integer loginId = Integer.valueOf((String) StpUtil.getLoginId());
-        if (!evt.getId().equals(loginId)) {
+        if (!dto.getId().equals(loginId)) {
             throw new ServiceException(ResultCode.UPDATE_FAILED);
         }
         SysUser sysUser = this.getById(loginId);
         String beforeData = JSON.toJSONString(sysUser);
         // 对称加密
-        BeanUtil.copyProperties(evt, sysUser, "id", "password");
-        if (StrUtil.isNotBlank(evt.getPassword())) {
-            String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), evt.getPassword());
+        BeanUtil.copyProperties(dto, sysUser, "id", "password");
+        if (StrUtil.isNotBlank(dto.getPassword())) {
+            String pwd = SaSecureUtil.aesEncrypt(webConfigProperties.getSalt(), dto.getPassword());
             sysUser.setPassword(pwd);
         }
-        sysUser.setAvatar(evt.getHeadPortrait());
+        sysUser.setAvatar(dto.getHeadPortrait());
         sysUser.setSalt(webConfigProperties.getSalt());
         String afterData = JSON.toJSONString(sysUser);
         log.info("个人信息修改: userId: {} \n beforeData:{} \n afterData:{}", loginId, beforeData, afterData);

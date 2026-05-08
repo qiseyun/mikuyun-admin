@@ -6,7 +6,7 @@ import cn.hutool.core.util.ReUtil;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.Captcha;
 import com.mikuyun.admin.enums.CaptchaTypeEnum;
-import com.mikuyun.admin.evt.mail.MailCaptchaEvt;
+import com.mikuyun.admin.dto.mail.MailCaptchaDto;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.service.CaptchaService;
 import com.mikuyun.admin.service.CommonService;
@@ -39,8 +39,8 @@ public class CommonServiceImpl implements CommonService {
     final String MAILBOX_REGULARITY = "^[A-Za-z0-9一-龥]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
 
     @Override
-    public void mailCaptcha(MailCaptchaEvt evt) {
-        if (!ReUtil.isMatch(MAILBOX_REGULARITY, evt.getMail())) {
+    public void mailCaptcha(MailCaptchaDto dto) {
+        if (!ReUtil.isMatch(MAILBOX_REGULARITY, dto.getMail())) {
             throw new ServiceException(ResultCode.PARAM_ERROR.getCode(), "请输入正确格式的邮箱!");
         }
         Captcha cap = new Captcha();
@@ -49,7 +49,7 @@ public class CommonServiceImpl implements CommonService {
         LocalDateTime expirationDateEnd = expirationDateStart.plusMinutes(10);
         cap.setGmtCreated(expirationDateStart);
         cap.setExpirationTime(expirationDateEnd);
-        cap.setAccount(evt.getMail());
+        cap.setAccount(dto.getMail());
         // 六位验证码
         int captcha = RandomUtil.randomInt(100000, 999999);
         cap.setCaptchaStr(String.valueOf(captcha));
@@ -62,7 +62,7 @@ public class CommonServiceImpl implements CommonService {
         context.setVariable("expirationDateStart", expirationDateStart.format(pattern));
         context.setVariable("expirationDateEnd", expirationDateEnd.format(pattern));
         String mail = templateEngine.process("mailCaptcha.html", context);
-        mailService.sendHtmlMail(evt.getMail(), subject, mail);
+        mailService.sendHtmlMail(dto.getMail(), subject, mail);
         captchaService.save(cap);
     }
 

@@ -24,23 +24,23 @@ public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageSe
     }
 
     @Override
-    public boolean rocketMqMessageSend(AsyncMessageEvt evt) {
-        JSONObject content = contentCheckAndProcess(evt.getContent());
+    public boolean rocketMqMessageSend(AsyncMessageDto dto) {
+        JSONObject content = contentCheckAndProcess(dto.getContent());
         Message message = new Message();
         message.setTopic(getTopic().getRocketMqTopic());
         message.setTags(getTopic().getTag());
         message.setKeys(getKey(content));
         message.setBody(MqSerializationUtils.serialize(content));
         // 设置延迟时间这里是设置延时等级, 想使用DelayTimeSec DelayTimeMs则必须使用Rocketmq5.x + Rocketmq Proxy
-        if (evt.getDelayTimeLevel() != null) {
-            message.setDelayTimeLevel(evt.getDelayTimeLevel().getLevel());
+        if (dto.getDelayTimeLevel() != null) {
+            message.setDelayTimeLevel(dto.getDelayTimeLevel().getLevel());
         }
         return rocketProducer.send(message);
     }
 
     @Override
-    public boolean rocketMqMessageSendBatch(AsyncMessageEvt evt) {
-        JSONObject content = contentCheckAndProcess(evt.getContent());
+    public boolean rocketMqMessageSendBatch(AsyncMessageDto dto) {
+        JSONObject content = contentCheckAndProcess(dto.getContent());
         List<TopicEnum> topics = getTopics();
         if (CollectionUtil.isEmpty(topics)) {
             return false;

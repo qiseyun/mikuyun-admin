@@ -1,5 +1,3 @@
-
-
 # MIKUYUN-ADMIN
 
 基于 Spring Boot 3.4.3 + Java 21 的后台管理系统，提供完整的权限管理、文件上传、数据导出等功能。
@@ -43,10 +41,10 @@ src/main/java/com/mikuyun/admin/
 │   ├── SysUser.java            # 用户实体
 │   ├── SysRole.java          # 角色实体
 │   └── SysPermissions.java   # 权限实体
-├── evt/                # 请求参数对象
-│   ├── LoginEvt.java         # 登录参数
-│   ├── AddSysUserEvt.java   # 新增用户参数
-│   └── SysUserListEvt.java   # 用户列表参数
+├── dro/                # 请求参数对象
+│   ├── LoginDto.java         # 登录参数
+│   ├── AddSysUserDto.java   # 新增用户参数
+│   └── SysUserListDto.java   # 用户列表参数
 ├── vo/                 # 响应对象
 │   ├── UserTokenVo.java       # Token响应
 │   └── SysUserInfo.java      # 用户信息

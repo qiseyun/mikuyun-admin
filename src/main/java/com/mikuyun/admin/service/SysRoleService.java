@@ -3,10 +3,10 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.SysRole;
-import com.mikuyun.admin.evt.IdEvt;
-import com.mikuyun.admin.evt.sysrole.AddSysRoleListEvt;
-import com.mikuyun.admin.evt.sysrole.SysRoleEvt;
-import com.mikuyun.admin.evt.sysrole.UpdateSysRoleEvt;
+import com.mikuyun.admin.dto.IdDto;
+import com.mikuyun.admin.dto.sysrole.AddSysRoleListDto;
+import com.mikuyun.admin.dto.sysrole.SysRoleDto;
+import com.mikuyun.admin.dto.sysrole.UpdateSysRoleDto;
 import com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo;
 
 import java.util.List;
@@ -42,27 +42,27 @@ public interface SysRoleService extends IService<SysRole> {
      *
      * @return List<QuerySysRoleListVo>
      */
-    List<QuerySysRoleListVo> queryRoleList(SysRoleEvt evt);
+    List<QuerySysRoleListVo> queryRoleList(SysRoleDto dto);
 
     /**
      * 新增
      *
-     * @param evt 新增参数
+     * @param dto 新增参数
      */
-    void addSysRole(AddSysRoleListEvt evt);
+    void addSysRole(AddSysRoleListDto dto);
 
     /**
      * 编辑
      *
-     * @param evt 编辑参数
+     * @param dto 编辑参数
      */
-    void updateSysRole(UpdateSysRoleEvt evt);
+    void updateSysRole(UpdateSysRoleDto dto);
 
     /**
      * 删除
      *
-     * @param evt id
+     * @param dto id
      */
-    void delSysRole(IdEvt evt);
+    void delSysRole(IdDto dto);
 
 }

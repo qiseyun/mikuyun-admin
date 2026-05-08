@@ -2,7 +2,7 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.ExcelTask;
-import com.mikuyun.admin.evt.IdEvt;
+import com.mikuyun.admin.dto.IdDto;
 
 /**
  * <p>
@@ -17,15 +17,15 @@ public interface IExcelTaskService extends IService<ExcelTask> {
     /**
      * 通知导出
      *
-     * @param evt id
+     * @param dto id
      */
-    void notice(IdEvt evt);
+    void notice(IdDto dto);
 
     /**
      * 获取下载链接
      *
-     * @param evt id
+     * @param dto id
      */
-    String getDownloadUrl(IdEvt evt);
+    String getDownloadUrl(IdDto dto);
 
 }

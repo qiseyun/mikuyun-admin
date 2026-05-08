@@ -3,7 +3,7 @@ package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mikuyun.admin.entity.User;
-import com.mikuyun.admin.evt.user.AddUserEvt;
+import com.mikuyun.admin.dto.user.AddUserDto;
 
 /**
  * <p>
@@ -20,6 +20,6 @@ public interface UserService extends IService<User> {
      *
      * @param user 用户参数
      */
-    void add(AddUserEvt user);
+    void add(AddUserDto user);
 
 }

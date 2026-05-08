@@ -3,7 +3,7 @@ package com.mikuyun.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.evt.sysuser.EditUserRoleEvt;
+import com.mikuyun.admin.dto.sysuser.EditUserRoleDto;
 import com.mikuyun.admin.service.SysUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,8 +39,8 @@ public class SysUserRoleController {
     @SaCheckPermission(value = "system:user:edit_role")
     @PostMapping(value = "/editRoles")
     @Operation(summary = "编辑用户角色")
-    public R<Void> editRoles(@RequestBody @Valid EditUserRoleEvt evt) {
-        sysUserRoleService.editRoles(evt);
+    public R<Void> editRoles(@RequestBody @Valid EditUserRoleDto dto) {
+        sysUserRoleService.editRoles(dto);
         return R.ok();
     }
 
