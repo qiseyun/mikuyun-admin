@@ -37,7 +37,7 @@ Spring Boot 3.4.3 + Java 21 后台管理系统，采用标准分层架构，配�
 
 **认证与鉴权：**
 - Sa-Token 管理登录态，`StpInterfaceImpl` 桥接自定义角色/权限服务
-- 类或方法上使用 `@SaCheckRole("super_admin")` / `@SaCheckPermission` 做角色和权限控制
+- 类或方法上使用 `@SaCheckRole("super_admin")` / `@SaCheckPermission` 做角色和权限控制 / `@SaIgnore` 跳过token校验
 - 自定义 AOP `SecurityVerificationAspect` 配合 `@SecurityVerification` 注解，通过请求头 `access_token` 做外部调用鉴权
 
 **消息队列（RocketMQ）：**

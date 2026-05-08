@@ -35,7 +35,7 @@ public class Dict extends BaseEntity {
      * 关联sys_dict_type ID
      */
     @Schema(description = "关联sys_dict_type ID")
-    private Integer sysDictTypeId;
+    private Integer dictTypeId;
 
     /**
      * 字典枚举名称

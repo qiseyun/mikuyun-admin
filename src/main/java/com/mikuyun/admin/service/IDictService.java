@@ -5,6 +5,7 @@ import com.mikuyun.admin.entity.Dict;
 import com.mikuyun.admin.vo.dict.DictVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -22,6 +23,14 @@ public interface IDictService extends IService<Dict> {
      * @param dictTypeId 字典类型id
      * @return 对应的字典列表
      */
-    List<DictVo> getDictListByType(Integer dictTypeId);
+    List<DictVo> getDictListByTypeId(Integer dictTypeId);
+
+    /**
+     * 根据字典类型查询字典枚举
+     *
+     * @param dictTypeCodes 字典类型code
+     * @return 对应的字典列表
+     */
+    Map<String, List<DictVo>> getDictListByTypeCodes(String dictTypeCodes);
 
 }

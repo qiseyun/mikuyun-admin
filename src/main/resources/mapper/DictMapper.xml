@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mikuyun.admin.mapper.DictMapper">
 
+    <select id="queryDictListByTypeId" resultType="com.mikuyun.admin.vo.dict.DictVo">
+        SELECT t1.id,
+               t1.dict_type_id,
+               t1.enum_name,
+               t1.enum_code,
+               t1.sort,
+               t1.remark,
+               t1.is_lock,
+               t2.type_code AS dictTypeCode
+        FROM mk_sys_dict AS t1
+                 LEFT JOIN mk_sys_dict_type AS t2 ON t2.id = t1.dict_type_id
+        WHERE t1.dict_type_id = #{dictTypeId}
+          AND t1.is_delete = 0
+          AND t2.is_delete = 0
+    </select>
+
+    <select id="queryDictListByTypeCodes" resultType="com.mikuyun.admin.vo.dict.DictVo">
+        SELECT t1.id,
+        t1.dict_type_id,
+        t1.enum_name,
+        t1.enum_code,
+        t1.sort,
+        t1.remark,
+        t1.is_lock,
+        t2.type_code AS dictTypeCode
+        FROM mk_sys_dict AS t1
+        LEFT JOIN mk_sys_dict_type AS t2 ON t2.id = t1.dict_type_id
+        WHERE t1.is_delete = 0
+        AND t2.is_delete = 0
+        AND t2.type_code IN
+        <foreach collection="dictTypeCodes" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>
