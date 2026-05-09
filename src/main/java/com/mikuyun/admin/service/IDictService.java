@@ -1,6 +1,7 @@
 package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mikuyun.admin.dto.dict.EditDictDto;
 import com.mikuyun.admin.entity.Dict;
 import com.mikuyun.admin.vo.dict.DictVo;
 
@@ -32,5 +33,19 @@ public interface IDictService extends IService<Dict> {
      * @return 对应的字典列表
      */
     Map<String, List<DictVo>> getDictListByTypeCodes(String dictTypeCodes);
+
+    /**
+     * 新增字典
+     *
+     * @param dto 新增参数
+     */
+    void add(EditDictDto dto);
+
+    /**
+     * 新增字典
+     *
+     * @param dto 新增参数
+     */
+    void update(EditDictDto dto);
 
 }

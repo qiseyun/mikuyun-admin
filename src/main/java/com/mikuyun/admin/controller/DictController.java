@@ -1,15 +1,14 @@
 package com.mikuyun.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
+import com.mikuyun.admin.dto.dict.EditDictDto;
 import com.mikuyun.admin.service.IDictService;
 import com.mikuyun.admin.vo.dict.DictVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +39,22 @@ public class DictController {
     @GetMapping(value = "/getDictMap")
     public R<Map<String, List<DictVo>>> getDictListByCode(@RequestParam(value = "dictTypeCodes") String dictTypeCodes) {
         return R.ok(dictService.getDictListByTypeCodes(dictTypeCodes));
+    }
+
+    @SaCheckRole(value = "supper_admin")
+    @Operation(description = "新增字典")
+    @PostMapping(value = "/add")
+    public R<Void> add(@RequestBody EditDictDto dto) {
+        dictService.add(dto);
+        return R.ok();
+    }
+
+    @SaCheckRole(value = "supper_admin")
+    @Operation(description = "修改字典")
+    @PostMapping(value = "/update")
+    public R<Void> update(@RequestBody EditDictDto dto) {
+        dictService.update(dto);
+        return R.ok();
     }
 
 }
