@@ -1,9 +1,11 @@
 package com.mikuyun.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.entity.DictType;
-import com.mikuyun.admin.dto.dict.EditDictTypeDto;
 import com.mikuyun.admin.dto.dict.DictTypePageDto;
+import com.mikuyun.admin.dto.dict.EditDictTypeDto;
+import com.mikuyun.admin.entity.DictType;
 import com.mikuyun.admin.service.IDictTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,12 +34,14 @@ public class DictTypeController {
 
     private final IDictTypeService dictTypeService;
 
+    @SaCheckPermission(value = "system:dict:page_view")
     @GetMapping("/list")
     @Operation(summary = "列表查询")
     public R<List<DictType>> getList(DictTypePageDto dto) {
         return R.ok(dictTypeService.pageList(dto));
     }
 
+    @SaCheckRole(value = "super_admin")
     @GetMapping("/add")
     @Operation(summary = "新增")
     public R<Void> add(@Valid @RequestBody EditDictTypeDto dto) {
@@ -45,6 +49,7 @@ public class DictTypeController {
         return R.ok();
     }
 
+    @SaCheckRole(value = "super_admin")
     @GetMapping("/update")
     @Operation(summary = "编辑")
     public R<Void> update(@Valid @RequestBody EditDictTypeDto dto) {
