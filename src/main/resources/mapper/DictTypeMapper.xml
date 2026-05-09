@@ -5,19 +5,20 @@
     <select id="queryPageList" resultType="com.mikuyun.admin.entity.DictType">
         SELECT *
         FROM mk_sys_dict_type
-        WHERE is_delete = 0
-        <if test="dto.id != null">
-            AND id = #{dto.id}
-        </if>
-        <if test="dto.typeName != null and dto.typeName != ''">
-            AND type_name LIKE CONCAT('%', #{dto.typeName}, '%')
-        </if>
-        <if test="dto.typeCode != null and dto.typeCode !=''">
-            AND type_code = #{dto.typeCode}
-        </if>
-        <if test="dto.remark != null and dto.remark != ''">
-            AND remark LIKE CONCAT('%', #{dto.remark}, '%')
-        </if>
+        <where>
+            <if test="dto.id != null">
+                AND id = #{dto.id}
+            </if>
+            <if test="dto.typeName != null and dto.typeName != ''">
+                AND type_name LIKE CONCAT('%', #{dto.typeName}, '%')
+            </if>
+            <if test="dto.typeCode != null and dto.typeCode !=''">
+                AND type_code = #{dto.typeCode}
+            </if>
+            <if test="dto.remark != null and dto.remark != ''">
+                AND remark LIKE CONCAT('%', #{dto.remark}, '%')
+            </if>
+        </where>
         LIMIT #{dto.offset}, #{dto.size}
     </select>
 

@@ -56,6 +56,8 @@ public class DictVo {
      * 是否锁定，锁定的属性无法在页面进行修改
      */
     @Schema(description = "是否锁定，锁定的属性无法在页面进行修改")
-    private Boolean isLock;
+    private Integer isLock;
+
+    private Integer isDelete;
 
 }

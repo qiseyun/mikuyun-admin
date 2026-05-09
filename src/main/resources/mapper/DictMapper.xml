@@ -10,12 +10,11 @@
                t1.sort,
                t1.remark,
                t1.is_lock,
+               t1.is_delete,
                t2.type_code AS dictTypeCode
         FROM mk_sys_dict AS t1
                  LEFT JOIN mk_sys_dict_type AS t2 ON t2.id = t1.dict_type_id
         WHERE t1.dict_type_id = #{dictTypeId}
-          AND t1.is_delete = 0
-          AND t2.is_delete = 0
     </select>
 
     <select id="queryDictListByTypeCodes" resultType="com.mikuyun.admin.vo.dict.DictVo">

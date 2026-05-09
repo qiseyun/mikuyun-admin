@@ -7,7 +7,9 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mikuyun.admin.common.ResultCode;
+import com.mikuyun.admin.dto.IdDto;
 import com.mikuyun.admin.dto.dict.EditDictDto;
+import com.mikuyun.admin.entity.BaseEntity;
 import com.mikuyun.admin.entity.Dict;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.mapper.DictMapper;
@@ -21,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.mikuyun.admin.common.Constant.STATUS_DEL_INT;
+import static com.mikuyun.admin.common.Constant.STATUS_NORMAL_INT;
 
 /**
  * <p>
@@ -76,6 +81,18 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements ID
         this.updateById(beforeData);
         String afterJsonData = JSON.toJSONString(beforeData);
         log.info("编辑字典: before: {}, after: {}", beforeJsonData, afterJsonData);
+    }
+
+    @Override
+    public void del(IdDto dto) {
+        Dict dict = this.getById(dto.getId());
+        String userIdStr = StpUtil.getLoginId().toString();
+        this.lambdaUpdate()
+                .set(BaseEntity::getIsDelete, dict.getIsDelete().equals(STATUS_NORMAL_INT) ? STATUS_DEL_INT : STATUS_NORMAL_INT)
+                .set(BaseEntity::getUpdateBy, Integer.parseInt(userIdStr))
+                .eq(Dict::getId, dto.getId())
+                .update();
+        log.info("删除字典: dictId: {}, userId: {}", dict.getId(), userIdStr);
     }
 
 }

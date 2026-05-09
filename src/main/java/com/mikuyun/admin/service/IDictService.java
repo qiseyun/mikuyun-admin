@@ -1,6 +1,7 @@
 package com.mikuyun.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mikuyun.admin.dto.IdDto;
 import com.mikuyun.admin.dto.dict.EditDictDto;
 import com.mikuyun.admin.entity.Dict;
 import com.mikuyun.admin.vo.dict.DictVo;
@@ -47,5 +48,12 @@ public interface IDictService extends IService<Dict> {
      * @param dto 新增参数
      */
     void update(EditDictDto dto);
+
+    /**
+     * 删除/恢复字典
+     *
+     * @param dto 参数
+     */
+    void del(IdDto dto);
 
 }

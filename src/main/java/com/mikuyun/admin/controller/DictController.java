@@ -1,7 +1,9 @@
 package com.mikuyun.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mikuyun.admin.common.R;
+import com.mikuyun.admin.dto.IdDto;
 import com.mikuyun.admin.dto.dict.EditDictDto;
 import com.mikuyun.admin.service.IDictService;
 import com.mikuyun.admin.vo.dict.DictVo;
@@ -29,6 +31,7 @@ public class DictController {
 
     private final IDictService dictService;
 
+    @SaCheckPermission(value = "system:dict:list")
     @Operation(description = "根据字典类型获取该字典所有枚举")
     @GetMapping(value = "/getDictList")
     public R<List<DictVo>> getDictListByTypeId(@RequestParam(value = "dictTypeId") Integer dictTypeId) {
@@ -41,7 +44,7 @@ public class DictController {
         return R.ok(dictService.getDictListByTypeCodes(dictTypeCodes));
     }
 
-    @SaCheckRole(value = "supper_admin")
+    @SaCheckRole(value = "super_admin")
     @Operation(description = "新增字典")
     @PostMapping(value = "/add")
     public R<Void> add(@RequestBody EditDictDto dto) {
@@ -49,11 +52,19 @@ public class DictController {
         return R.ok();
     }
 
-    @SaCheckRole(value = "supper_admin")
+    @SaCheckRole(value = "super_admin")
     @Operation(description = "修改字典")
     @PostMapping(value = "/update")
     public R<Void> update(@RequestBody EditDictDto dto) {
         dictService.update(dto);
+        return R.ok();
+    }
+
+    @SaCheckRole(value = "super_admin")
+    @Operation(description = "删除/恢复字典")
+    @PostMapping(value = "/del")
+    public R<Void> update(@RequestBody IdDto dto) {
+        dictService.del(dto);
         return R.ok();
     }
 

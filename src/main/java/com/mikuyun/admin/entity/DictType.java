@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString
 @Accessors(chain = true)
-@TableName("mk_dict_type")
+@TableName("mk_sys_dict_type")
 @Schema(name = "DictType", description = "字典类型")
 public class DictType extends BaseEntity {
 
@@ -53,6 +53,6 @@ public class DictType extends BaseEntity {
      * 是否锁定，锁定的属性无法在页面进行修改
      */
     @Schema(description = "是否锁定，锁定的属性无法在页面进行修改")
-    private Boolean isLock;
+    private Integer isLock;
 
 }
