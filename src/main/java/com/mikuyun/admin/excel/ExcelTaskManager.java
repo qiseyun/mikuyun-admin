@@ -120,7 +120,7 @@ public class ExcelTaskManager {
                 dataList.clear();
             }
             excelEngine.exportFinish();
-            // 上传文件并获取文件路径（这里上传到minio）
+            // minio上传
 //            MinioService minioService = SpringContextUtils.getBean(MinioService.class);
 //            ObjectWriteResponse response;
 //            try (InputStream inputStream = new FileInputStream(this.outputFile)) {
@@ -138,8 +138,6 @@ public class ExcelTaskManager {
                 FileUploadService fileUploadService = SpringContextUtils.getBean(FileUploadService.class);
                 fileUploadService.fileLog(this.fileName, this.outputFile.length(), FileTypeEnum.DOC.getType(), fileUrl, "qiniu", DigestUtil.sha256Hex(fis));
             }
-            // 删除文件
-            this.outputFile.delete();
             // 更新任务状态
             IExcelTaskService excelTaskService = SpringContextUtils.getBean(IExcelTaskService.class);
             excelTask.setFileName(fileName);
@@ -149,6 +147,14 @@ public class ExcelTaskManager {
             excelTaskService.updateById(excelTask);
         } catch (Exception e) {
             log.error("downloadTask error excelTaskId={} errorMsg={} 错误堆栈:", excelTask.getId(), e.getMessage(), e);
+        } finally {
+            // 删除文件
+            if (this.outputFile != null && this.outputFile.exists()) {
+                boolean deleted = this.outputFile.delete();
+                if (!deleted) {
+                    log.error("临时文件删除失败: {}", this.outputFile.getAbsolutePath());
+                }
+            }
         }
     }
 
