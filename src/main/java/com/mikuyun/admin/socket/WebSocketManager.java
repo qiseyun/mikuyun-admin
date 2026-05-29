@@ -2,7 +2,7 @@ package com.mikuyun.admin.socket;
 
 
 import com.mikuyun.admin.controller.websocket.WebSocketServer;
-import jakarta.websocket.Session;
+import javax.websocket.Session;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

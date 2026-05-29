@@ -2,18 +2,12 @@ package com.mikuyun.admin.controller.demo;
 
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.common.R;
-import com.mikuyun.admin.dto.IdNameStrDto;
 import com.mikuyun.admin.dto.ProhibitedWordsCheckDto;
-import com.mikuyun.admin.rocketmq.enums.RocketMqDelayTimeEnum;
-import com.mikuyun.admin.rocketmq.RocketProducer;
-import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.support.LockTemplateSupport;
 import com.mikuyun.admin.util.AhoCorasickAutomatonUtils;
-import com.mikuyun.admin.util.MqSerializationUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.Message;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +29,6 @@ public class DemoController {
 
     private final AhoCorasickAutomatonUtils ahoCorasickAutomatonUtils;
 
-    private final RocketProducer rocketProducer;
-
     @PostMapping(value = "lock")
     @Operation(summary = "redis锁模板")
     public R<Void> testLock() {
@@ -48,20 +40,6 @@ public class DemoController {
                 throw new RuntimeException(e);
             }
         });
-        return R.ok();
-    }
-
-    @PostMapping("/send")
-    @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
-    public R<Void> sendMessage(@RequestBody IdNameStrDto dto) {
-        Message message = new Message();
-        message.setKeys("demoId:" + dto.getId());
-        message.setBody(MqSerializationUtils.serialize(dto));
-        message.setTopic(TopicEnum.TEST.getDesc());
-        message.setTags(TopicEnum.TEST.getTag());
-        // 延时等级
-        message.setDelayTimeLevel(RocketMqDelayTimeEnum.S_10.getLevel());
-        rocketProducer.send(message);
         return R.ok();
     }
 

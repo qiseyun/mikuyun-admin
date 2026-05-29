@@ -27,7 +27,7 @@ public class RegionDetailsServiceImpl extends ServiceImpl<RegionDetailsMapper, R
         List<RegionTreeVO> regionList = this.baseMapper.getRegionList();
         RegionTreeVO root = TreeUtils.getRoot(RegionTreeVO.class);
         List<RegionTreeVO> tree = TreeUtils.buildTree(regionList, root);
-        return tree.getFirst().getChildren();
+        return tree.get(0).getChildren();
     }
 
 }

@@ -25,17 +25,21 @@ public class StyleUtils {
         if (isHead) {
             return cell.getStringCellValue().getBytes().length;
         } else {
-            WriteCellData<?> cellData = list.getFirst();
+            WriteCellData<?> cellData = list.get(0);
             CellDataTypeEnum type = cellData.getType();
             if (type == null) {
                 return -1;
             } else {
-                return switch (type) {
-                    case STRING -> cellData.getStringValue().getBytes().length + 10;
-                    case BOOLEAN -> cellData.getBooleanValue().toString().getBytes().length;
-                    case NUMBER -> cellData.getNumberValue().toString().getBytes().length + 10;
-                    default -> -1;
-                };
+                switch (type) {
+                    case STRING:
+                        return cellData.getStringValue().getBytes().length + 10;
+                    case BOOLEAN:
+                        return cellData.getBooleanValue().toString().getBytes().length;
+                    case NUMBER:
+                        return cellData.getNumberValue().toString().getBytes().length + 10;
+                    default:
+                        return -1;
+                }
             }
         }
     }

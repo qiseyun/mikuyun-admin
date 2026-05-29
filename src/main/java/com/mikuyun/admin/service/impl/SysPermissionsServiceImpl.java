@@ -63,7 +63,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         // 构建树结构
         SysPermissionListVo root = TreeUtils.getRoot(SysPermissionListVo.class);
         sysPermissionList = TreeUtils.buildTree(sysPermissionList, root);
-        return sysPermissionList.getFirst().getChildren();
+        return sysPermissionList.get(0).getChildren();
     }
 
     @Override

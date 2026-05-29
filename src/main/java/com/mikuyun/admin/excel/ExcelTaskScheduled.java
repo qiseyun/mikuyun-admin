@@ -1,12 +1,13 @@
 package com.mikuyun.admin.excel;
 
+import cn.hutool.core.thread.NamedThreadFactory;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.entity.ExcelTask;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
-import com.mikuyun.admin.service.IExcelTaskService;
 import com.mikuyun.admin.factory.ExcelEngineFactory;
+import com.mikuyun.admin.service.IExcelTaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author mikuyun
@@ -44,6 +48,9 @@ public class ExcelTaskScheduled implements InitializingBean {
      */
     private Semaphore normalRateLimiter;
     private Semaphore slowRateLimiter;
+
+    private final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(4, 20,
+            120L, TimeUnit.SECONDS, new SynchronousQueue<>(), new NamedThreadFactory("excelTaskThread_", false), new ThreadPoolExecutor.CallerRunsPolicy());
 
     @Override
     public void afterPropertiesSet() {
@@ -91,7 +98,7 @@ public class ExcelTaskScheduled implements InitializingBean {
                 }
                 // 使用虚拟线程执行
                 log.info("virtual thread submit excelTask={}", data);
-                Thread.startVirtualThread(() -> startExport(data, rateLimiter));
+                threadPool.execute(() -> startExport(data, rateLimiter));
             } catch (Exception e) {
                 // 如果在 pop 或提交前出错，必须释放许可
                 log.error("Failed to process task queue: {}", e.getMessage(), e);

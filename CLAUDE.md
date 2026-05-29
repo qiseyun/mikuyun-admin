@@ -25,26 +25,20 @@ mvn test -Dtest=ClassName#methodName
 
 ## Architecture Overview
 
-Spring Boot 3.4.3 + Java 21 后台管理系统，采用标准分层架构，配置通过 Nacos 管理（`local` / `prod` 两个 profile 对应不同的 namespace）。
+Spring Boot 2.7.18 + Java 8 后台管理系统，采用标准分层架构，配置通过 Nacos 管理（`local` / `prod` 两个 profile 对应不同的 namespace）。
 
 **核心分层：**
 - `controller/` — REST API，返回统一响应 `R<T>`，使用 `@Tag`/`@Operation`（SpringDoc）标注接口文档，`@RequiredArgsConstructor` 注入依赖
 - `service/` — 接口继承 `IService<T>`，实现继承 `ServiceImpl<M, T>`（MyBatis-Plus），通过 `@RequiredArgsConstructor` 注入依赖
 - `mapper/` — MyBatis-Plus Mapper，主类已配置 `@MapperScan("com.mikuyun.admin.mapper")`
 - `entity/` — 数据实体，继承 `BaseEntity`（提供 isDelete、createBy、updateBy、gmtCreated、gmtModified 通用字段），表名前缀 `mk_`
-- `dto/` — 请求参数对象（`jakarta.validation.constraints` 校验），按模块分子包
+- `dto/` — 请求参数对象（`javax.validation.constraints` 校验），按模块分子包
 - `vo/` — 响应对象，按模块分子包
 
 **认证与鉴权：**
 - Sa-Token 管理登录态，`StpInterfaceImpl` 桥接自定义角色/权限服务
 - 类或方法上使用 `@SaCheckRole("super_admin")` / `@SaCheckPermission` 做角色和权限控制 / `@SaIgnore` 跳过token校验
 - 自定义 AOP `SecurityVerificationAspect` 配合 `@SecurityVerification` 注解，通过请求头 `access_token` 做外部调用鉴权
-
-**消息队列（RocketMQ）：**
-- `ConsumerRegister` 启动时自动发现所有 `IBaseMessageListener` 实现，按 topic 分组订阅
-- `TopicMessageListenerWrapper` 根据消息 tag 二次路由到对应的 listener
-- 发送端通过 `IAsyncMessageService` → `AbstractAsyncMessageServiceImpl` 模板方法发送，支持单个/批量（多 topic 广播）和延时等级
-- `IBaseMessageListener.getTopic()` + `getTag()` 定义消费路由，`RocketProducer.send()` 发送
 
 **分布式锁：**`LockTemplateSupport.rLock(key, expire, timeUnit, runnable)` 基于 Redisson 的模板式分布式锁。
 

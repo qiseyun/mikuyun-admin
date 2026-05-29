@@ -1,20 +1,18 @@
 # MIKUYUN-ADMIN
 
-基于 Spring Boot 3.4.3 + Java 21 的后台管理系统，提供完整的权限管理、文件上传、数据导出等功能。
+基于 Spring Boot 2.7.18 + Java 8 的后台管理系统，提供完整的权限管理、文件上传、数据导出等功能。
 
 ## 技术栈
 
 | 分类 | 技术 |
 |------|------|
-| 核心框架 | Spring Boot 3.4.3 / Java 21 |
+| 核心框架 | Spring Boot 2.7.18 / Java 8 |
 | 数据库 | MySQL + MyBatis-Plus |
 | 缓存 | Redis (Redisson) |
 | 配置中心 | Nacos |
 | 认证授权 | Sa-Token |
 | API文档 | SpringDoc OpenAPI (Swagger) |
 | 工具库 | Hutool / EasyExcel |
-| 消息队列 | RocketMQ |
-| 搜索引擎 | Elasticsearch |
 | 定时任务 | XXL-JOB |
 | 对象存储 | Minio / 七牛云 |
 
@@ -60,9 +58,6 @@ src/main/java/com/mikuyun/admin/
 ├── excel/              # Excel导出
 │   ├── ExcelTaskManager.java    # 导出任务管理
 │   └── engine/             # 导出引擎
-├── rocketmq/           # 消息队列
-│   ├── RocketProducer.java    # 生产者
-│   └── consumer/               # 消费者
 ├── util/               # 工具类
 │   ├── AhoCorasickAutomatonUtils.java  # 违禁词检测
 │   └── TreeUtils.java           # 树形工具
@@ -90,17 +85,6 @@ src/main/java/com/mikuyun/admin/
 - 导出速率限制
 - 下载链接生成
 
-### 📱 消息队列
-- RocketMQ 集成
-- 异步消息处理
-- 消息消费注册
-- 延迟消息
-
-### 🔍 搜索引擎
-- Elasticsearch 集成
-- 全文检索
-- 搜索分页
-
 ### 📝 其他功能
 - WebSocket 实时通信
 - SQL 注入过滤
@@ -110,7 +94,7 @@ src/main/java/com/mikuyun/admin/
 ## 快速开始
 
 ### 环境要求
-- JDK 21+
+- JDK 8+
 - Maven 3.6+
 - MySQL 8.0+
 - Redis 6.0+
@@ -160,7 +144,6 @@ docker run -d -p 8091:8091 --name mikuyun-admin mikuyun-admin:latest
 | spring.data.redis.* | Redis配置 | - |
 | minio.* | Minio配置 | - |
 | qiniu.* | 七牛云配置 | - |
-| rocketmq.* | RocketMQ配置 | - |
 | xxl.job.* | XXL-Job配置 | - |
 
 ### 环境切换

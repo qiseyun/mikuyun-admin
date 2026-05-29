@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -32,7 +33,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 .list()
                 .stream()
                 .map(SysUserRole::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 .list()
                 .stream()
                 .map(SysUserRole::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
         // 删除旧角色
         LambdaQueryWrapper<SysUserRole> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(SysUserRole::getUserId, dto.getSysUserId());
@@ -52,7 +53,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         List<SysUserRole> afterData = dto.getRoleIds()
                 .stream()
                 .map(item -> new SysUserRole(dto.getSysUserId(), item))
-                .toList();
+                .collect(Collectors.toList());
         this.saveBatch(afterData);
         log.info("用户角色更新: sysUserId:{} \n beforeRoleIds:{} \n afterPermissionIds:{}", dto.getSysUserId(), beforeRoleIds, dto.getRoleIds());
     }

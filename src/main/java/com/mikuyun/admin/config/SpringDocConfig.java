@@ -12,6 +12,8 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,7 +44,7 @@ public class SpringDocConfig {
                         .license(new License().name("").url(""))   // 开源许可证（当前未设置）
                 )
                 // 指定 API 服务的访问地址（Swagger UI 中可切换服务器）
-                .servers(List.of(
+                .servers(Collections.singletonList(
                         new Server()
                                 .url("http://127.0.0.1:8091")      // 本地开发地址（注意：生产环境应改为实际域名）
                                 .description("本地开发环境")         // 服务器描述（可留空）

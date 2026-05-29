@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import org.jspecify.annotations.NonNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Collections;
 import java.util.regex.Pattern;

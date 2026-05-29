@@ -2,7 +2,7 @@ package com.mikuyun.admin.factory;
 
 import com.mikuyun.admin.excel.ExcelDataSupplier;
 import com.mikuyun.admin.exception.BizException;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;

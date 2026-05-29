@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -46,7 +47,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             SysConfigListVo vo = new SysConfigListVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
-        }).toList();
+        }).collect(Collectors.toList());
     }
 
     @Override

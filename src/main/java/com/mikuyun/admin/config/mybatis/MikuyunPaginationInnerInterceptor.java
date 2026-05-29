@@ -14,6 +14,8 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+import java.sql.SQLException;
+
 /**
  * 分页拦截器
  * <p>
@@ -57,7 +59,7 @@ public class MikuyunPaginationInnerInterceptor extends PaginationInnerIntercepto
             RowBounds rowBounds,
             ResultHandler resultHandler,
             BoundSql boundSql
-    ) {
+    ) throws SQLException {
         IPage<?> page = ParameterUtils.findPage(parameter).orElse(null);
         // size 小于 0 直接设置为 0 , 即不查询任何数据
         if (null != page && page.getSize() < 0) {

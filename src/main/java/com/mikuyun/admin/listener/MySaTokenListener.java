@@ -1,7 +1,7 @@
 package com.mikuyun.admin.listener;
 
 import cn.dev33.satoken.listener.SaTokenListener;
-import cn.dev33.satoken.stp.parameter.SaLoginParameter;
+import cn.dev33.satoken.stp.SaLoginModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class MySaTokenListener implements SaTokenListener {
 
     @Override
-    public void doLogin(String s, Object o, String s1, SaLoginParameter saLoginParameter) {
+    public void doLogin(String s, Object o, String s1, SaLoginModel saLoginModel) {
         log.info("---------- 自定义侦听器实现 doLogin");
     }
 

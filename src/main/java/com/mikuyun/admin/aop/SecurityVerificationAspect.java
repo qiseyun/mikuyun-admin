@@ -2,7 +2,7 @@ package com.mikuyun.admin.aop;
 
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.exception.ServiceException;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -24,8 +24,8 @@ import java.util.Objects;
 @Slf4j
 public class SecurityVerificationAspect {
 
-    @Value("${mikuyun.accessToken}")
-    private String accessToken;
+    @Value("${mikuyun.innerToken}")
+    private String innerToken;
 
     /**
      * 定义 @Pointcut注解表达式, 通过特定的规则来筛选连接点, 就是Pointcut，选中那几个你想要的方法
@@ -47,7 +47,7 @@ public class SecurityVerificationAspect {
     @Around(value = "pointCutSecurityVerification()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        if (Objects.equals(accessToken, request.getHeader("access_token"))) {
+        if (Objects.equals(innerToken, request.getHeader("access_token"))) {
             return joinPoint.proceed();
         }
         throw new ServiceException(ResultCode.ACCESS_TOKEN_ERROR);

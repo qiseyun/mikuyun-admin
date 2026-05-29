@@ -13,7 +13,7 @@ import com.mikuyun.admin.service.SysUserService;
 import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

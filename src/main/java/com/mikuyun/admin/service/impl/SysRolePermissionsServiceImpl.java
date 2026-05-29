@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,9 +40,9 @@ public class SysRolePermissionsServiceImpl extends ServiceImpl<SysRolePermission
             sysRolePermissions.setRoleId(dto.getRoleId());
             sysRolePermissions.setPermissionId(item);
             return sysRolePermissions;
-        }).toList();
+        }).collect(Collectors.toList());
         this.saveBatch(sysRolePermissionsList);
-        List<Integer> beforePermissionIds = beforeData.stream().map(SysRolePermissions::getPermissionId).toList();
+        List<Integer> beforePermissionIds = beforeData.stream().map(SysRolePermissions::getPermissionId).collect(Collectors.toList());
         log.info("角色权限更新: roleId:{} \n beforePermissionIds:{} \n afterPermissionIds:{}", dto.getRoleId(), beforePermissionIds, dto.getIds());
     }
 

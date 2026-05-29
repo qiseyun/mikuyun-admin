@@ -7,7 +7,7 @@ import com.mikuyun.admin.dto.sysuser.EditUserRoleDto;
 import com.mikuyun.admin.service.SysUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -5,7 +5,7 @@ import io.minio.MinioClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 @Configuration
 public class MinioConfiguration {

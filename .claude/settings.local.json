@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C X:/github/mikuyun-admin show HEAD:AGENTS.md)"
+      "Bash(git -C X:/github/mikuyun-admin show HEAD:AGENTS.md)",
+      "Bash(mvn clean *)",
+      "Bash(mvn dependency:resolve -DincludeArtifactIds=mybatis-plus-jsqlparser -DremoteRepositories=https://repo1.maven.org/maven2/)",
+      "Bash(rm -rf ~/.m2/repository/com/baomidou/mybatis-plus-jsqlparser)",
+      "Bash(rm -rf ~/.m2/repository/cn/dev33/sa-token-redis-template)",
+      "Bash(curl -s \"https://repo1.maven.org/maven2/com/baomidou/mybatis-plus-jsqlparser/maven-metadata.xml\")",
+      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-redis-template/maven-metadata.xml\")",
+      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-dao-redis-jackson/maven-metadata.xml\")",
+      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-redis/maven-metadata.xml\")",
+      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-redis-jackson/maven-metadata.xml\")",
+      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-spring-boot-starter/maven-metadata.xml\")"
     ]
   }
 }
