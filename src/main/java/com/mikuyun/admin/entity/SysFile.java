@@ -33,7 +33,7 @@ public class SysFile {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(name = "存储渠道: minio, qiniu")
+    @Schema(name = "存储渠道: local, qiniu")
     private String channel;
 
     @Schema(name = "原始名称")

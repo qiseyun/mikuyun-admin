@@ -186,14 +186,16 @@
 
         <!-- 对象存储 -->
         <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>8.2.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
             <version>7.19.0</version>
+        </dependency>
+
+        <!-- MinIO Client (S3-compatible, 用于 RustFS) -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.7</version>
         </dependency>
 
     </dependencies>

@@ -154,7 +154,7 @@ create table mk_sys_file
 (
     id             int auto_increment comment 'id'
         primary key,
-    channel        varchar(32)  default ''                not null comment '存储渠道: minio, qiniu',
+    channel        varchar(32)  default ''                not null comment '存储渠道: local, qiniu',
     original_name  varchar(500)                           not null comment '原始名称',
     type           varchar(32)  default ''                not null comment '文件类型',
     md5            varchar(500)                           not null comment '文件MD5',

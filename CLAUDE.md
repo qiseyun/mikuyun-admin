@@ -46,4 +46,4 @@ Spring Boot 2.7.18 + Java 8 后台管理系统，采用标准分层架构，配�
 
 **数据层：**逻辑删除（`isDelete=0/1`），`Constant` 类统一定义常量 `STATUS_DEL_INT=1` / `STATUS_NORMAL_INT=0` 及成功失败标记。
 
-**对象存储：**支持 Minio 和七牛云，通过 `MinioConfiguration` / `QiniuService` 配置驱动。
+**对象存储：**支持本地存储和七牛云，通过 `QiniuService` 配置驱动。

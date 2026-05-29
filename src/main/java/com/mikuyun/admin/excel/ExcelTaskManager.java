@@ -120,13 +120,6 @@ public class ExcelTaskManager {
                 dataList.clear();
             }
             excelEngine.exportFinish();
-            // minio上传
-//            MinioService minioService = SpringContextUtils.getBean(MinioService.class);
-//            ObjectWriteResponse response;
-//            try (InputStream inputStream = new FileInputStream(this.outputFile)) {
-//                response = minioService.uploadFile(this.objectName, inputStream);
-//            }
-//            String downloadUrl = minioService.getPublicObjectUrl(response.object());
             // 七牛云上传
             IQiniuService qiniuService = SpringContextUtils.getBean(IQiniuService.class);
             QiniuProperties qiniuProperties = SpringContextUtils.getBean(QiniuProperties.class);

@@ -11,7 +11,8 @@
       "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-dao-redis-jackson/maven-metadata.xml\")",
       "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-redis/maven-metadata.xml\")",
       "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-redis-jackson/maven-metadata.xml\")",
-      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-spring-boot-starter/maven-metadata.xml\")"
+      "Bash(curl -s \"https://repo1.maven.org/maven2/cn/dev33/sa-token-spring-boot-starter/maven-metadata.xml\")",
+      "Bash(mvn compile *)"
     ]
   }
 }

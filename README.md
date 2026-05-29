@@ -14,7 +14,7 @@
 | API文档 | SpringDoc OpenAPI (Swagger) |
 | 工具库 | Hutool / EasyExcel |
 | 定时任务 | XXL-JOB |
-| 对象存储 | Minio / 七牛云 |
+| 对象存储 | 七牛云 / 本地存储 |
 
 ## 项目结构
 
@@ -74,8 +74,8 @@ src/main/java/com/mikuyun/admin/
 - Session 管理
 
 ### 📁 文件管理
-- Minio 对象存储
 - 七牛云存储
+- 本地存储
 - 文件类型校验
 - 重复文件检测
 
@@ -142,7 +142,6 @@ docker run -d -p 8091:8091 --name mikuyun-admin mikuyun-admin:latest
 | spring.env | 环境标识 | local |
 | spring.datasource.* | 数据库配置 | - |
 | spring.data.redis.* | Redis配置 | - |
-| minio.* | Minio配置 | - |
 | qiniu.* | 七牛云配置 | - |
 | xxl.job.* | XXL-Job配置 | - |
 
