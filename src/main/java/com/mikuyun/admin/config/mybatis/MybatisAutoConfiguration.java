@@ -35,7 +35,7 @@ public class MybatisAutoConfiguration implements WebMvcConfigurer {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(new MikuyunPaginationInnerInterceptor(DbType.MYSQL));
+        interceptor.addInnerInterceptor(new MikuyunPaginationInnerInterceptor(DbType.POSTGRE_SQL));
         return interceptor;
     }
 

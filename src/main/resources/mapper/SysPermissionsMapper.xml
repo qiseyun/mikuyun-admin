@@ -14,38 +14,38 @@
     </select>
 
     <select id="queryPermissionList" resultType="com.mikuyun.admin.vo.syspermissions.SysPermissionListVo">
-        SELECT `id`,
-        `name`,
-        `permission`,
-        `keep_alive`,
-        `type`,
-        `parent_id` AS pid
-        FROM `mk_sys_permissions`
-        WHERE `is_delete` = 0
+        SELECT id,
+               name,
+               permission,
+               keep_alive,
+               type,
+               parent_id AS pid
+        FROM mk_sys_permissions
+        WHERE is_delete = 0
         <if test="parentId != null and parentId != -1">
-            AND `parent_id` = #{parentId}
+            AND parent_id = #{parentId}
         </if>
-        AND `keep_alive` = 0
-        AND `type` IN (-1, 0, 1)
+        AND keep_alive = 0
+        AND type IN (-1, 0, 1)
     </select>
 
     <select id="getPermissionList" resultType="com.mikuyun.admin.vo.syspermissions.SysPermissionListVo">
-        SELECT t1.`id`,
-               t1.`name`,
-               t1.`parent_id` AS pid
-        FROM `mk_sys_permissions` AS t1
-                 LEFT JOIN `mk_sys_role_permissions` AS t2 ON t1.`id` = t2.`permission_id`
-                 LEFT JOIN `mk_sys_user_role` AS t3 ON t2.`role_id` = t3.`role_id`
-        WHERE t1.`is_delete` = 0
-          AND t1.`keep_alive` = 0
-          AND t1.`type` IN (-1, 0, 1)
-          AND t3.`user_id` = #{sysUserId}
-        GROUP BY t1.`id`
-        ORDER BY t1.`id`
+        SELECT t1.id,
+               t1.name,
+               t1.parent_id AS pid
+        FROM mk_sys_permissions AS t1
+                 LEFT JOIN mk_sys_role_permissions AS t2 ON t1.id = t2.permission_id
+                 LEFT JOIN mk_sys_user_role AS t3 ON t2.role_id = t3.role_id
+        WHERE t1.is_delete = 0
+          AND t1.keep_alive = 0
+          AND t1.type IN (-1, 0, 1)
+          AND t3.user_id = #{sysUserId}
+        GROUP BY t1.id
+        ORDER BY t1.id
     </select>
     <select id="getRolePermissionIds" resultType="java.lang.Integer">
-        SELECT t1.`permission_id`
-        FROM `mk_sys_role_permissions` AS t1
+        SELECT t1.permission_id
+        FROM mk_sys_role_permissions AS t1
                  LEFT JOIN mk_sys_permissions AS t2 ON t1.permission_id = t2.id
         WHERE t1.role_id = #{roleId}
           AND t2.parent_id != 0

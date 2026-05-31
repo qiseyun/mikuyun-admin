@@ -7,14 +7,13 @@
 | 分类 | 技术 |
 |------|------|
 | 核心框架 | Spring Boot 3.4.3 / Java 21 |
-| 数据库 | MySQL + MyBatis-Plus |
+| 数据库 | PostgreSQL + MyBatis-Plus |
 | 缓存 | Redis (Redisson) |
 | 配置中心 | Nacos |
 | 认证授权 | Sa-Token |
 | API文档 | SpringDoc OpenAPI (Swagger) |
 | 工具库 | Hutool / EasyExcel |
 | 消息队列 | RocketMQ |
-| 搜索引擎 | Elasticsearch |
 | 定时任务 | XXL-JOB |
 | 对象存储 | Minio / 七牛云 |
 
@@ -96,11 +95,6 @@ src/main/java/com/mikuyun/admin/
 - 消息消费注册
 - 延迟消息
 
-### 🔍 搜索引擎
-- Elasticsearch 集成
-- 全文检索
-- 搜索分页
-
 ### 📝 其他功能
 - WebSocket 实时通信
 - SQL 注入过滤
@@ -112,7 +106,7 @@ src/main/java/com/mikuyun/admin/
 ### 环境要求
 - JDK 21+
 - Maven 3.6+
-- MySQL 8.0+
+- PostgreSQL 15+
 - Redis 6.0+
 
 ### 编译打包

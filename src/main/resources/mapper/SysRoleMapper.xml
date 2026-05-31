@@ -23,21 +23,21 @@
     </select>
 
     <select id="queryRoleList" resultType="com.mikuyun.admin.vo.sysrole.QuerySysRoleListVo">
-        SELECT `id`,
-        `role_name`,
-        `role_code`,
-        `role_desc`,
-        `gmt_created`
-        FROM `mk_sys_role`
-        WHERE `is_delete` = 0
+        SELECT id,
+               role_name,
+               role_code,
+               role_desc,
+               gmt_created
+        FROM mk_sys_role
+        WHERE is_delete = 0
         <if test="roleName != null and roleName != ''">
-            AND `role_name` LIKE CONCAT('%', #{roleName}, '%')
+            AND role_name LIKE '%' || #{roleName} || '%'
         </if>
         <if test="roleCode != null and roleCode != ''">
-            AND `role_code` = #{roleCode}
+            AND role_code = #{roleCode}
         </if>
-        ORDER BY `id` DESC
-        LIMIT #{offset}, #{size}
+        ORDER BY id DESC
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
 </mapper>

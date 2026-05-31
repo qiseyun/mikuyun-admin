@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C X:/github/mikuyun-admin show HEAD:AGENTS.md)"
+      "Bash(git -C X:/github/mikuyun-admin show HEAD:AGENTS.md)",
+      "Bash(mvn clean *)"
     ]
   }
 }

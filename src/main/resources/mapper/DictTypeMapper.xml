@@ -10,16 +10,16 @@
                 AND id = #{dto.id}
             </if>
             <if test="dto.typeName != null and dto.typeName != ''">
-                AND type_name LIKE CONCAT('%', #{dto.typeName}, '%')
+                AND type_name LIKE '%' || #{dto.typeName} || '%'
             </if>
             <if test="dto.typeCode != null and dto.typeCode !=''">
                 AND type_code = #{dto.typeCode}
             </if>
             <if test="dto.remark != null and dto.remark != ''">
-                AND remark LIKE CONCAT('%', #{dto.remark}, '%')
+                AND remark LIKE '%' || #{dto.remark} || '%'
             </if>
         </where>
-        LIMIT #{dto.offset}, #{dto.size}
+        LIMIT #{dto.size} OFFSET #{dto.offset}
     </select>
 
 </mapper>

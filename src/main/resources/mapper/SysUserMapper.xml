@@ -18,7 +18,7 @@
             AND t1.phone = #{phone}
         </if>
         ORDER BY t1.id DESC
-        LIMIT #{offset}, #{size}
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
 </mapper>

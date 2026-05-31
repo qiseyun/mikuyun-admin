@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
+import com.baomidou.mybatisplus.generator.config.converts.PostgreSqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -37,13 +37,13 @@ public class CodeGenerator {
         String mapperPath = StrUtil.join("", System.getProperty("user.dir"), "/src/main/resources/mapper");
 
         //数据库配置
-        String dbUrl = "jdbc:mysql://127.0.0.1:3306/mikuyun?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai";
-        String userName = "root";
-        String password = "mikuyun";
+        String dbUrl = "jdbc:postgresql://127.0.0.1:5432/mikuyun?currentSchema=public";
+        String userName = "mikuyun";
+        String password = "mikuyun@mikuyun.com";
 
         //tinyint转Integer
         DataSourceConfig.Builder sourceConfig = new DataSourceConfig.Builder(dbUrl, userName, password)
-                .typeConvert(new CustomMySqlTypeConvert());
+                .typeConvert(new CustomPostgreSqlTypeConvert());
 
         FastAutoGenerator.create(sourceConfig)
                 //全局配置
@@ -81,12 +81,12 @@ public class CodeGenerator {
     }
 
 
-    static class CustomMySqlTypeConvert extends MySqlTypeConvert {
+    static class CustomPostgreSqlTypeConvert extends PostgreSqlTypeConvert {
 
         @Override
         public IColumnType processTypeConvert(@NonNull GlobalConfig config, @NonNull String fieldType) {
             IColumnType columnType = super.processTypeConvert(config, fieldType);
-            if (Pattern.matches("^(tinyint|integer).*", fieldType) && DbColumnType.BOOLEAN.getType().equals(columnType.getType())) {
+            if (Pattern.matches("^(smallint|integer).*", fieldType) && DbColumnType.BOOLEAN.getType().equals(columnType.getType())) {
                 return DbColumnType.INTEGER;
             }
             return columnType;
