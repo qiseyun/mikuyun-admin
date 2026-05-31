@@ -26,8 +26,11 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         LocalDateTime now = LocalDateTime.now();
         fillStrategy(metaObject, "gmtCreated", now);
         fillStrategy(metaObject, "gmtModified", now);
+        fillStrategy(metaObject, "createTime", now);
+        fillStrategy(metaObject, "updateTime", now);
         // 删除标记自动填充
         fillStrategy(metaObject, "isDelete", Constant.STATUS_NORMAL_INT);
+        fillStrategy(metaObject, "delFlag", Constant.STATUS_NORMAL_STR);
     }
 
     /**

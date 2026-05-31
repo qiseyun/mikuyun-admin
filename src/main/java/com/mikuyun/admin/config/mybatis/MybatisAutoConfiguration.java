@@ -1,7 +1,6 @@
 package com.mikuyun.admin.config.mybatis;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.mikuyun.admin.config.SqlFilterArgumentResolver;
@@ -48,14 +47,6 @@ public class MybatisAutoConfiguration implements WebMvcConfigurer {
     @Bean
     public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
         return new MybatisPlusMetaObjectHandler();
-    }
-
-    @Bean
-    public GlobalConfig globalConfig() {
-        GlobalConfig config = new GlobalConfig();
-        // 通过注入的方式设置
-        config.setPostInitTableInfoHandler(new PlusPostInitTableInfoHandler());
-        return config;
     }
 
 }

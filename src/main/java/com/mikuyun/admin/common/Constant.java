@@ -10,11 +10,13 @@ public class Constant {
      * 删除
      */
     public static final Integer STATUS_DEL_INT = 1;
+    public static final String STATUS_DEL_STR = "1";
 
     /**
      * 正常
      */
     public static final Integer STATUS_NORMAL_INT = 0;
+    public static final String STATUS_NORMAL_STR = "0";
 
     /**
      * 成功标记

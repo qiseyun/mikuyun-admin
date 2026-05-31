@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        codeAutoGenerator("mikuyun", "mk_sys_config");
+        codeAutoGenerator("mikuyun", "flow_his_task","flow_instance","flow_node","flow_skip","flow_task","flow_user","flow_definition");
     }
 
     /**
