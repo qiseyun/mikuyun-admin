@@ -1,4 +1,4 @@
-package com.mikuyun.admin.flow;
+package com.mikuyun.admin.service.flow;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import org.dromara.warm.flow.core.service.InsService;
 import org.dromara.warm.flow.core.service.NodeService;
 import org.dromara.warm.flow.core.service.TaskService;
 import org.dromara.warm.flow.core.utils.page.Page;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.net.URL;
@@ -27,8 +27,16 @@ import java.util.*;
  */
 @RequiredArgsConstructor
 @Slf4j
-@Component
+@Service
 public class WarmFlowTest {
+
+    private final DefService defService;
+
+    private final InsService insService;
+
+    private final TaskService taskService;
+
+    private final NodeService nodeService;
 
     public String getFlowCode() {
         return "serial55";
@@ -56,10 +64,10 @@ public class WarmFlowTest {
     /**
      * 部署流程
      */
-    public void deployFlow(DefService defService) throws Exception {
-        URL resource = getClass().getClassLoader().getResource("leaveFlow-serial-内部测试用.json");
+    public void deployFlow() throws Exception {
+        URL resource = getClass().getClassLoader().getResource("leaveFlow-serial.json");
         if (resource == null) {
-            throw new RuntimeException("无法找到资源文件: leaveFlow-serial-内部测试用.json");
+            throw new RuntimeException("无法找到资源文件: leaveFlow-serial.json");
         }
         // 解码路径中的中文字符
         String path = URLDecoder.decode(resource.getPath(), StandardCharsets.UTF_8);
@@ -67,7 +75,7 @@ public class WarmFlowTest {
 
     }
 
-    public Long getTestDefId(DefService defService) {
+    public Long getTestDefId() {
         ArrayList<String> flowCodeList = new ArrayList<>();
         flowCodeList.add(getFlowCode());
         return defService.queryByCodeList(flowCodeList).stream().findFirst().map(Definition::getId).orElse(0L);
@@ -76,50 +84,49 @@ public class WarmFlowTest {
     /**
      * 发布流程
      */
-    public void publish(DefService defService) {
-
-        defService.publish(getTestDefId(defService));
+    public void publish() {
+        defService.publish(getTestDefId());
     }
 
     /**
      * 激活流程
      */
-    public void active(DefService defService) {
-        defService.active(getTestDefId(defService));
+    public void active() {
+        defService.active(getTestDefId());
     }
 
     /**
      * 挂起流程
      */
-    public void unActive(DefService defService) {
-        defService.unActive(getTestDefId(defService));
+    public void unActive() {
+        defService.unActive(getTestDefId());
     }
 
     /**
      * 取消流程
      */
-    public void unPublish(DefService defService) {
-        defService.unPublish(getTestDefId(defService));
+    public void unPublish() {
+        defService.unPublish(getTestDefId());
     }
 
     /**
      * 获取流程定义
      */
-    public void queryDesign(DefService defService) {
-        System.out.println("获取流程定义：" + defService.queryDesign(getTestDefId(defService)));
+    public void queryDesign() {
+        System.out.println("获取流程定义：" + defService.queryDesign(getTestDefId()));
     }
 
     /**
      * 删除流程定义
      */
-    public void removeDef(DefService defService) {
-        defService.removeDef(Collections.singletonList(getTestDefId(defService)));
+    public void removeDef() {
+        defService.removeDef(Collections.singletonList(getTestDefId()));
     }
 
     /**
      * 开启流程
      */
-    public void startFlow(InsService insService, TaskService taskService) {
+    public void startFlow() {
         Instance instance = insService.start(getBusinessId(), getUser());
         System.out.println("已开启的流程实例id：" + instance.getId());
         taskService.list(FlowEngine.newTask().setInstanceId(instance.getId()))
@@ -129,28 +136,28 @@ public class WarmFlowTest {
     /**
      * 删除流程实例
      */
-    public void removeIns(InsService insService) {
+    public void removeIns() {
         insService.remove(Collections.singletonList(2L));
     }
 
     /**
      * 激活流程实例
      */
-    public void activeIns(InsService insService) {
+    public void activeIns() {
         insService.active(getInsId());
     }
 
     /**
      * 挂起流程实例
      */
-    public void unActiveIns(InsService insService) {
+    public void unActiveIns() {
         insService.unActive(getInsId());
     }
 
     /**
      * 办理
      */
-    public void skipFlow(InsService insService, TaskService taskService) {
+    public void skipFlow() {
         // 通过实例id流转
         FlowParams flowParams = getUser().skipType(SkipType.PASS.getKey())
                 .permissionFlag(Arrays.asList("role:1", "role:2"));
@@ -164,7 +171,8 @@ public class WarmFlowTest {
 //        // 通过任务id流转
 //        Instance instance = taskService.skip(getTaskId(), getUser().skipType(SkipType.PASS.getKey())
 //                .permissionFlag(Arrays.asList("role:1", "role:2")));
-        System.out.println("流转后流程实例：" + instance.toString());
+
+        System.out.println("流转后流程实例：" + instance);
         taskService.list(FlowEngine.newTask().setInstanceId(instance.getId()))
                 .forEach(task -> System.out.println("流转后任务id实例：" + task.getId()));
     }
@@ -172,8 +180,7 @@ public class WarmFlowTest {
     /**
      * 终止流程实例
      */
-    public void termination(TaskService taskService) {
-
+    public void termination() {
         FlowParams flowParams = new FlowParams();
         flowParams.message("终止流程").handler("1");
         taskService.termination(1260200517360029696L, flowParams);
@@ -182,7 +189,7 @@ public class WarmFlowTest {
     /**
      * 跳转到指定节点 跳转到结束节点
      */
-    public void skipAnyNode(TaskService taskService) {
+    public void skipAnyNode() {
         Instance instance = taskService.skip(1260200765054652416L, getUser().skipType(SkipType.PASS.getKey())
                 .permissionFlag(Arrays.asList("role:1", "role:2")).nodeCode("5"));
         System.out.println("流转后流程实例：" + instance.toString());
@@ -191,7 +198,7 @@ public class WarmFlowTest {
     /**
      * 分页
      */
-    public void page(DefService defService) {
+    public void page() {
         Definition flowDefinition = FlowEngine.newDef();
         Page<Definition> page = Page.pageOf(1, 10);
         page = defService.orderByCreateTime().desc().page(flowDefinition, page);
@@ -202,7 +209,7 @@ public class WarmFlowTest {
     /**
      * 转办
      */
-    public void transfer(TaskService taskService) {
+    public void transfer() {
 
         taskService.transfer(getTaskId(), new FlowParams()
                 .handler("1")
@@ -214,7 +221,7 @@ public class WarmFlowTest {
     /**
      * 委派
      */
-    public void depute(TaskService taskService) {
+    public void depute() {
         taskService.depute(getTaskId(), new FlowParams()
                 .handler("A")
                 .permissionFlag(Arrays.asList("role:1", "role:2", "user:1"))
@@ -225,7 +232,7 @@ public class WarmFlowTest {
     /**
      * 加签
      */
-    public void addSignature(TaskService taskService) {
+    public void addSignature() {
         taskService.addSignature(getTaskId(), new FlowParams()
                 .handler("1")
                 .permissionFlag(Arrays.asList("role:1", "role:2", "user:1"))
@@ -236,7 +243,7 @@ public class WarmFlowTest {
     /**
      * 减签
      */
-    public void reductionSignature(TaskService taskService) {
+    public void reductionSignature() {
         taskService.reductionSignature(getTaskId(), new FlowParams()
                 .handler("1")
                 .permissionFlag(Arrays.asList("role:1", "role:2", "user:1"))
@@ -247,7 +254,7 @@ public class WarmFlowTest {
     /**
      * 获取下面的节点
      */
-    public void getNextNodeList(NodeService nodeService) {
+    public void getNextNodeList() {
         // Long definitionId, String nowNodeCode, String nextNodeCode, String skipType, Map<String, Object> variable
         Map<String, Object> variable = new HashMap<>();
         variable.put("abc", "abc");
@@ -259,7 +266,7 @@ public class WarmFlowTest {
     /**
      * 获取前置和后置的节点
      */
-    public void previousNodeList(NodeService nodeService) {
+    public void previousNodeList() {
         List<Node> previousNodeList = nodeService.previousNodeList(1328315500865916942L);
         System.out.print("所有的前置节点：");
         previousNodeList.stream().map(Node::getNodeName).forEach(System.out::println);
@@ -271,7 +278,7 @@ public class WarmFlowTest {
     /**
      * 获取下面的节点
      */
-    public void getFirstBetweenNode(NodeService nodeService) {
+    public void getFirstBetweenNode() {
         List<Node> nextNodeList = nodeService.getFirstBetweenNode(1392797585923772416L, null);
         System.out.print("下面的节点：");
         nextNodeList.stream().map(Node::getNodeName).forEach(System.out::println);

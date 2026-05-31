@@ -1,0 +1,117 @@
+{
+  "flowCode": "serial55",
+  "flowName": "串行-简单",
+  "formCustom": "N",
+  "formPath": "system/leave/approve",
+  "listenerPath": "org.dromara.warm.flow.test.core.listener.DefStartListener@@org.dromara.warm.flow.test.core.listener.DefAssignmentListener@@org.dromara.warm.flow.test.core.listener.DefFinishListener@@org.dromara.warm.flow.core.listener.DefCreateListener",
+  "listenerType": "start,assignment,finish,create",
+  "version": "1",
+  "nodeList": [
+    {
+      "coordinate": "120,280|120,280",
+      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
+      "listenerType": "start,assignment,finish,create",
+      "nodeCode": "1",
+      "nodeName": "开始",
+      "nodeRatio": 0.000,
+      "nodeType": 0,
+      "skipList": [
+        {
+          "coordinate": "140,280;230,280",
+          "nextNodeCode": "2",
+          "nowNodeCode": "1",
+          "skipType": "PASS"
+        }
+      ]
+    },
+    {
+      "coordinate": "280,280|280,280",
+      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
+      "listenerType": "start,assignment,finish,create",
+      "nodeCode": "2",
+      "nodeName": "待提交",
+      "nodeRatio": 0.000,
+      "nodeType": 1,
+      "permissionFlag": "warmFlowInitiator@@role:2",
+      "skipList": [
+        {
+          "coordinate": "330,280;430,280",
+          "nextNodeCode": "3",
+          "nowNodeCode": "2",
+          "skipType": "PASS"
+        }
+      ]
+    },
+    {
+      "coordinate": "480,280|480,280",
+      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
+      "listenerType": "start,assignment,finish,create",
+      "nodeCode": "3",
+      "nodeName": "组长审批",
+      "nodeRatio": 0.000,
+      "nodeType": 1,
+      "permissionFlag": "role:1@@role:2",
+      "skipList": [
+        {
+          "coordinate": "530,280;650,280",
+          "nextNodeCode": "4",
+          "nowNodeCode": "3",
+          "skipType": "PASS"
+        }
+      ]
+    },
+    {
+      "coordinate": "700,280|700,280",
+      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
+      "listenerType": "start,assignment,finish,create",
+      "nodeCode": "4",
+      "nodeName": "部门经理审批",
+      "nodeRatio": 0.000,
+      "nodeType": 1,
+      "permissionFlag": "role:1@@role:2",
+      "skipList": [
+        {
+          "coordinate": "750,280;870,280",
+          "nextNodeCode": "5",
+          "nowNodeCode": "4",
+          "skipType": "PASS"
+        },
+        {
+          "coordinate": "700,240;700,210;280,210;280,240",
+          "nextNodeCode": "2",
+          "nowNodeCode": "4",
+          "skipType": "REJECT"
+        }
+      ]
+    },
+    {
+      "coordinate": "920,280|920,280",
+      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
+      "listenerType": "start,assignment,finish,create",
+      "nodeCode": "5",
+      "nodeName": "hr审批",
+      "nodeRatio": 0.000,
+      "nodeType": 1,
+      "permissionFlag": "warmFlowInitiator",
+      "skipList": [
+        {
+          "coordinate": "970,280;1100,280",
+          "nextNodeCode": "6",
+          "nowNodeCode": "5",
+          "skipType": "PASS"
+        }
+      ]
+    },
+    {
+      "coordinate": "1120,280|1120,280",
+      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
+      "listenerType": "start,assignment,finish,create",
+      "nodeCode": "6",
+      "nodeName": "结束",
+      "nodeRatio": 0.000,
+      "nodeType": 2,
+      "skipList": [
+      ]
+    }
+  ]
+}
