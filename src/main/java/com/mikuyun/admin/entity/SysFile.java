@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * @since 2023-04-22
  */
 @Data
-@TableName(value = "mk_sys_file")
+@TableName(schema = "public", value = "mk_sys_file")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "文件表")

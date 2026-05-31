@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("mk_sys_permissions")
+@TableName(schema = "public", value = "mk_sys_permissions")
 @Schema(description = "菜单权限表")
 public class SysPermissions extends BaseEntity {
 

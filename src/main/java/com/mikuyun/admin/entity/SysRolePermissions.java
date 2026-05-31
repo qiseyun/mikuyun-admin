@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("mk_sys_role_permissions")
+@TableName(schema = "public", value = "mk_sys_role_permissions")
 @Schema(description = "角色菜单表")
 public class SysRolePermissions {
 

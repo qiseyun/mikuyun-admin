@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("region_details")
+@TableName(schema = "public", value = "region_details")
 @Schema(description = "地区表")
 public class RegionDetails {
 

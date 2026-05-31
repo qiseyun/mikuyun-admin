@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@TableName("mk_posts")
+@TableName(schema = "public", value = "mk_posts")
 @Accessors(chain = true)
 @Schema(name = "Posts", description = "文章表")
 public class Posts extends BaseEntity {

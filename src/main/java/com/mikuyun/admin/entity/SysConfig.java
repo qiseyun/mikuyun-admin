@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString
 @Accessors(chain = true)
-@TableName("mk_sys_config")
+@TableName(schema = "public", value = "mk_sys_config")
 @Schema(name = "SysConfig", description = "参数配置表")
 public class SysConfig extends BaseEntity {
 

@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
-@TableName("mk_sys_dict")
+@TableName(schema = "public", value = "mk_sys_dict")
 @Accessors(chain = true)
 @Schema(name = "Dict", description = "字典表")
 public class Dict extends BaseEntity {

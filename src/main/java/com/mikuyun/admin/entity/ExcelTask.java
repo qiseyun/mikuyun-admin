@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("mk_excel_task")
+@TableName(schema = "public", value = "mk_excel_task")
 @Schema(description = "excel 导出任务表")
 @NoArgsConstructor
 @AllArgsConstructor

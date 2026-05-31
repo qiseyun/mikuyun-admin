@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("mk_sys_user_role")
+@TableName(schema = "public", value = "mk_sys_user_role")
 @Schema(description = "用户角色表")
 public class SysUserRole {
 
