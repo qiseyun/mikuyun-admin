@@ -26,6 +26,8 @@ sa-token:
 
 ######## spring配置
 spring:
+  application:
+    name: mikuyun-admin-pgsql
   env: local
   servlet:
     # 文件上传大小配置
@@ -141,11 +143,12 @@ rocketmq:
 
 
 ######## 对象存储配置
-minio:
-  endpoint: minio地址
-  access-key: minio-access-key
-  secret-key: minio-secret-key
-  bucket-name: bucket-name
+rustfs:
+  endpoint: http://127.0.0.1:9000
+  accessKey: your-access-key
+  secretKey: your-secret-key
+  bucketName: mikuyun
+  batchLimit: 10
 qiniu:
   # (我是不同的文件存的不同的桶, 你可以自己选择配置); region(区域)：z0: 华东  z1: 华北  z2: 华南  na0: 北美  as0: 东南亚
   region: 区域

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: mikuyun-admin
+    name: mikuyun-admin-pgsql
 
 ---
 spring:

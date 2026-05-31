@@ -1,8 +1,9 @@
 package com.mikuyun.admin.enums;
 
-import com.mikuyun.admin.exception.BizException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 /**
  * @author mikuyun
@@ -45,16 +46,25 @@ public enum FileTypeEnum {
 
     private final String[] suffix;
 
-    public static FileTypeEnum getEnumByType(String type) {
-        if (type == null) {
-            throw new BizException("文件类型错误");
+    /**
+     * 根据文件后缀名自动判断文件类型
+     *
+     * @param suffix 文件后缀（不含点），如 "png"、"mp4"
+     * @return 匹配的 FileTypeEnum，未匹配时返回 TEST
+     */
+    public static FileTypeEnum getEnumBySuffix(String suffix) {
+        if (suffix == null) {
+            return TEST;
         }
         for (FileTypeEnum value : values()) {
-            if (value.getType().equals(type)) {
+            if (value == TEST) {
+                continue;
+            }
+            if (Arrays.asList(value.getSuffix()).contains(suffix)) {
                 return value;
             }
         }
-        throw new BizException("不支持的文件类型");
+        return TEST;
     }
 
 }

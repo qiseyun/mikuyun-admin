@@ -2,13 +2,10 @@ package com.mikuyun.admin.util;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
 import com.mikuyun.admin.enums.FileTypeEnum;
-import com.mikuyun.admin.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -20,28 +17,30 @@ import java.util.Arrays;
 public class FileCheckUtils {
 
     /**
-     * 生成文件名并判断是否是对应类型的文件
+     * 根据文件名自动检测类型并生成文件路径，格式: /年/月/日/类型/
      *
      * @param originalFilename 原始文件名
      * @return {@link String}
      */
-    public static String generateFilePathToType(String originalFilename, FileTypeEnum type) {
+    public static String generateFilePath(String originalFilename) {
         String extension = StringUtils.getFilenameExtension(originalFilename);
-        if (!isType(extension, type)) {
-            throw new BizException("上传文件不是相关类型的文件");
-        }
-        return generateCommonFilePath(originalFilename, type.getType());
+        FileTypeEnum typeEnum = FileTypeEnum.getEnumBySuffix(extension);
+        return generateCommonFilePath(originalFilename, typeEnum.getType());
     }
 
     /**
-     * 生成文件路径
+     * 生成文件路径，命名规则: 年/月/日/类型/毫秒时间戳_短uuid.扩展名
      *
-     * @param originalFilename 原始文件名
+     * @param originalFilename 原始文件名（用于提取扩展名）
+     * @param type             文件类型
      * @return {@link String}
      */
     public static String generateCommonFilePath(String originalFilename, String type) {
-        String originalFilenameUrlEncode = URLUtil.encode(originalFilename, StandardCharsets.UTF_8);
-        return type + "/" + LocalDate.now() + "/" + IdUtil.simpleUUID().substring(0, 8) + "_" + originalFilenameUrlEncode;
+        String extension = StringUtils.getFilenameExtension(originalFilename);
+        LocalDate now = LocalDate.now();
+        return now.getYear() + "/" + now.getMonthValue() + "/" + now.getDayOfMonth()
+                + "/" + type + "/" + System.currentTimeMillis() + "_" + IdUtil.simpleUUID().substring(0, 8)
+                + (extension != null ? "." + extension : "");
     }
 
     /**
