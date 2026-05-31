@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C X:/github/mikuyun-admin show HEAD:AGENTS.md)"
+      "Bash(git -C X:/github/mikuyun-admin show HEAD:AGENTS.md)",
+      "Bash(git fetch *)",
+      "Bash(rm src/main/java/com/mikuyun/admin/config/MinioConfiguration.java src/main/java/com/mikuyun/admin/properties/MinioProperties.java src/main/java/com/mikuyun/admin/service/minio/MinioService.java)",
+      "Bash(rmdir src/main/java/com/mikuyun/admin/service/minio)",
+      "Bash(mvn clean *)"
     ]
   }
 }

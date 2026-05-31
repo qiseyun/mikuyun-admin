@@ -23,19 +23,19 @@ public interface FileUploadService {
     void fileLog(String originalName, Long size, String type, String url, String channel, String hash);
 
     /**
-     * 上传文件 minio
-     *
-     * @param file 文件
-     * @return {@link R}
-     */
-    String uploadFileMinio(MultipartFile file, String type);
-
-    /**
      * 上传文件 qiniu
      *
      * @param file 文件
      * @return {@link R}
      */
-    String uploadFileQiniu(MultipartFile file, String type);
+    String uploadFileQiniu(MultipartFile file);
+
+    /**
+     * 上传文件 RustFS (S3-compatible)
+     *
+     * @param file 文件
+     * @return 文件 URL
+     */
+    String uploadFileRustfs(MultipartFile file);
 
 }

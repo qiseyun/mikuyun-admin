@@ -1,7 +1,6 @@
 package com.mikuyun.admin.service.impl;
 
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.mikuyun.admin.entity.SysFile;
 import com.mikuyun.admin.enums.FileTypeEnum;
@@ -9,10 +8,9 @@ import com.mikuyun.admin.properties.QiniuProperties;
 import com.mikuyun.admin.service.FileUploadService;
 import com.mikuyun.admin.service.IQiniuService;
 import com.mikuyun.admin.service.ISysFileService;
-import com.mikuyun.admin.service.minio.MinioService;
+import com.mikuyun.admin.service.RustfsService;
 import com.mikuyun.admin.util.FileCheckUtils;
 import com.qiniu.storage.model.DefaultPutRet;
-import io.minio.ObjectWriteResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,32 +34,14 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     private final QiniuProperties qiniuProperties;
 
-    private final MinioService minioService;
+    private final RustfsService rustfsService;
 
     @Override
-    public String uploadFileMinio(MultipartFile file, String type) {
+    public String uploadFileQiniu(MultipartFile file) {
         try {
-            FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
-            // 文件名
-            String fileName = FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
-            // minio 上传文件
-            ObjectWriteResponse objectWriteResponse = minioService.uploadFile(file, fileName, file.getContentType());
-            // 获取上传文件url
-            String fileUrl = minioService.getPublicObjectUrl(objectWriteResponse.object());
-            // 文件信息入库
-            fileLog(file.getOriginalFilename(), file.getSize(), fileTypeEnum.getType(), fileUrl, "minio", DigestUtil.sha256Hex(file.getInputStream()));
-            return fileUrl;
-        } catch (Exception e) {
-            log.error("minio file upload error");
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public String uploadFileQiniu(MultipartFile file, String type) {
-        try {
-            FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumByType(type);
-            String key = FileCheckUtils.generateFilePathToType(file.getOriginalFilename(), fileTypeEnum);
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumBySuffix(extension);
+            String key = FileCheckUtils.generateFilePath(file.getOriginalFilename());
             DefaultPutRet defRes = qiniuService.inputStreamUpload(file.getInputStream(), key, qiniuProperties.getCommonFileBucket());
             String url = qiniuProperties.getCommonFileUrl() + defRes.key;
             // 文件信息入库
@@ -69,6 +49,22 @@ public class FileUploadServiceImpl implements FileUploadService {
             return url;
         } catch (IOException e) {
             log.error("qiniu file upload error");
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String uploadFileRustfs(MultipartFile file) {
+        try {
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            FileTypeEnum fileTypeEnum = FileTypeEnum.getEnumBySuffix(extension);
+            String key = FileCheckUtils.generateFilePath(file.getOriginalFilename());
+            String url = rustfsService.upload(file, key);
+            // 文件信息入库
+            fileLog(file.getOriginalFilename(), file.getSize(), fileTypeEnum.getType(), url, "rustfs", DigestUtil.sha256Hex(file.getInputStream()));
+            return url;
+        } catch (IOException e) {
+            log.error("rustfs file upload error");
             throw new RuntimeException(e);
         }
     }
@@ -83,19 +79,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         sysFile.setFileSizeByte(String.valueOf(size));
         sysFile.setUrl(url);
         sysFile.setChannel(channel);
-        if (ObjectUtil.isEmpty(checkFileRepeat(hash))) {
-            ISysFileService.save(sysFile);
-        }
-    }
-
-    /**
-     * 文件查重
-     *
-     * @param fileHash 文件md5
-     * @return QiseyunFile
-     */
-    private SysFile checkFileRepeat(String fileHash) {
-        return ISysFileService.lambdaQuery().eq(SysFile::getMd5, fileHash).one();
+        ISysFileService.save(sysFile);
     }
 
 }
