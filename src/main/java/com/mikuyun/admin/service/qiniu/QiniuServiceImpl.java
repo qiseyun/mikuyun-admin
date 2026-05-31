@@ -3,7 +3,6 @@ package com.mikuyun.admin.service.qiniu;
 import com.alibaba.fastjson2.JSON;
 import com.google.gson.Gson;
 import com.mikuyun.admin.exception.BizException;
-import com.mikuyun.admin.service.IQiniuService;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -15,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 
@@ -36,15 +36,8 @@ public class QiniuServiceImpl implements IQiniuService {
     @Value("${qiniu.region}")
     private String region;
 
-    /**
-     * 输入流上传
-     *
-     * @param inputStream 文件输入流
-     * @param key         加路径的文件名称(/yyyy-MM-dd/xxxx.xxx)
-     * @return 文件下载链接
-     */
     @Override
-    public DefaultPutRet inputStreamUpload(InputStream inputStream, String key, String bucket) {
+    public DefaultPutRet upload(InputStream inputStream, String objectName, String bucket) {
         // 构造一个带指定 Region 对象的配置类
         Configuration cfg = Configuration.create(Region.createWithRegionId(region));
         // 指定分片上传版本
@@ -54,7 +47,7 @@ public class QiniuServiceImpl implements IQiniuService {
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
         try {
-            Response response = uploadManager.put(inputStream, key, upToken, null, null);
+            Response response = uploadManager.put(inputStream, objectName, upToken, null, null);
             log.info("返回信息: {}", response.bodyString());
             // 解析上传成功的结果
             if (!response.isOK()) {
@@ -69,9 +62,19 @@ public class QiniuServiceImpl implements IQiniuService {
     }
 
     @Override
+    public DefaultPutRet upload(MultipartFile file, String objectName, String bucket) {
+        try {
+            return upload(file.getInputStream(), objectName, bucket);
+        } catch (Exception e) {
+            log.error("RustFS upload error for file: {}", file.getOriginalFilename(), e);
+            throw new RuntimeException("RustFS 文件上传失败", e);
+        }
+    }
+
+    @Override
     public String getDownloadUrl(String url, Long seconds) {
         Auth auth = Auth.create(accessKey, secretKey);
-        //1小时，可以自定义链接过期时间
+        // 1小时，可以自定义链接过期时间
         return auth.privateDownloadUrl(url, seconds != null ? seconds : 300);
     }
 

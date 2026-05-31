@@ -135,7 +135,17 @@
             <version>2.0.25</version>
         </dependency>
 
-        <!-- mybatis-plus -->
+        <!-- mybatis-plus + 流程引擎 -->
+        <dependency>
+            <groupId>org.dromara.warm</groupId>
+            <artifactId>warm-flow-mybatis-plus-sb3-starter</artifactId>
+            <version>1.8.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara.warm</groupId>
+            <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
+            <version>1.8.7</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.baomidou</groupId>-->
 <!--            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
@@ -220,18 +230,6 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-alibaba-nacos-config</artifactId>
             <version>2023.0.3.2</version>
-        </dependency>
-
-        <!-- 流程引擎 -->
-        <dependency>
-            <groupId>org.dromara.warm</groupId>
-            <artifactId>warm-flow-mybatis-plus-sb3-starter</artifactId>
-            <version>1.8.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara.warm</groupId>
-            <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
-            <version>1.8.7</version>
         </dependency>
 
     </dependencies>

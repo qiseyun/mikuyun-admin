@@ -1,7 +1,7 @@
-package com.mikuyun.admin.service.impl;
+package com.mikuyun.admin.service.rustfs;
 
 import com.mikuyun.admin.properties.RustfsProperties;
-import com.mikuyun.admin.service.RustfsService;
+import com.mikuyun.admin.util.FileCheckUtils;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -58,14 +58,12 @@ public class RustfsServiceImpl implements RustfsService {
         try {
             MinioClient client = getClient();
             ensureBucket(client);
-
             client.putObject(PutObjectArgs.builder()
                     .bucket(rustfsProperties.getBucketName())
                     .object(objectName)
                     .stream(inputStream, inputStream.available(), -1)
                     .contentType(contentType)
                     .build());
-
             // 构造文件访问 URL: endpoint/bucketName/objectName
             String url = rustfsProperties.getEndpoint() + "/" + rustfsProperties.getBucketName() + "/" + objectName;
             log.info("RustFS upload success: {}", url);
@@ -79,7 +77,7 @@ public class RustfsServiceImpl implements RustfsService {
     @Override
     public String upload(MultipartFile file, String objectName) {
         try {
-            return upload(file.getInputStream(), objectName, file.getContentType());
+            return upload(file.getInputStream(), objectName, FileCheckUtils.resolveContentType(file));
         } catch (Exception e) {
             log.error("RustFS upload error for file: {}", file.getOriginalFilename(), e);
             throw new RuntimeException("RustFS 文件上传失败", e);

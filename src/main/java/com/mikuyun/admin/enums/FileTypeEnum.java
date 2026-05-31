@@ -16,27 +16,32 @@ public enum FileTypeEnum {
     /**
      * 图片
      */
-    IMAGE("image", "图片类文件", new String[]{"png", "jpg", "jpeg", "bmp", "svg", "ico", "icon"}),
+    IMAGE("image", "图片类文件", new String[]{"png", "jpg", "jpeg", "bmp", "svg", "ico", "icon", "webp"}, "IMAGE"),
 
     /**
      * 安装包
      */
-    INSTALL_PACKAGE("package", "安装包类文件", new String[]{"exe", "dmg", "deb", "rpm", "apk", "ipa"}),
+    INSTALL_PACKAGE("package", "安装包类文件", new String[]{"exe", "dmg", "deb", "rpm", "apk", "ipa"}, "COMMON"),
 
     /**
      * 视频类
      */
-    VIDEO("video", "视频类文件", new String[]{"mp4", "gif", "avi", "mov", "wmv", "flv"}),
+    VIDEO("video", "视频类文件", new String[]{"mp4", "gif", "avi", "mov", "wmv", "flv"}, "COMMON"),
 
     /**
-     * 视频类
+     * 文档报表类
      */
-    DOC("document", "文档类文件", new String[]{"txt", "doc", "docx", "ppt", "xls", "xlsx", "pdf"}),
+    EXCEL("excel", "文档类文件", new String[]{"xls", "xlsx", "csv"}, "EXCEL"),
 
     /**
-     * 测试文件
+     * 文档报表类
      */
-    TEST("test", "测试", new String[]{"*"}),
+    DOC("document", "文档类文件", new String[]{"txt", "doc", "docx", "ppt", "pdf"}, "EXCEL"),
+
+    /**
+     * 默认
+     */
+    DEFAULT("default", "默认", new String[]{"*"}, "COMMON"),
 
     ;
 
@@ -46,25 +51,27 @@ public enum FileTypeEnum {
 
     private final String[] suffix;
 
+    private final String bucketKey;
+
     /**
      * 根据文件后缀名自动判断文件类型
      *
      * @param suffix 文件后缀（不含点），如 "png"、"mp4"
-     * @return 匹配的 FileTypeEnum，未匹配时返回 TEST
+     * @return 匹配的 FileTypeEnum，未匹配时返回 DEFAULT
      */
     public static FileTypeEnum getEnumBySuffix(String suffix) {
         if (suffix == null) {
-            return TEST;
+            return DEFAULT;
         }
         for (FileTypeEnum value : values()) {
-            if (value == TEST) {
+            if (value == DEFAULT) {
                 continue;
             }
             if (Arrays.asList(value.getSuffix()).contains(suffix)) {
                 return value;
             }
         }
-        return TEST;
+        return DEFAULT;
     }
 
 }

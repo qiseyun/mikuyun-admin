@@ -157,10 +157,13 @@ qiniu:
   region: 区域
   excelBucket: excel
   excelFileUrl: excel文件url
+  excelFileS3: https://mky-excel.s3.cn-south-1.qiniucs.com
   imageBucket: image
   imageFileUrl: 图片文件url
+  imageFileS3: https://mky-image.s3.cn-south-1.qiniucs.com
   commonFileBucket: file
   commonFileUrl: 其他文件url
+  commonFileS3: https://mky-common.s3.cn-south-1.qiniucs.com
   accessKey: accessKey
   secretKey: secretKey
 

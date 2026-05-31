@@ -8,7 +8,7 @@ import com.mikuyun.admin.dto.IdDto;
 import com.mikuyun.admin.excel.enums.ExcelTaskTypeEnum;
 import com.mikuyun.admin.mapper.ExcelTaskMapper;
 import com.mikuyun.admin.service.IExcelTaskService;
-import com.mikuyun.admin.service.IQiniuService;
+import com.mikuyun.admin.service.qiniu.IQiniuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;

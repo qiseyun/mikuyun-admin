@@ -1,4 +1,4 @@
-package com.mikuyun.admin.service;
+package com.mikuyun.admin.service.rustfs;
 
 import org.springframework.web.multipart.MultipartFile;
 

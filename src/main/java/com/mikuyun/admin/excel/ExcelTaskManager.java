@@ -14,7 +14,7 @@ import com.mikuyun.admin.exception.BizException;
 import com.mikuyun.admin.properties.QiniuProperties;
 import com.mikuyun.admin.service.FileUploadService;
 import com.mikuyun.admin.service.IExcelTaskService;
-import com.mikuyun.admin.service.IQiniuService;
+import com.mikuyun.admin.service.qiniu.IQiniuService;
 import com.mikuyun.admin.support.SpringContextUtils;
 import com.qiniu.storage.model.DefaultPutRet;
 import lombok.extern.slf4j.Slf4j;
@@ -120,19 +120,18 @@ public class ExcelTaskManager {
                 dataList.clear();
             }
             excelEngine.exportFinish();
-            // minio上传
-//            MinioService minioService = SpringContextUtils.getBean(MinioService.class);
-//            ObjectWriteResponse response;
+            String fileUrl;
+            // rustfs上传
+//            RustfsService rustfsService = SpringContextUtils.getBean(RustfsService.class);
 //            try (InputStream inputStream = new FileInputStream(this.outputFile)) {
-//                response = minioService.uploadFile(this.objectName, inputStream);
+//                String key = FileCheckUtils.generateFilePath(this.outputFile.getName());
+//                fileUrl = rustfsService.upload(inputStream, key, FileCheckUtils.resolveContentType(this.fileName));
 //            }
-//            String downloadUrl = minioService.getPublicObjectUrl(response.object());
             // 七牛云上传
             IQiniuService qiniuService = SpringContextUtils.getBean(IQiniuService.class);
             QiniuProperties qiniuProperties = SpringContextUtils.getBean(QiniuProperties.class);
-            String fileUrl;
             try (FileInputStream fis = new FileInputStream(this.outputFile)) {
-                DefaultPutRet defRes = qiniuService.inputStreamUpload(fis, this.objectName, qiniuProperties.getExcelBucket());
+                DefaultPutRet defRes = qiniuService.upload(fis, this.objectName, qiniuProperties.getExcelBucket());
                 fileUrl = qiniuProperties.getExcelFileUrl() + defRes.key;
                 // 文件记录
                 FileUploadService fileUploadService = SpringContextUtils.getBean(FileUploadService.class);

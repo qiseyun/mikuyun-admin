@@ -4,10 +4,15 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.enums.FileTypeEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author mikuyun
@@ -56,6 +61,42 @@ public class FileCheckUtils {
         }
         String[] suffix = typeEnum.getSuffix();
         return Arrays.asList(suffix).contains("*") || Arrays.asList(suffix).contains(fileName);
+    }
+
+    /**
+     * 文件类型检查
+     *
+     * @param file MultipartFile文件
+     * @return 文件类型
+     */
+    public static String resolveContentType(MultipartFile file) {
+        // 优先信任客户端传来的值（大多数情况是正确的）
+        String ct = file.getContentType();
+        if (ct != null && !ct.isBlank() && !"application/octet-stream".equals(ct)) {
+            return ct;
+        }
+        // 兜底：根据后缀名推断
+        return resolveContentType(file.getOriginalFilename());
+    }
+
+    /**
+     * 文件类型检查
+     *
+     * @param originalFilename 文件名
+     * @return 文件类型
+     */
+    public static String resolveContentType(String originalFilename) {
+        // 根据后缀名推断
+        try {
+            String suffix = Objects.requireNonNull(FilenameUtils.getExtension(originalFilename)).toLowerCase();
+            String guessed = Files.probeContentType(Path.of("file." + suffix));
+            if (guessed != null) return guessed;
+        } catch (Exception ignored) {
+            log.info("未识别文件后缀名...兜底...");
+            return "application/octet-stream";
+        }
+        // 最终兜底
+        return "application/octet-stream";
     }
 
 }
