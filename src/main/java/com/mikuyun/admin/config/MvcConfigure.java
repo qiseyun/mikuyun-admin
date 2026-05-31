@@ -29,7 +29,9 @@ public class MvcConfigure implements WebMvcConfigurer {
                         "/api/users/register",
                         "/api/rights?flag=front",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**"
+                        "/v3/api-docs/**",
+                        "/warm-flow-ui/**",
+                        "/warm-flow/**"
                 );
     }
 

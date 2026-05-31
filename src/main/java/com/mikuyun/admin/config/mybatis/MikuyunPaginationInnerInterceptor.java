@@ -45,10 +45,6 @@ public class MikuyunPaginationInnerInterceptor extends PaginationInnerIntercepto
         this.dbType = dbType;
     }
 
-    public MikuyunPaginationInnerInterceptor(IDialect dialect) {
-        this.dialect = dialect;
-    }
-
     @Override
     public void beforeQuery(
             Executor executor,
