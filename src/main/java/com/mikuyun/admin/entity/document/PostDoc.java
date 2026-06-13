@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * @author mikuyun
  * @since 2025/12/27 15:12
- *
+ * <p>
  * replicas 单机设置 0 集群 1
  */
 @Data
@@ -24,10 +24,10 @@ public class PostDoc {
     @Field(type = FieldType.Integer)
     private Integer userId;
 
-    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
+    @Field(type = FieldType.Text, analyzer = "standard", searchAnalyzer = "standard")
     private String title;
 
-    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
+    @Field(type = FieldType.Text, analyzer = "standard", searchAnalyzer = "standard")
     private String excerpt;
 
     @Field(type = FieldType.Keyword)
