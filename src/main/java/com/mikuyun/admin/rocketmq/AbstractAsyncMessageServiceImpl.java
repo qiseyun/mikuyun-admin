@@ -5,7 +5,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.client.apis.ClientServiceProvider;
+import org.apache.rocketmq.client.apis.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +27,18 @@ public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageSe
     @Override
     public boolean rocketMqMessageSend(AsyncMessageDto dto) {
         JSONObject content = contentCheckAndProcess(dto.getContent());
-        Message message = new Message();
-        message.setTopic(getTopic().getRocketMqTopic());
-        message.setTags(getTopic().getTag());
-        message.setKeys(getKey(content));
-        message.setBody(MqSerializationUtils.serialize(content));
-        // 设置延迟时间这里是设置延时等级, 想使用DelayTimeSec DelayTimeMs则必须使用Rocketmq5.x + Rocketmq Proxy
+        ClientServiceProvider provider = ClientServiceProvider.loadService();
+        org.apache.rocketmq.client.apis.message.MessageBuilder messageBuilder = provider.newMessageBuilder()
+                .setTopic(getTopic().getRocketMqTopic())
+                .setTag(getTopic().getTag())
+                .setKeys(getKey(content))
+                .setBody(MqSerializationUtils.serialize(content));
+        // 延时消息: 使用 DeliveryTimestamp (rocketmq-client-java 不支持 delayTimeLevel)
         if (dto.getDelayTimeLevel() != null) {
-            message.setDelayTimeLevel(dto.getDelayTimeLevel().getLevel());
+            long deliveryTimestamp = System.currentTimeMillis() + dto.getDelayTimeLevel().toMillis();
+            messageBuilder.setDeliveryTimestamp(deliveryTimestamp);
         }
+        Message message = messageBuilder.build();
         return rocketProducer.send(message);
     }
 
@@ -45,13 +49,15 @@ public abstract class AbstractAsyncMessageServiceImpl implements IAsyncMessageSe
         if (CollectionUtil.isEmpty(topics)) {
             return false;
         }
+        ClientServiceProvider provider = ClientServiceProvider.loadService();
         List<Message> messages = new ArrayList<>();
         for (TopicEnum topic : topics) {
-            Message message = new Message();
-            message.setTopic(topic.getRocketMqTopic());
-            message.setTags(topic.getTag());
-            message.setKeys(getKey(content));
-            message.setBody(MqSerializationUtils.serialize(content));
+            Message message = provider.newMessageBuilder()
+                    .setTopic(topic.getRocketMqTopic())
+                    .setTag(topic.getTag())
+                    .setKeys(getKey(content))
+                    .setBody(MqSerializationUtils.serialize(content))
+                    .build();
             messages.add(message);
         }
         return rocketProducer.sendBatch(messages);

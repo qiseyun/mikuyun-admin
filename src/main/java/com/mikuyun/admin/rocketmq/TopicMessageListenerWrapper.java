@@ -1,10 +1,9 @@
 package com.mikuyun.admin.rocketmq;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.apis.consumer.ConsumeResult;
+import org.apache.rocketmq.client.apis.consumer.MessageListener;
+import org.apache.rocketmq.client.apis.message.MessageView;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
  * @since 2025/1/25 14:17
  */
 @Slf4j
-public class TopicMessageListenerWrapper implements MessageListenerConcurrently {
+public class TopicMessageListenerWrapper implements MessageListener {
 
     private final Map<String, List<IBaseMessageListener>> topicMap;
 
@@ -25,26 +24,25 @@ public class TopicMessageListenerWrapper implements MessageListenerConcurrently 
     }
 
     @Override
-    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgList, ConsumeConcurrentlyContext context) {
-        MessageExt messageExt = msgList.getFirst();
-        String tags = messageExt.getTags();
-        String topic = messageExt.getTopic();
-        String content = new String(messageExt.getBody(), StandardCharsets.UTF_8);
+    public ConsumeResult consume(MessageView messageView) {
+        String tags = messageView.getTag().orElse("");
+        String topic = messageView.getTopic();
+        String content = StandardCharsets.UTF_8.decode(messageView.getBody()).toString();
         List<IBaseMessageListener> messageListeners = topicMap.get(topic);
         Map<String, IBaseMessageListener> tagListenerMap = messageListeners.stream().collect(Collectors.toMap(IBaseMessageListener::getTag, v -> v));
         IBaseMessageListener messageListener = tagListenerMap.get(tags);
         try {
             if (messageListener != null) {
-                boolean result = messageListener.consumer(messageExt);
+                boolean result = messageListener.consumer(messageView);
                 log.info("consume message topic={} tag={} content={} result={}", topic, tags, content, result);
-                return result ? ConsumeConcurrentlyStatus.CONSUME_SUCCESS : ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                return result ? ConsumeResult.SUCCESS : ConsumeResult.FAILURE;
             } else {
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                return ConsumeResult.SUCCESS;
             }
         } catch (Exception e) {
-            log.error("consume error topic={}, tag={}, reconsumeTimes: {}, content={}, errorMsg={}", topic, tags, messageExt.getReconsumeTimes(), content, e.getMessage());
-            // 这里只是会进行默认配置的重新消费, 如果都失败了就会直接丢弃, 需要到rocketmq打开死信队列
-            return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+            log.error("consume error topic={}, tag={}, content={}, errorMsg={}", topic, tags, content, e.getMessage());
+            // 返回 FAILURE 会触发重试，重试次数耗尽后进入死信队列
+            return ConsumeResult.FAILURE;
         }
     }
 

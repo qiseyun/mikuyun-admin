@@ -7,7 +7,7 @@ import com.mikuyun.admin.service.MailService;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.apis.message.MessageView;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,7 +32,7 @@ public class LoginMailConsumer implements IBaseMessageListener {
     }
 
     @Override
-    public Boolean consumer(MessageExt message) {
+    public Boolean consumer(MessageView message) {
         try {
             JSONObject dto = MqSerializationUtils.deserialize(message.getBody(), JSONObject.class);
             mailService.loginMail(

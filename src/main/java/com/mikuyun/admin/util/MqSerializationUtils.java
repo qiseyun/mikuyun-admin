@@ -2,6 +2,7 @@ package com.mikuyun.admin.util;
 
 import com.alibaba.fastjson2.JSON;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -30,6 +31,19 @@ public class MqSerializationUtils {
     public static <T> T deserialize(byte[] bytes, Class<T> clazz) {
         String jsonStr = new String(bytes, StandardCharsets.UTF_8);
         return JSON.parseObject(jsonStr, clazz);
+    }
+
+    /**
+     * 反序列化为Java对象 (适配 rocketmq-client-java 的 ByteBuffer)
+     *
+     * @param buffer 收到的消息body (ByteBuffer)
+     * @param clazz  消息对应的类类型
+     * @return 反序列化出来的Java对象
+     */
+    public static <T> T deserialize(ByteBuffer buffer, Class<T> clazz) {
+        byte[] bytes = new byte[buffer.remaining()];
+        buffer.get(bytes);
+        return deserialize(bytes, clazz);
     }
 
 }

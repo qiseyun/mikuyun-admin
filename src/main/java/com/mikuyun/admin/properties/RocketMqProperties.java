@@ -19,9 +19,9 @@ public class RocketMqProperties {
     private String groupName;
 
     /**
-     * nameServer
+     * RocketMQ Proxy gRPC 端点地址 (如 localhost:8071)
      */
-    private String nameServer;
+    private String endpoint;
 
     private Integer consumeThread;
 

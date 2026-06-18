@@ -6,7 +6,7 @@ import com.mikuyun.admin.rocketmq.IBaseMessageListener;
 import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.util.MqSerializationUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.apis.message.MessageView;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,7 +28,7 @@ public class DemoConsumer implements IBaseMessageListener {
     }
 
     @Override
-    public Boolean consumer(MessageExt message) {
+    public Boolean consumer(MessageView message) {
         try {
             IdNameStrDto dto = MqSerializationUtils.deserialize(message.getBody(), IdNameStrDto.class);
             log.info(JSON.toJSONString(dto));

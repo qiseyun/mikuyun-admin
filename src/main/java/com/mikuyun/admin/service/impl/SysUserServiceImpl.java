@@ -31,7 +31,7 @@ import com.mikuyun.admin.vo.UserTokenVo;
 import com.mikuyun.admin.vo.sysuser.SysUserListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.client.apis.ClientServiceProvider;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -229,11 +229,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         body.put("loginTime", loginTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss")));
         body.put("to", to);
         body.put("username", username);
-        Message message = new Message();
-        message.setKeys("login:" + sysUserId + "_tm:" + System.currentTimeMillis());
-        message.setBody(MqSerializationUtils.serialize(body));
-        message.setTopic(TopicEnum.LOGIN_EMAIL.getRocketMqTopic());
-        message.setTags(TopicEnum.LOGIN_EMAIL.getTag());
+        ClientServiceProvider provider = ClientServiceProvider.loadService();
+        org.apache.rocketmq.client.apis.message.Message message = provider.newMessageBuilder()
+                .setKeys("login:" + sysUserId + "_tm:" + System.currentTimeMillis())
+                .setBody(MqSerializationUtils.serialize(body))
+                .setTopic(TopicEnum.LOGIN_EMAIL.getRocketMqTopic())
+                .setTag(TopicEnum.LOGIN_EMAIL.getTag())
+                .build();
         rocketProducer.send(message);
     }
 

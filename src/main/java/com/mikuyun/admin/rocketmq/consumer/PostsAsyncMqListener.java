@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.apis.message.MessageView;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class PostsAsyncMqListener implements IBaseMessageListener {
     }
 
     @Override
-    public Boolean consumer(MessageExt message) {
+    public Boolean consumer(MessageView message) {
         try {
             // 解析消息
             PostSyncEvent event = MqSerializationUtils.deserialize(message.getBody(), PostSyncEvent.class);

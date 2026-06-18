@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.common.R;
 import com.mikuyun.admin.dto.IdNameStrDto;
 import com.mikuyun.admin.dto.ProhibitedWordsCheckDto;
-import com.mikuyun.admin.rocketmq.enums.RocketMqDelayTimeEnum;
 import com.mikuyun.admin.rocketmq.RocketProducer;
+import com.mikuyun.admin.rocketmq.enums.RocketMqDelayTimeEnum;
 import com.mikuyun.admin.rocketmq.enums.TopicEnum;
 import com.mikuyun.admin.support.LockTemplateSupport;
 import com.mikuyun.admin.util.AhoCorasickAutomatonUtils;
@@ -13,7 +13,8 @@ import com.mikuyun.admin.util.MqSerializationUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.client.apis.ClientServiceProvider;
+import org.apache.rocketmq.client.apis.message.Message;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,13 +55,15 @@ public class DemoController {
     @PostMapping("/send")
     @Operation(summary = "rocketmq使用demo,需要开启rocketmq配置")
     public R<Void> sendMessage(@RequestBody IdNameStrDto dto) {
-        Message message = new Message();
-        message.setKeys("demoId:" + dto.getId());
-        message.setBody(MqSerializationUtils.serialize(dto));
-        message.setTopic(TopicEnum.TEST.getDesc());
-        message.setTags(TopicEnum.TEST.getTag());
-        // 延时等级
-        message.setDelayTimeLevel(RocketMqDelayTimeEnum.S_10.getLevel());
+        ClientServiceProvider provider = ClientServiceProvider.loadService();
+        Message message = provider.newMessageBuilder()
+                .setKeys("demoId:" + dto.getId())
+                .setBody(MqSerializationUtils.serialize(dto))
+                .setTopic(TopicEnum.TEST.getRocketMqTopic())
+                .setTag(TopicEnum.TEST.getTag())
+                // 如需延时消息, 需要先将 topic 的消息类型设置为 DELAY (或混合类型)
+                 .setDeliveryTimestamp(System.currentTimeMillis() + RocketMqDelayTimeEnum.S_10.toMillis())
+                .build();
         rocketProducer.send(message);
         return R.ok();
     }

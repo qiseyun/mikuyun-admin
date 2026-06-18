@@ -1,6 +1,6 @@
 package com.mikuyun.admin.rocketmq;
 
-import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.apis.message.MessageView;
 
 /**
  * @author mikuyun
@@ -28,6 +28,6 @@ public interface IBaseMessageListener {
      * @param message 消息
      * @return boolean
      */
-    Boolean consumer(MessageExt message);
+    Boolean consumer(MessageView message);
 
 }

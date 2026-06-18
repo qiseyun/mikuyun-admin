@@ -140,7 +140,8 @@ xxl:
 ######## rocketMQ配置
 rocketmq:
   enabled: false
-  nameServer: 127.0.0.1:9876
+#  rocketmq代理配置 advertisedAddress
+  endpoint: 127.0.0.1:8081
   groupName: mikuyun-admin
   consumeThread: 8
 
