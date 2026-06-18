@@ -6,7 +6,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mikuyun.admin.common.Constant;
 import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.entity.BaseEntity;
 import com.mikuyun.admin.entity.SysPermissions;
@@ -21,6 +23,7 @@ import com.mikuyun.admin.util.TreeUtils;
 import com.mikuyun.admin.vo.syspermissions.SysPermissionListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,6 +46,8 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
 
     private final SysRoleService sysRoleService;
 
+    private final StringRedisTemplate stringRedisTemplate;
+
     @Override
     public List<String> sysRolePermissions(Integer sysUserId) {
         // 查询登录用户的角色列表
@@ -53,7 +58,14 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         if (CollectionUtil.isEmpty(collect)) {
             return new ArrayList<>();
         }
-        return new ArrayList<>(baseMapper.sysRolePermissions(collect));
+        String key = String.format(Constant.CacheConstants.USER_PERMISSIONS, sysUserId);
+        if (stringRedisTemplate.hasKey(key)) {
+            return JSONArray.parseArray(stringRedisTemplate.opsForValue().get(key), String.class);
+        } else {
+            ArrayList<String> permissions = new ArrayList<>(baseMapper.sysRolePermissions(collect));
+            stringRedisTemplate.opsForValue().set(key, JSON.toJSONString(permissions));
+            return permissions;
+        }
     }
 
     @Override

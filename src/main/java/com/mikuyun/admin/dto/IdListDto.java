@@ -11,13 +11,13 @@ import java.util.List;
  * @since 2023年4月16日/0016 0点05分
  */
 @Data
-public class IdListDto {
+public class IdListDto<T> {
 
     /**
      * id列表
      */
     @Schema(name = "id列表")
     @NotNull(message = "id不能为空白!")
-    private List<Integer> idList;
+    private List<T> idList;
 
 }

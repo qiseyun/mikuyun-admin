@@ -1,0 +1,64 @@
+package com.mikuyun.admin.vo.flow;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.util.Date;
+
+/**
+ * 任务响应
+ *
+ * @author mikuyun
+ * @since 2026/6/18
+ */
+@Data
+public class FlowTaskVo {
+
+    @Schema(name = "任务ID")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    @Schema(name = "流程定义ID")
+    private Long definitionId;
+
+    @Schema(name = "流程实例ID")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long instanceId;
+
+    @Schema(name = "流程编码")
+    private String flowCode;
+
+    @Schema(name = "流程名称")
+    private String flowName;
+
+    @Schema(name = "节点编码")
+    private String nodeCode;
+
+    @Schema(name = "节点名称")
+    private String nodeName;
+
+    @Schema(name = "节点类型 0-开始 1-中间 2-结束")
+    private Integer nodeType;
+
+    @Schema(name = "权限标识")
+    private String permissionFlag;
+
+    @Schema(name = "当前办理人")
+    private String handler;
+
+    @Schema(name = "流程状态 toDo-待办 pass-已通过 reject-已驳回")
+    private String flowStatus;
+
+    @Schema(name = "发起人")
+    private String createBy;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
+
+}

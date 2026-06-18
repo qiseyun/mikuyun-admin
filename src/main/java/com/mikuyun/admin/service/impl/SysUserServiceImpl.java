@@ -78,11 +78,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 登陆返回token信息
         UserTokenVo tokenVo = login(sysUser.getId(), dto.getDeviceType());
         // 登录邮件
-        loginEmail(
-                StrUtil.isBlank(dto.getDeviceType()) ? "default" : dto.getDeviceType(),
-                LocalDateTime.now(), sysUser.getEmail(),
-                sysUser.getUsername(), sysUser.getId()
-        );
+//        loginEmail(
+//                StrUtil.isBlank(dto.getDeviceType()) ? "default" : dto.getDeviceType(),
+//                LocalDateTime.now(), sysUser.getEmail(),
+//                sysUser.getUsername(), sysUser.getId()
+//        );
         return tokenVo;
     }
 
@@ -212,7 +212,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     private void clearCache() {
         // 删除登录相关缓存
-        log.info("推出登录清除相关缓存");
+        log.info("退出登录清除相关缓存");
     }
 
     /**

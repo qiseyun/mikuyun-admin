@@ -78,6 +78,16 @@ public class Constant {
          */
         public static final String SLOW_EXCEL_TASK = "excel:task:slow";
 
+        /**
+         * 用户权限列表
+         */
+        public static final String USER_PERMISSIONS = "user_permissions:%s";
+
+        /**
+         * 用户信息
+         */
+        public static final String USER_INFO = "user_info:%s";
+
     }
 
     /**

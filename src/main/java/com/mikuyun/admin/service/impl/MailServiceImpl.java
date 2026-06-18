@@ -6,6 +6,7 @@ import com.mikuyun.admin.common.ResultCode;
 import com.mikuyun.admin.exception.ServiceException;
 import com.mikuyun.admin.properties.WebConfigProperties;
 import com.mikuyun.admin.service.MailService;
+import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.annotation.Resource;
 import java.io.File;
 
 /**
