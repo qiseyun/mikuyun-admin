@@ -1,7 +1,6 @@
 package com.mikuyun.admin.socket;
 
 
-import com.mikuyun.admin.controller.websocket.WebSocketServer;
 import jakarta.websocket.Session;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -62,11 +61,15 @@ public class WebSocketManager {
      */
     public static void sentToUser(String satoken, String msgJson) {
         if (satoken == null) {
-            log.error("不存在该satoken，无法发送消息");
+            log.error("satoken 为空，无法发送消息");
             return;
         }
         WebSocketServer webSocketServer = webSocketServerMap.get(satoken);
-        webSocketServer.getSession().getAsyncRemote().sendText(msgJson);
+        if (webSocketServer == null) {
+            log.warn("不存在 satoken:{} 对应的 WebSocket 连接，无法发送消息", satoken);
+            return;
+        }
+        sentToUser(webSocketServer.getSession(), msgJson);
     }
 
     /**
@@ -77,10 +80,18 @@ public class WebSocketManager {
      */
     public static void sentToUser(Session session, String msgJson) {
         if (session == null) {
-            log.error("不存在该Session，无法发送消息");
+            log.error("Session 为空，无法发送消息");
             return;
         }
-        session.getAsyncRemote().sendText(msgJson);
+        if (!session.isOpen()) {
+            log.warn("Session 已关闭，无法发送消息: {}", msgJson);
+            return;
+        }
+        try {
+            session.getAsyncRemote().sendText(msgJson);
+        } catch (Exception e) {
+            log.error("发送 WebSocket 消息失败, session: {}, msg: {}", session.getId(), msgJson, e);
+        }
     }
 
     /**
