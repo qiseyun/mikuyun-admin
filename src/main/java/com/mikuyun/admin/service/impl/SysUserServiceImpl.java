@@ -139,14 +139,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void logOutBusiness() {
-        clearCache();
+        Integer userId = Integer.valueOf((String) StpUtil.getLoginId());
+        clearCache(userId);
         // 登出
         StpUtil.logout();
     }
 
     @Override
     public void logOutBusiness(Integer adminId) {
-        clearCache();
+        clearCache(adminId);
         // 登出
         StpUtil.logout(adminId);
     }
@@ -210,7 +211,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 删除缓存
      */
-    private void clearCache() {
+    private void clearCache(Integer userId) {
+        // 删除权限缓存
+        stringRedisTemplate.delete(String.format(Constant.CacheConstants.USER_PERMISSIONS, userId));
         // 删除登录相关缓存
         log.info("退出登录清除相关缓存");
     }

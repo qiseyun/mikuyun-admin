@@ -76,8 +76,7 @@ public class WebSocketServer {
             if (this.userName != null) {
                 WebSocketManager.sentToAllUser("管理员" + this.userName + "已下线");
             }
-            log.info("token:{} 的WebSocket连接关闭", token);
-            log.info("WebSocket剩余连接用户数:{}", WebSocketManager.getSatokenSet().size());
+            log.info("token:{} 的WebSocket连接关闭, WebSocket剩余连接用户数:{}", token, WebSocketManager.getSatokenSet().size());
         } catch (Exception e) {
             log.error("WebSocket onClose 异常, token: {}", token, e);
         }
@@ -85,7 +84,14 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message, @PathParam(value = "token") String token) {
-        log.info("来自token:{} 的消息:{}", token, message);
+        if ("ping".equals(message)) {
+            return;
+        }
+        if (this.sysUserService == null) {
+            this.sysUserService = SpringContextUtils.getBean(SysUserService.class);
+        }
+        Object loginId = StpUtil.getLoginIdByToken(token);
+        log.info("收到消息, 用户id: {}, 消息内容: {}", loginId.toString(), message);
     }
 
     @OnError
