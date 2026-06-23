@@ -2,7 +2,6 @@ package com.mikuyun.admin.factory;
 
 import com.mikuyun.admin.excel.ExcelDataSupplier;
 import com.mikuyun.admin.exception.BizException;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ExcelEngineFactory implements InitializingBean {
 
-    @Resource
     private final ApplicationContext applicationContext;
 
     private final Map<Integer, ExcelDataSupplier> supplierMap = new HashMap<>();
