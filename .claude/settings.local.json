@@ -9,7 +9,16 @@
       "WebSearch",
       "WebFetch(domain:www.warm-flow.cn)",
       "WebFetch(domain:warm-flow.dromara.org)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(dir \"X:\\\\github\\\\mikuyun-admin\\\\target\\\\classes\\\\org\\\\dromara\\\\warm\\\\flow\\\\core\\\\enums\")",
+      "Bash(find /c -path \"*/org/dromara/warm/warm-flow-core\" -type d)",
+      "Bash(find /d -path \"*/org/dromara/warm/warm-flow-core\" -type d)",
+      "Read(//x//**)",
+      "Bash(mvn compile *)",
+      "Bash(mvn dependency:build-classpath -q -DincludeScope=compile -Dmdep.outputFile=/dev/stdout)",
+      "Read(//tmp/**)",
+      "Bash(jar xf *)",
+      "Bash(javap -p org/dromara/warm/flow/core/service/TaskService.class)"
     ]
   }
 }

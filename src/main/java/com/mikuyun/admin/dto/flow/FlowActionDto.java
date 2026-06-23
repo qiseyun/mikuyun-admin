@@ -3,7 +3,6 @@ package com.mikuyun.admin.dto.flow;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.List;
@@ -29,8 +28,7 @@ public class FlowActionDto {
     @Schema(name = "目标节点编码（跳转到指定节点时使用）")
     private String nodeCode;
 
-    @Schema(name = "流转类型 PASS-通过 REJECT-驳回 NONE-无操作", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "流转类型不能为空")
+    @Schema(name = "流转类型（无需传入，由具体操作接口自动确定：pass→PASS, reject→REJECT, transfer→TRANSFER, depute→DEPUTE, addSignature→ADDSIGNATURE 等）")
     private String skipType;
 
     @Schema(name = "审批消息/备注")

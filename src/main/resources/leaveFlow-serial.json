@@ -3,14 +3,14 @@
   "flowName": "串行-简单",
   "formCustom": "N",
   "formPath": "system/leave/approve",
-  "listenerPath": "org.dromara.warm.flow.test.core.listener.DefStartListener@@org.dromara.warm.flow.test.core.listener.DefAssignmentListener@@org.dromara.warm.flow.test.core.listener.DefFinishListener@@org.dromara.warm.flow.core.listener.DefCreateListener",
-  "listenerType": "start,assignment,finish,create",
+  "listenerPath": "com.mikuyun.admin.service.flow.listennr.DefStartListener",
+  "listenerType": "start",
   "version": "1",
   "nodeList": [
     {
       "coordinate": "120,280|120,280",
-      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
-      "listenerType": "start,assignment,finish,create",
+      "listenerPath": null,
+      "listenerType": null,
       "nodeCode": "1",
       "nodeName": "开始",
       "nodeRatio": 0.000,
@@ -26,8 +26,8 @@
     },
     {
       "coordinate": "280,280|280,280",
-      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
-      "listenerType": "start,assignment,finish,create",
+      "listenerPath": null,
+      "listenerType": null,
       "nodeCode": "2",
       "nodeName": "待提交",
       "nodeRatio": 0.000,
@@ -44,8 +44,8 @@
     },
     {
       "coordinate": "480,280|480,280",
-      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
-      "listenerType": "start,assignment,finish,create",
+      "listenerPath": null,
+      "listenerType": null,
       "nodeCode": "3",
       "nodeName": "组长审批",
       "nodeRatio": 0.000,
@@ -57,13 +57,19 @@
           "nextNodeCode": "4",
           "nowNodeCode": "3",
           "skipType": "PASS"
+        },
+        {
+          "coordinate": "480,240;480,210;280,210;280,240",
+          "nextNodeCode": "2",
+          "nowNodeCode": "3",
+          "skipType": "REJECT"
         }
       ]
     },
     {
       "coordinate": "700,280|700,280",
-      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
-      "listenerType": "start,assignment,finish,create",
+      "listenerPath": null,
+      "listenerType": null,
       "nodeCode": "4",
       "nodeName": "部门经理审批",
       "nodeRatio": 0.000,
@@ -86,8 +92,8 @@
     },
     {
       "coordinate": "920,280|920,280",
-      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
-      "listenerType": "start,assignment,finish,create",
+      "listenerPath": null,
+      "listenerType": null,
       "nodeCode": "5",
       "nodeName": "hr审批",
       "nodeRatio": 0.000,
@@ -99,13 +105,19 @@
           "nextNodeCode": "6",
           "nowNodeCode": "5",
           "skipType": "PASS"
+        },
+        {
+          "coordinate": "920,240;920,210;700,210;700,240",
+          "nextNodeCode": "4",
+          "nowNodeCode": "5",
+          "skipType": "REJECT"
         }
       ]
     },
     {
       "coordinate": "1120,280|1120,280",
-      "listenerPath": "org.dromara.warm.flow.test.core.listener.StartListener@@org.dromara.warm.flow.test.core.listener.AssignmentListener@@org.dromara.warm.flow.test.core.listener.FinishListener@@org.dromara.warm.flow.core.listener.CreateListener",
-      "listenerType": "start,assignment,finish,create",
+      "listenerPath": null,
+      "listenerType": null,
       "nodeCode": "6",
       "nodeName": "结束",
       "nodeRatio": 0.000,

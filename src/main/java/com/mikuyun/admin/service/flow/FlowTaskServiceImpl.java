@@ -92,6 +92,7 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
 
     @Override
     public void pass(FlowActionDto dto) {
+        assertTaskExists(dto.getTaskId(), "审批通过");
         FlowParams flowParams = buildFlowParams(dto)
                 .skipType(SkipType.PASS.getKey());
         executeSkip(dto, flowParams);
@@ -99,6 +100,7 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
 
     @Override
     public void reject(FlowActionDto dto) {
+        assertTaskExists(dto.getTaskId(), "审批驳回");
         FlowParams flowParams = buildFlowParams(dto)
                 .skipType(SkipType.REJECT.getKey());
         executeSkip(dto, flowParams);
@@ -109,6 +111,7 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         if (dto.getTaskId() == null) {
             throw new IllegalArgumentException("转办操作需要提供taskId");
         }
+        assertTaskExists(dto.getTaskId(), "转办");
         FlowParams flowParams = buildFlowParams(dto)
                 .addHandlers(dto.getAddHandlers());
         taskService.transfer(dto.getTaskId(), flowParams);
@@ -119,6 +122,7 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         if (dto.getTaskId() == null) {
             throw new IllegalArgumentException("委派操作需要提供taskId");
         }
+        assertTaskExists(dto.getTaskId(), "委派");
         FlowParams flowParams = buildFlowParams(dto)
                 .addHandlers(dto.getAddHandlers());
         taskService.depute(dto.getTaskId(), flowParams);
@@ -129,6 +133,7 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         if (dto.getTaskId() == null) {
             throw new IllegalArgumentException("加签操作需要提供taskId");
         }
+        assertTaskExists(dto.getTaskId(), "加签");
         FlowParams flowParams = buildFlowParams(dto)
                 .addHandlers(dto.getAddHandlers());
         taskService.addSignature(dto.getTaskId(), flowParams);
@@ -139,6 +144,7 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         if (dto.getTaskId() == null) {
             throw new IllegalArgumentException("减签操作需要提供taskId");
         }
+        assertTaskExists(dto.getTaskId(), "减签");
         FlowParams flowParams = buildFlowParams(dto)
                 .reductionHandlers(dto.getReductionHandlers());
         taskService.reductionSignature(dto.getTaskId(), flowParams);
@@ -191,6 +197,19 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
             taskService.skipByInsId(dto.getInstanceId(), flowParams);
         } else {
             throw new IllegalArgumentException("审批操作需要提供taskId或instanceId");
+        }
+    }
+
+    /**
+     * 校验任务是否存在（操作权限由 Warm-Flow 引擎内部校验）
+     */
+    private void assertTaskExists(Long taskId, String actionName) {
+        if (taskId == null) {
+            return; // 按instanceId操作时不校验单个任务
+        }
+        Task task = taskService.getById(taskId);
+        if (task == null) {
+            throw new IllegalArgumentException("任务不存在: " + taskId);
         }
     }
 
