@@ -138,8 +138,8 @@ do_start() {
     eval "nohup $cmd $log_redirect &"
     local new_pid=$!
 
-    # 等待3秒验证启动
-    sleep 3
+    # 等待10秒验证启动
+    sleep 10
     if kill -0 "$new_pid" 2>/dev/null; then
         log_msg "$SERVICE_NAME 启动成功，PID: $new_pid，端口: $PORT"
     else
