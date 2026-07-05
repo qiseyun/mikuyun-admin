@@ -12,7 +12,7 @@ spring:
   nacos:
     config:
       namespace: 3bab571d-f90f-4486-bdca-60d26a3bca22
-      server-addr: 192.168.1.100:8848
+      server-addr: 36.150.231.92:18848
       file-extension: yaml
 
 ---
