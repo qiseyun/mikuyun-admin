@@ -4,7 +4,7 @@
 
 APP_NAME="mikuyun-admin-1.0.0.jar"
 APP_DIR="$(cd "$(dirname "$0")" && pwd)"
-JAR_PATH="$APP_DIR/$APP_NAME"
+JAR_PATH="$APP_DIR/target/$APP_NAME"
 PID_FILE="$APP_DIR/app.pid"
 LOG_FILE="$APP_DIR/app.log"
 
