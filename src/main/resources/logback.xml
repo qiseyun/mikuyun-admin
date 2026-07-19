@@ -1,28 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="1 seconds">
-
-    <contextName>logback</contextName>
-    <property name="log.path" value="/data/applogs/mikuyun-admin/mikuyun-admin.log"/>
-
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+<configuration>
+    <!-- 控制台输出 (被 nohup 重定向到 app.log) -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}.%d{yyyy-MM-dd}.zip</fileNamePattern>
+    <!-- ★ 关键：滚动文件Appender，替代纯ConsoleAppender ★ -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH:-./logs}/application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天+大小切分 -->
+            <fileNamePattern>${LOG_PATH:-./logs}/application.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>       <!-- 单文件最大10MB -->
+            <maxHistory>200</maxHistory>             <!-- 保留200天 -->
+            <totalSizeCap>100GB</totalSizeCap>        <!-- 总大小上限100GB -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder>
-            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="console"/>
-        <appender-ref ref="file"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>   <!-- 保留控制台输出(兼容nohup) -->
+        <appender-ref ref="FILE"/>      <!-- ★ 同时写入滚动文件 ★ -->
     </root>
-
 </configuration>
