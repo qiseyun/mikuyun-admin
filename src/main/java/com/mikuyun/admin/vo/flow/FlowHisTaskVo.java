@@ -54,8 +54,11 @@ public class FlowHisTaskVo {
     @Schema(name = "审批意见")
     private String message;
 
-    @Schema(name = "发起人")
+    @Schema(name = "发起人ID")
     private String createBy;
+
+    @Schema(name = "发起人姓名")
+    private String createByName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

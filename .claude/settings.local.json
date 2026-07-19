@@ -18,7 +18,16 @@
       "Bash(mvn dependency:build-classpath -q -DincludeScope=compile -Dmdep.outputFile=/dev/stdout)",
       "Read(//tmp/**)",
       "Bash(jar xf *)",
-      "Bash(javap -p org/dromara/warm/flow/core/service/TaskService.class)"
+      "Bash(javap -p org/dromara/warm/flow/core/service/TaskService.class)",
+      "Bash(git *)",
+      "Bash(mvn dependency:tree -Dincludes=org.dromara.warm)",
+      "Bash(mvn dependency:build-classpath -Dmdep.outputFile=/tmp/cp.txt)",
+      "Bash(jar tf *)",
+      "Bash(javap -classpath \"X:\\\\maven_local_repository\\\\org\\\\dromara\\\\warm\\\\warm-flow-core\\\\1.8.7\\\\warm-flow-core-1.8.7.jar\" org.dromara.warm.flow.core.dto.FlowParams)",
+      "Bash(javap -classpath \"X:\\\\maven_local_repository\\\\org\\\\dromara\\\\warm\\\\warm-flow-core\\\\1.8.7\\\\warm-flow-core-1.8.7.jar\" org.dromara.warm.flow.core.entity.Definition)",
+      "Bash(javap -classpath \"X:\\\\maven_local_repository\\\\org\\\\dromara\\\\warm\\\\warm-flow-core\\\\1.8.7\\\\warm-flow-core-1.8.7.jar\" org.dromara.warm.flow.core.entity.Task)",
+      "Bash(javap -classpath \"X:\\\\maven_local_repository\\\\org\\\\dromara\\\\warm\\\\warm-flow-core\\\\1.8.7\\\\warm-flow-core-1.8.7.jar\" org.dromara.warm.flow.core.service.TaskService)",
+      "Bash(javap -classpath \"X:\\\\maven_local_repository\\\\org\\\\dromara\\\\warm\\\\warm-flow-core\\\\1.8.7\\\\warm-flow-core-1.8.7.jar\" org.dromara.warm.flow.core.service.InsService)"
     ]
   }
 }

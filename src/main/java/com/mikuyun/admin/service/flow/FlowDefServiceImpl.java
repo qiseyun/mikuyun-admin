@@ -1,6 +1,8 @@
 package com.mikuyun.admin.service.flow;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.dto.flow.FlowDefPageDto;
 import com.mikuyun.admin.vo.flow.FlowDefVo;
 import com.mikuyun.admin.vo.flow.FlowNodeVo;
@@ -14,6 +16,7 @@ import org.dromara.warm.flow.core.utils.page.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -33,10 +36,10 @@ public class FlowDefServiceImpl implements IFlowDefService {
     public List<FlowDefVo> pageList(FlowDefPageDto dto) {
         dto.initPageParamsNoRestrictions();
         Definition query = FlowEngine.newDef();
-        if (dto.getFlowCode() != null && !dto.getFlowCode().isEmpty()) {
+        if (StrUtil.isNotBlank(dto.getFlowCode())) {
             query.setFlowCode(dto.getFlowCode());
         }
-        if (dto.getFlowName() != null && !dto.getFlowName().isEmpty()) {
+        if (StrUtil.isNotBlank(dto.getFlowName())) {
             query.setFlowName(dto.getFlowName());
         }
         if (dto.getIsPublish() != null) {
@@ -44,9 +47,12 @@ public class FlowDefServiceImpl implements IFlowDefService {
         }
         Page<Definition> page = Page.pageOf((int) dto.getCurrent(), (int) dto.getSize());
         page = defService.orderByCreateTime().desc().page(query, page);
-        return page.getList().stream()
+        List<FlowDefVo> voList = page.getList().stream()
                 .map(def -> BeanUtil.copyProperties(def, FlowDefVo.class))
                 .collect(Collectors.toList());
+        // 填充用户姓名
+        fillUserNames(voList);
+        return voList;
     }
 
     @Override
@@ -96,6 +102,29 @@ public class FlowDefServiceImpl implements IFlowDefService {
     @Override
     public void copyDef(Long id) {
         defService.copyDef(id);
+    }
+
+    /**
+     * 批量填充流程定义列表中的用户姓名
+     */
+    private void fillUserNames(List<FlowDefVo> voList) {
+        if (CollectionUtil.isEmpty(voList)) {
+            return;
+        }
+        List<String> userIds = voList.stream()
+                .map(FlowDefVo::getCreateBy)
+                .filter(StrUtil::isNotBlank)
+                .distinct()
+                .collect(Collectors.toList());
+        if (CollectionUtil.isEmpty(userIds)) {
+            return;
+        }
+        Map<String, String> nameMap = FlowUserContext.getUserNameMap(userIds);
+        voList.forEach(vo -> {
+            if (vo.getCreateBy() != null) {
+                vo.setCreateByName(nameMap.get(vo.getCreateBy()));
+            }
+        });
     }
 
 }

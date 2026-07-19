@@ -47,8 +47,11 @@ public class FlowInsVo {
     @Schema(name = "流程状态 toDo-待办 pass-已通过 reject-已驳回 complete-已完成 termination-已终止")
     private String flowStatus;
 
-    @Schema(name = "发起人")
+    @Schema(name = "发起人ID")
     private String createBy;
+
+    @Schema(name = "发起人姓名")
+    private String createByName;
 
     @Schema(name = "扩展字段")
     private String ext;

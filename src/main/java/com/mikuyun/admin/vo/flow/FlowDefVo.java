@@ -49,6 +49,12 @@ public class FlowDefVo {
     @Schema(name = "流程描述")
     private String description;
 
+    @Schema(name = "创建人ID")
+    private String createBy;
+
+    @Schema(name = "创建人姓名")
+    private String createByName;
+
     @Schema(name = "节点列表")
     private List<FlowNodeVo> nodeList;
 

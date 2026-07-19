@@ -1,6 +1,7 @@
 package com.mikuyun.admin.service.flow;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mikuyun.admin.dto.flow.FlowActionDto;
 import com.mikuyun.admin.dto.flow.FlowTaskPageDto;
@@ -18,6 +19,7 @@ import org.dromara.warm.flow.core.utils.page.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +39,11 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
     public List<FlowTaskVo> myTodoList(FlowTaskPageDto dto) {
         dto.initPageParamsNoRestrictions();
         Task query = FlowEngine.newTask();
+        // 核心改造：按当前用户过滤待办任务
+        String currentUserId = FlowUserContext.getCurrentUserId();
+        if (currentUserId != null) {
+            query.setCreateBy(currentUserId);
+        }
         if (dto.getDefinitionId() != null) {
             query.setDefinitionId(dto.getDefinitionId());
         }
@@ -48,15 +55,23 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         }
         Page<Task> page = Page.pageOf((int) dto.getCurrent(), (int) dto.getSize());
         page = taskService.orderByCreateTime().desc().page(query, page);
-        return page.getList().stream()
+        List<FlowTaskVo> voList = page.getList().stream()
                 .map(task -> BeanUtil.copyProperties(task, FlowTaskVo.class))
                 .collect(Collectors.toList());
+        // 填充用户姓名
+        fillTaskUserNames(voList);
+        return voList;
     }
 
     @Override
     public List<FlowHisTaskVo> myDoneList(FlowTaskPageDto dto) {
         dto.initPageParamsNoRestrictions();
         HisTask query = FlowEngine.newHisTask();
+        // 核心改造：按当前用户过滤已办任务
+        String currentUserId = FlowUserContext.getCurrentUserId();
+        if (currentUserId != null) {
+            query.setCreateBy(currentUserId);
+        }
         if (dto.getDefinitionId() != null) {
             query.setDefinitionId(dto.getDefinitionId());
         }
@@ -68,15 +83,24 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         }
         Page<HisTask> page = Page.pageOf((int) dto.getCurrent(), (int) dto.getSize());
         page = hisTaskService.orderByCreateTime().desc().page(query, page);
-        return page.getList().stream()
+        List<FlowHisTaskVo> voList = page.getList().stream()
                 .map(hisTask -> BeanUtil.copyProperties(hisTask, FlowHisTaskVo.class))
                 .collect(Collectors.toList());
+        // 填充用户姓名
+        fillHisTaskUserNames(voList);
+        return voList;
     }
 
     @Override
     public FlowTaskVo getDetail(Long id) {
         Task task = taskService.getById(id);
-        return BeanUtil.copyProperties(task, FlowTaskVo.class);
+        FlowTaskVo vo = BeanUtil.copyProperties(task, FlowTaskVo.class);
+        // 填充用户姓名
+        if (vo.getCreateBy() != null) {
+            Map<String, String> nameMap = FlowUserContext.getUserNameMap(List.of(vo.getCreateBy()));
+            vo.setCreateByName(nameMap.get(vo.getCreateBy()));
+        }
+        return vo;
     }
 
     @Override
@@ -85,9 +109,12 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         query.setInstanceId(instanceId);
         // 按创建时间正序，展示完整的审批链路
         List<HisTask> list = hisTaskService.orderByAsc("create_time").list(query);
-        return list.stream()
+        List<FlowHisTaskVo> voList = list.stream()
                 .map(hisTask -> BeanUtil.copyProperties(hisTask, FlowHisTaskVo.class))
                 .collect(Collectors.toList());
+        // 填充用户姓名
+        fillHisTaskUserNames(voList);
+        return voList;
     }
 
     @Override
@@ -172,14 +199,18 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
     }
 
     /**
-     * 构建 FlowParams 公共参数
+     * 构建 FlowParams，自动注入当前用户 handler 和 permissionFlag
      */
     private FlowParams buildFlowParams(FlowActionDto dto) {
-        FlowParams flowParams = FlowParams.build()
+        // 核心改造：使用 FlowUserContext 自动注入当前用户信息
+        FlowParams flowParams = FlowUserContext.buildFlowParams()
                 .message(dto.getMessage())
                 .variable(dto.getVariable());
         if (dto.getPermissionFlag() != null && !dto.getPermissionFlag().isEmpty()) {
-            flowParams.permissionFlag(dto.getPermissionFlag());
+            // 合并用户手动传入的权限标识
+            List<String> mergedFlags = new java.util.ArrayList<>(flowParams.getPermissionFlag());
+            mergedFlags.addAll(dto.getPermissionFlag());
+            flowParams.permissionFlag(mergedFlags);
         }
         if (StrUtil.isNotBlank(dto.getNodeCode())) {
             flowParams.nodeCode(dto.getNodeCode());
@@ -211,6 +242,52 @@ public class FlowTaskServiceImpl implements IFlowTaskService {
         if (task == null) {
             throw new IllegalArgumentException("任务不存在: " + taskId);
         }
+    }
+
+    /**
+     * 批量填充待办任务列表中的用户姓名
+     */
+    private void fillTaskUserNames(List<FlowTaskVo> voList) {
+        if (CollectionUtil.isEmpty(voList)) {
+            return;
+        }
+        List<String> userIds = voList.stream()
+                .map(FlowTaskVo::getCreateBy)
+                .filter(StrUtil::isNotBlank)
+                .distinct()
+                .collect(Collectors.toList());
+        if (CollectionUtil.isEmpty(userIds)) {
+            return;
+        }
+        Map<String, String> nameMap = FlowUserContext.getUserNameMap(userIds);
+        voList.forEach(vo -> {
+            if (vo.getCreateBy() != null) {
+                vo.setCreateByName(nameMap.get(vo.getCreateBy()));
+            }
+        });
+    }
+
+    /**
+     * 批量填充历史任务列表中的用户姓名
+     */
+    private void fillHisTaskUserNames(List<FlowHisTaskVo> voList) {
+        if (CollectionUtil.isEmpty(voList)) {
+            return;
+        }
+        List<String> userIds = voList.stream()
+                .map(FlowHisTaskVo::getCreateBy)
+                .filter(StrUtil::isNotBlank)
+                .distinct()
+                .collect(Collectors.toList());
+        if (CollectionUtil.isEmpty(userIds)) {
+            return;
+        }
+        Map<String, String> nameMap = FlowUserContext.getUserNameMap(userIds);
+        voList.forEach(vo -> {
+            if (vo.getCreateBy() != null) {
+                vo.setCreateByName(nameMap.get(vo.getCreateBy()));
+            }
+        });
     }
 
 }
