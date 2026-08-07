@@ -61,32 +61,6 @@ create index index_gmt_created_consume_status
 create index index_msg_id
     on mk_mq_msg_record (msg_id);
 
-create table mk_posts
-(
-    id           int unsigned auto_increment
-        primary key,
-    user_id      int unsigned                                                      not null comment '作者ID',
-    title        varchar(255)                                                      not null comment '文章标题',
-    cover        varchar(500)                                                      not null comment 'URL友好的文章别名',
-    excerpt      varchar(500)                                                      null comment '文章摘要',
-    content      longtext                                                          not null comment '文章内容（Markdown或HTML）',
-    status       enum ('draft', 'published', 'archived') default 'draft'           null comment '状态',
-    view_count   int unsigned                            default '0'               null comment '浏览次数',
-    published_at datetime                                                          null comment '发布时间',
-    gmt_created  timestamp                               default CURRENT_TIMESTAMP not null comment '创建时间',
-    gmt_modified timestamp                               default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
-    create_by    int                                     default 0                 not null comment '创建人id',
-    update_by    int                                     default 0                 not null comment '更新人id',
-    is_delete    tinyint                                 default 0                 not null comment '0：正常 1：删除'
-)
-    comment '文章表' collate = utf8mb4_0900_ai_ci;
-
-create index idx_posts_status_published
-    on mk_posts (status, published_at);
-
-create index idx_posts_user_id
-    on mk_posts (user_id);
-
 create table mk_sys_config
 (
     id           bigint auto_increment comment '参数配置ID'

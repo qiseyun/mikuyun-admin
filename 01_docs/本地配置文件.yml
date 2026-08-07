@@ -85,11 +85,6 @@ spring:
             port: 465
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
-  elasticsearch:
-    # docker安装请查看: 01_docs/02_docker-compose文件/elasticsearch
-    uris: http://localhost:9200
-    username: elastic
-    password: 密码
 
 
 # springdoc 配置

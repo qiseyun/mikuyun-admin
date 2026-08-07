@@ -14,7 +14,6 @@
 | API 文档 | SpringDoc OpenAPI (Swagger) |
 | 工具库 | Hutool / Fastjson2 / Lombok |
 | 消息队列 | RocketMQ v5 (rocketmq-client-java) |
-| 搜索引擎 | Elasticsearch (Spring Data ES) |
 | 定时任务 | XXL-JOB |
 | 工作流引擎 | Warm-Flow (warm-flow-mybatis-plus-sb3-starter) |
 | 对象存储 | 七牛云 + RustFS (S3 兼容) |
@@ -65,7 +64,6 @@ src/main/java/com/mikuyun/admin/
 │   ├── GlobalCorsConfig.java         # 全局跨域
 │   └── SpringDocConfig.java          # API 文档配置
 ├── enums/                 # 枚举类
-├── es/                    # Elasticsearch Repository
 ├── exception/             # 异常处理
 │   ├── BizException.java             # 业务异常
 │   ├── ServiceException.java         # 服务异常
@@ -123,7 +121,6 @@ src/main/java/com/mikuyun/admin/
 - `IAsyncMessageService` 模板方法发送，消息记录入库
 
 ### 🔍 搜索引擎
-- Elasticsearch Spring Data Repository，全文检索与分页
 
 ### 📝 其他功能
 - WebSocket 实时通信（点对点 + 广播）

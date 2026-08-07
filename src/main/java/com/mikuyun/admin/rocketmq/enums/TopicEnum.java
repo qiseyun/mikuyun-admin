@@ -15,8 +15,6 @@ public enum TopicEnum {
 
     LOGIN_EMAIL("login", "email", "登录邮件"),
 
-    CANAL_SERVER("canal_server", "canal_gxy", "文章同步"),
-
     ;
 
     private final String rocketMqTopic;

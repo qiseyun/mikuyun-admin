@@ -53,7 +53,6 @@ Spring Boot 3.4.3 + Java 21 后台管理系统，采用标准分层架构，配�
 - `enums/` — 枚举类（验证码类型、性别、用户类型、SaToken Session 枚举等）
 - `exception/` — `BizException` / `ServiceException` + `GlobalExceptionHandler` 全局异常处理
 - `excel/` — EasyExcel 导出引擎（策略模式，`ExcelEngineFactory` 工厂选择引擎）
-- `es/` — Elasticsearch Repository（Spring Data ES）
 - `factory/` — 工厂类（`AsyncMessageFactory`、`ExcelEngineFactory`）
 - `interceptor/` — `MyInterceptor` 继承 Sa-Token 的 `SaInterceptor`，支持 `@TokenIgnore` 注解跳过校验
 - `job/` — XXL-JOB 定时任务处理器（`@XxlJob` 注解）
@@ -94,8 +93,6 @@ Spring Boot 3.4.3 + Java 21 后台管理系统，采用标准分层架构，配�
 - 逻辑删除（`isDelete=0/1`），`Constant` 类统一定义常量 `STATUS_DEL_INT=1` / `STATUS_NORMAL_INT=0`
 - `MybatisAutoConfiguration` 配置分页插件（`MikuyunPaginationInnerInterceptor`，分页 size<0 时自动置零防全表查询）和元数据自动填充（`MybatisPlusMetaObjectHandler`）
 - SQL 注入过滤：`SqlFilterArgumentResolver` 注册为参数解析器
-
-**Elasticsearch：**Spring Data Elasticsearch，`PostsEsRepository` 继承 `ElasticsearchRepository<PostDoc, Integer>`，实体 `entity/document/PostDoc.java`。
 
 **对象存储：**支持七牛云（`QiniuServiceImpl`）和 RustFS S3 兼容存储（`RustfsServiceImpl`），通过 `FileUploadService` 统一接口调用，`FileUploadServiceImpl` 根据渠道分发。`FileCheckUtils` 做文件校验。
 
